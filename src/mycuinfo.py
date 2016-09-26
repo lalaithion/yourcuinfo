@@ -53,7 +53,7 @@ for current in departments_list.departments:
         buttons[0].click()
 
     date = strftime("%Y-%m-%d", gmtime())
-    with open(date + "-" + current + ".html",'w') as f:
+    with open("../raw_html/" + date + "-" + current + ".html",'w') as f:
         f.write(driver.page_source)
 
     driver.find_element_by_id("CLASS_SRCH_WRK2_SSR_PB_NEW_SEARCH$4$").click()

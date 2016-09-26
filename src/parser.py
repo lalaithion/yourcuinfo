@@ -68,7 +68,7 @@ class MyHTMLParser(HTMLParser):
             # Filter out non-printable characters (note: find out why there are non-printable characters!?)
             self.fields[self.current] = "".join(filter(lambda x: x in printable, data))
 
-#for i in departments_list.departments:
-with open("csci.html") as f:
-    parser = MyHTMLParser()
-    parser.feed(f.read())
+for i in departments_list.departments:
+    with open("../raw_html/" + date + "-" + current + ".html","r") as f:
+        parser = MyHTMLParser()
+        parser.feed(f.read())
