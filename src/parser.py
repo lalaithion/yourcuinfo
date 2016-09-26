@@ -25,6 +25,6 @@ class MyHTMLParser(HTMLParser):
             print(data)
 
 for i in departments_list.departments:
-    with open(i + ".html") as f:
+    with open("../raw_html/" + date + "-" + current + ".html","r") as f:
         parser = MyHTMLParser()
         parser.feed(f.read())
