@@ -1,0 +1,1 @@
+departments = ["ARTS","APPM","CLAS"]
