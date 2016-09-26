@@ -6,6 +6,7 @@ from selenium.webdriver.common.keys import Keys
 
 import getpass
 import time
+from time import strftime, gmtime
 
 import departments_list
 
@@ -51,7 +52,8 @@ for current in departments_list.departments:
             break
         buttons[0].click()
 
-    with open(current + ".html",'w') as f:
+    date = strftime("%Y-%m-%d", gmtime())
+    with open(date + "-" + current + ".html",'w') as f:
         f.write(driver.page_source)
 
     driver.find_element_by_id("CLASS_SRCH_WRK2_SSR_PB_NEW_SEARCH$4$").click()
