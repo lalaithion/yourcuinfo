@@ -2,7 +2,7 @@
 
 from html.parser import HTMLParser
 
-import mcui_info
+import departments_list
 
 
 class MyHTMLParser(HTMLParser):
@@ -24,7 +24,7 @@ class MyHTMLParser(HTMLParser):
         if self.course:
             print(data)
 
-for i in mcui_info.departments:
+for i in departments_list.departments:
     with open(i + ".html") as f:
         parser = MyHTMLParser()
         parser.feed(f.read())

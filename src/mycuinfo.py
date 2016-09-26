@@ -7,7 +7,7 @@ from selenium.webdriver.common.keys import Keys
 import getpass
 import time
 
-import mcui_info
+import departments_list
 
 mcui_login = "https://portal.prod.cu.edu/psp/epprod/UCB2/ENTP/h/?tab=DEFAULT"
 
@@ -29,7 +29,7 @@ time.sleep(3)
 
 driver.switch_to_frame("ptifrmtgtframe")
 
-for current in mcui_info.departments:
+for current in departments_list.departments:
     Select(driver.find_element_by_id("CLASS_SRCH_WRK2_INSTITUTION$31$")).select_by_value("CUBLD")
     time.sleep(1)
     Select(driver.find_element_by_id("CLASS_SRCH_WRK2_STRM$35$")).select_by_visible_text('Fall 2016 UC Boulder')
