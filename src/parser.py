@@ -4,12 +4,49 @@ from html.parser import HTMLParser
 from string import printable
 import departments_list
 
+class Section():
+    def __init__(self,data):
+        self.number = data["number"]
+        self.section = data["section"]
+        self.time = data["time"]
+        self.room = data["room"]
+        # not finished
+
+class Course():
+    def __init__(self,title):
+        readable_title = "".join(filter(lambda x: x in printable, title))
+        self.identifier = readable_title[:9] #CSCI 3155
+        self.name = readable_title[12:] #Principles of Programming Languages
+        # some of these will be empty lists for many classes
+        self.lectures = [] #list of lectures information
+        self.recitations = [] #list of recitation information
+        self.labs = [] #list of lab information
+        self.seminars = [] #list of labs information
+        self.pra = [] #I don't know what pra means?
+        self.oth = [] #I don't know what oth means?
+    def add_section(self,data):
+        if data["section"][-3:] == "LEC":
+            self.lectures.append(Section(data))
+        elif data["section"][-3:] == "REC":
+            self.recitations.append(Section(data))
+        elif data["section"][-3:] == "LAB":
+            self.labs.append(Section(data))
+        elif data["section"][-3:] == "SEM":
+            self.seminars.append(Section(data))
+        elif data["section"][-3:] == "PRA":
+            self.pra.append(Section(data))
+        elif data["section"][-3:] == "OTH":
+            self.oth.append(Section(data))
+        else:
+            print(data["section"][-3:])
 
 class MyHTMLParser(HTMLParser):
-    def __init__(self):
+    def __init__(self,verbose = True):
+        self.courses = []
         self.fields = {}
         self.current = None
-        self.title = False
+        self.title = None
+        self.verbose = verbose
         super(MyHTMLParser, self).__init__()
 
     def handle_starttag(self, tag, attrs):
@@ -43,21 +80,23 @@ class MyHTMLParser(HTMLParser):
     def handle_endtag(self, tag):
         # at end of class
         if self.current == "waitlist":
-            if "title" in self.fields:
-                print(self.fields["title"] + ":")
-            print("Class: " + self.fields["number"])
-            print("Section: " + self.fields["section"])
-            print("Time: " + self.fields["time"])
-            print("Room: " + self.fields["room"])
-            print("Instructor: " + self.fields["instructor"])
-            print("Dates: " + self.fields["dates"])
-            #print("Status: " + self.fields["status"])
-            print("Units: " + self.fields["units"])
-            print("Enrollment Restriction: " + self.fields["restriction"])
-            print("Instructor Consent Required: " + self.fields["consent"])
-            print("Available Seats: " + self.fields["seats"])
-            print("Wait List Total: " + self.fields["waitlist"])
-            print()
+            if self.verbose:
+                if "title" in self.fields:
+                    print(self.fields["title"] + ":")
+                print("Class: " + self.fields["number"])
+                print("Section: " + self.fields["section"])
+                print("Time: " + self.fields["time"])
+                print("Room: " + self.fields["room"])
+                print("Instructor: " + self.fields["instructor"])
+                print("Dates: " + self.fields["dates"])
+                #print("Status: " + self.fields["status"])
+                print("Units: " + self.fields["units"])
+                print("Enrollment Restriction: " + self.fields["restriction"])
+                print("Instructor Consent Required: " + self.fields["consent"])
+                print("Available Seats: " + self.fields["seats"])
+                print("Wait List Total: " + self.fields["waitlist"])
+                print()
+            self.courses[-1].add_section(self.fields)
             self.fields = {}
             self.current = None
         if self.current in self.fields:
@@ -66,9 +105,13 @@ class MyHTMLParser(HTMLParser):
     def handle_data(self, data):
         if self.current is not None:
             # Filter out non-printable characters (note: find out why there are non-printable characters!?)
-            self.fields[self.current] = "".join(filter(lambda x: x in printable, data))
+            printable_data = "".join(filter(lambda x: x in printable, data))
+            self.fields[self.current] = printable_data
+            if self.current == "title":
+                self.courses.append(Course(printable_data))
 
-for i in departments_list.departments:
-    with open("../raw_html/" + date + "-" + current + ".html","r") as f:
-        parser = MyHTMLParser()
-        parser.feed(f.read())
+
+with open("2016-09-26-CSCI.html","r") as f:
+    parser = MyHTMLParser(False)
+    parser.feed(f.read())
+    print(parser.courses[0].identifier)

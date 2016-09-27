@@ -15,4 +15,4 @@ departments = ["ACCT", "AIRR", "ANTH", "APPM", "APRD", "ARAB", "ARCH", "AREN",
 "RSEI", "RUSS","SCAN", "SEWL", "SLHS", "SNSK", "SOCY", "SPAN", "SSIR", "SUST",
 "SWED", "TBTN","THTR", "TLEN", "TMUS", "WMST", "WRTG", "YIDD"]
 
-test_departments = ["CSCI", "MATH", "PHYS", "PORT"]
+test_departments = ["CSCI", "MATH"]
