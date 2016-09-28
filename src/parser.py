@@ -6,11 +6,13 @@ import departments_list
 
 class Section():
     def __init__(self,data):
-        self.number = data["number"]
-        self.section = data["section"]
-        self.time = data["time"]
-        self.room = data["room"]
-        # not finished
+        self.data = data
+    def __getattr__(self,name):
+        return self.data[name]
+    def __repr__(self):
+        rep = "Section(" + self.type + "," + self.time + ")"
+        return rep
+
 
 class Course():
     def __init__(self,title):
@@ -26,19 +28,33 @@ class Course():
         self.oth = [] #I don't know what oth means?
     def add_section(self,data):
         if data["section"][-3:] == "LEC":
+            data["type"] = "lecture"
             self.lectures.append(Section(data))
         elif data["section"][-3:] == "REC":
+            data["type"] = "recitation"
             self.recitations.append(Section(data))
         elif data["section"][-3:] == "LAB":
+            data["type"] = "lab"
             self.labs.append(Section(data))
         elif data["section"][-3:] == "SEM":
+            data["type"] = "seminar"
             self.seminars.append(Section(data))
         elif data["section"][-3:] == "PRA":
+            data["type"] = "pra"
             self.pra.append(Section(data))
         elif data["section"][-3:] == "OTH":
+            data["type"] = "other"
             self.oth.append(Section(data))
         else:
             print(data["section"][-3:])
+    def __repr__(self):
+        rep = "Course("
+        rep += self.identifier + " - " + self.name
+        num_sec = (len(self.lectures) + len(self.recitations) + len(self.labs)
+                  + len(self.seminars) + len(self.pra) + len(self.oth))
+        rep += ", sections:" + str(num_sec)
+        rep += ")"
+        return rep
 
 class MyHTMLParser(HTMLParser):
     def __init__(self,verbose = True):
@@ -111,7 +127,7 @@ class MyHTMLParser(HTMLParser):
                 self.courses.append(Course(printable_data))
 
 
-with open("2016-09-26-CSCI.html","r") as f:
+with open("2016-09-26-CSCI.html", "r") as f:
     parser = MyHTMLParser(False)
     parser.feed(f.read())
-    print(parser.courses[0].identifier)
+    #print(parser.courses[0].identifier)
