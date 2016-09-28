@@ -22,7 +22,7 @@ class Course():
         # some of these will be empty lists for many classes
         self.lectures = [] #list of lectures information
         self.recitations = [] #list of recitation information
-        self.labs = [] #list of lab information
+        self.labs = [] #list of lab inforation
         self.seminars = [] #list of labs information
         self.pra = [] #I don't know what pra means?
         self.oth = [] #I don't know what oth means?
