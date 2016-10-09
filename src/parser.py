@@ -2,6 +2,7 @@
 
 from html.parser import HTMLParser
 from string import printable
+import json
 import departments_list
 
 class Section():
@@ -10,8 +11,10 @@ class Section():
     def __getattr__(self,name):
         return self.data[name]
     def __repr__(self):
-        rep = "Section(" + self.type + "," + self.time + ")"
+        rep = "Section:" + self.type + "," + self.time + ")"
         return rep
+    def json(self):
+        return self.data
 
 
 class Course():
@@ -20,41 +23,52 @@ class Course():
         self.identifier = readable_title[:9] #CSCI 3155
         self.name = readable_title[12:] #Principles of Programming Languages
         # some of these will be empty lists for many classes
-        self.lectures = [] #list of lectures information
-        self.recitations = [] #list of recitation information
-        self.labs = [] #list of lab inforation
-        self.seminars = [] #list of labs information
-        self.pra = [] #I don't know what pra means?
-        self.oth = [] #I don't know what oth means?
+        self.sections = {
+            "lectures":[],
+            "recitations":[],
+            "labs":[],
+            "seminars":[],
+            "labs":[],
+            "pra":[],
+            "other":[]
+        }
     def add_section(self,data):
         if data["section"][-3:] == "LEC":
             data["type"] = "lecture"
-            self.lectures.append(Section(data))
+            self.sections["lectures"].append(Section(data))
         elif data["section"][-3:] == "REC":
             data["type"] = "recitation"
-            self.recitations.append(Section(data))
+            self.sections["recitations"].append(Section(data))
         elif data["section"][-3:] == "LAB":
             data["type"] = "lab"
-            self.labs.append(Section(data))
+            self.sections["labs"].append(Section(data))
         elif data["section"][-3:] == "SEM":
             data["type"] = "seminar"
-            self.seminars.append(Section(data))
+            self.sections["seminars"].append(Section(data))
         elif data["section"][-3:] == "PRA":
             data["type"] = "pra"
-            self.pra.append(Section(data))
+            self.sections["pra"].append(Section(data))
         elif data["section"][-3:] == "OTH":
             data["type"] = "other"
-            self.oth.append(Section(data))
+            self.sections["other"].append(Section(data))
         else:
             print(data["section"][-3:])
     def __repr__(self):
         rep = "Course("
         rep += self.identifier + " - " + self.name
-        num_sec = (len(self.lectures) + len(self.recitations) + len(self.labs)
-                  + len(self.seminars) + len(self.pra) + len(self.oth))
+        num_sec = (self.sections["lectures"] + self.sections["recitations"] + self.sections["labs"]
+                  + self.sections["seminars"] + self.sections["pra"] + self.sections["other"])
         rep += ", sections:" + str(num_sec)
         rep += ")"
         return rep
+    def json(self):
+        json = {
+            "name":self.name,
+            "sections":{
+                k:[i.json() for i in v] for k,v in self.sections.items()
+            }
+        }
+        return json
 
 class MyHTMLParser(HTMLParser):
     def __init__(self,verbose = True):
@@ -126,8 +140,12 @@ class MyHTMLParser(HTMLParser):
             if self.current == "title":
                 self.courses.append(Course(printable_data))
 
+    def json(self):
+        return {i.identifier:i.json() for i in self.courses}
 
-with open("2016-09-26-CSCI.html", "r") as f:
-    parser = MyHTMLParser(False)
-    parser.feed(f.read())
-    #print(parser.courses[0].identifier)
+
+def jsonify(filename):
+    with open(filename, "r") as f:
+        parser = MyHTMLParser(False)
+        parser.feed(f.read())
+        return parser.json()

@@ -1,0 +1,1735 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" dir="ltr" class="pc firefox mac psc_dir-ltr psc_form-xlarge"><!-- Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved. --><!-- FIREFOX/46.0/MAC; ToolsRel=8.54.25; User=WEIS000584; DB=ICSPRD/ORACLE; AppServ=//picsapp01.prod.cu.edu:9510; --><head>
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+<script language="JavaScript">
+var  totalTimeoutMilliseconds = 1800000; 
+var  warningTimeoutMilliseconds = 1200000; 
+var timeOutURL = 'https://portal.prod.cu.edu/psp/epprod/UCB2/HRMS/?cmd=expire';
+var timeoutWarningPageURL = 'https://isis-cs.prod.cu.edu/psc/csprod/UCB2/HRMS/s/WEBLIB_TIMEOUT.PT_TIMEOUTWARNING.FieldFormula.IScript_TIMEOUTWARNING';
+var sRCRequestURL = 'https://isis-cs.prod.cu.edu/psc/csprod/UCB2/HRMS/s/WEBLIB_PTRC.ISCRIPT1.FieldFormula.IScript_RC_REQUEST';
+</script> 
+
+<link href="/cs/csprod/cache/PSSTYLEREQ_6.css" type="text/css" rel="stylesheet" id="PSSTYLEREQ_6_css" />
+<link href="/cs/csprod/cache/SSS_STYLESHEET_4.css" type="text/css" rel="stylesheet" id="SSS_STYLESHEET_4_css" />
+<title>Class Search</title>
+<script language="JavaScript">
+try {
+document.domain = "prod.cu.edu";
+}
+catch(err) {;}
+</script>
+<script language="JavaScript">
+var winName='win0';
+var winParent = null;
+var modalID = null;
+var modalZoomName = null;
+var baseKey_win0 = "\x1b\r\n";
+var altKey_win0 = "05678\xbc\xbe\xbf\xde";
+var ctrlKey_win0 = "JKM";
+var saveWarningKeys_win0 = "";
+var firstFocusID = null;
+var refererURL = 'https://portal.prod.cu.edu/psp/epprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?Page=SSR_CLSRCH_ENTRY';
+var isNewSaveWarn = true;
+var bAccessibility_win0 =false;
+var bFMode =false;
+var bDoModal_win0 = false;
+var bJSModal_win0 = false;
+var bPromptPage_win0 = false;
+var bTabOverTB_win0 = false;
+var bTabOverPg_win0 = false;
+var bTabOverNonPS_win0 = false;
+var strCurrUrl='https://portal.prod.cu.edu/psp/epprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?PAGE=SSR_CLSRCH_ENTRY';
+var strReqURL='https://isis-cs.prod.cu.edu/psp/csprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?Page=SSR_CLSRCH_ENTRY';
+var bIncInNavigation='T';
+var szPinCrefReg='F';
+var szCrefID='yyy';
+var szCrefReged='F';
+var szCrefVisible='F';
+var szCrefLabel='zzz';
+var localNodes = ['HRMS', 'ICSPRD'];
+bGenDomInfo = false;
+var szCalendarType = 'G';
+var bMenuSrchPage = false;
+var bWSRP=0;var szMenuSrchText = "-999999-";
+var disablePNSubscriptions=1;var modalCloseUrl = '/cs/csprod/cache/PT_TRANS_16PIX_1.png';
+var modalCloseAlt = 'Close';
+var modalResizeUrl= '/cs/csprod/cache/PT_RESIZE_IMG_1.gif';
+var modalResizeAlt = 'Drag to resize';
+var modalMoveAlt = 'Drag to move';
+</script>
+<script language="JavaScript">
+try {
+document.domain = "prod.cu.edu";
+}
+catch(err) {;}
+</script>
+<script src="/cs/csprod/cache/PT_COMMON_MIN_159089.js" type="text/javascript" language="JavaScript">
+</script>
+<script src="/cs/csprod/cache/PT_AJAX_NET_MIN_159089.js" type="text/javascript" language="JavaScript">
+</script>
+<script src="/cs/csprod/cache/PT_SAVEWARNINGSCRIPT_MIN_175179.js" type="text/javascript" language="JavaScript">
+</script>
+<script src="/cs/csprod/cache/PT_PAGESCRIPT_win0_MIN_159089.js" type="text/javascript" language="JavaScript">
+</script>
+<script src="/cs/csprod/cache/PT_EDITSCRIPT_win0_MIN_159089.js" type="text/javascript" language="JavaScript">
+</script>
+<script src="/cs/csprod/cache/PT_RC_JS_MIN_159089.js" type="text/javascript" language="JavaScript">
+</script>
+<script src="/cs/csprod/cache/PT_POPUPSCRIPT_win0_MIN_1.js" type="text/javascript" language="JavaScript">
+</script>
+<script src="/cs/csprod/cache/PT_GRIDSCRIPT_win0_MIN_159089.js" type="text/javascript" language="JavaScript">
+</script>
+<script language="JavaScript">
+var nResubmit=0;
+var nLastAction=0;
+var loader=null;
+if (typeof(bCleanHtml) == 'undefined')
+	var bCleanHtml = false;
+setupTimeout2();
+var postUrl_win0='https://isis-cs.prod.cu.edu/psc/csprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL';
+function aAction_win0(form, id, params, bAjax, bPrompt)
+{
+setupTimeout2();
+if ((id != '#ICSave'))
+processing_win0(1,3000);
+aAction0_win0(form, id, params, bAjax, bPrompt);
+}
+function submitAction_win0(form, id, event)
+{
+setupTimeout2();
+if (!ptCommonObj2.isICQryDownload(form, id))
+ { processing_win0(1,3000); }
+preSubmitProcess_win0(form, id);
+var spellcheckpos = id.indexOf('$spellcheck');
+if ((spellcheckpos != -1) &amp;&amp; (id.indexOf('#KEYA5') != -1))
+	form.ICAction.value = id.substring(0,spellcheckpos);
+else 
+	form.ICAction.value=id;
+var actionName = form.ICAction.value;
+form.ICXPos.value=ptCommonObj2.getScrollX();
+form.ICYPos.value=ptCommonObj2.getScrollY();
+bcUpdater.storeBcDomData();
+if ((typeof(bAutoSave) != 'undefined') &amp;&amp; bAutoSave)
+	form.ICAutoSave.value = '1';
+if (!ptCommonObj2.isAJAXReq(form, id) &amp;&amp; !ptCommonObj2.isPromptReq(id)){
+if (nLastAction == 1 &amp;&amp; nResubmit &gt; 0) return;
+form.ICResubmit.value=nResubmit;
+form.submit();
+if (!ptCommonObj2.isICQryDownload(form, id))
+	nResubmit++;
+}
+else if (ptCommonObj2.isPromptReq(id))
+	pAction_win0(form, id, arguments[2]);
+else
+	aAction_win0(form, actionName);
+cancelBubble(event);
+}
+</script>
+<script language="javascript">
+var pt_calHeadstyle=" class='PTCALHEAD' "
+var pt_calWeekHeadstyle=" class='PTCALWEEKHEAD' "
+function dateitemrefs()
+{
+this.pt_dateheader = "/cs/csprod/cache/PT_PORTAL_IC_CLOSE_SD_1.gif";
+this.pt_datering = "/cs/csprod/cache/PT_CURRENT_DATE_SD_1.gif";
+this.pt_datesel = "/cs/csprod/cache/PT_SELECTED_DATE_SD_1.gif";
+this.pt_nextmonth = "/cs/csprod/cache/PT_RIGHT_SCROLL_SD_1.gif";
+this.pt_prevmonth= "/cs/csprod/cache/PT_LEFT_SCROLL_SD_1.gif";
+this.pt_daystitle_hijri = "/cs/csprod/cache/PT_DATE_TITLE_S6_1.GIF";
+this.pt_daystitle_thai = "/cs/csprod/cache/PT_DATE_TITLE_S0_1.GIF";
+this.pt_daystitle_s0 = "/cs/csprod/cache/PT_DATE_TITLE_S0_1.GIF";
+this.pt_daystitle_m1 = "/cs/csprod/cache/PT_DATE_TITLE_M1_1.GIF";
+this.pt_daystitle_t2 = "/cs/csprod/cache/PT_DATE_TITLE_T2_1.GIF";
+this.pt_daystitle_w3 = "/cs/csprod/cache/PT_DATE_TITLE_W3_1.GIF";
+this.pt_daystitle_t4 = "/cs/csprod/cache/PT_DATE_TITLE_T4_1.GIF";
+this.pt_daystitle_f5 = "/cs/csprod/cache/PT_DATE_TITLE_F5_1.gif";
+this.pt_daystitle_s6 = "/cs/csprod/cache/PT_DATE_TITLE_S6_1.GIF";
+}
+ 
+function LoadCalendar()
+{
+var dateitems = new dateitemrefs();
+loadImages(dateitems);
+}
+function DatePrompt_win0(dtfield,promptfield,yrfmt,bsubmit)
+{
+setupTimeout2();
+openDate_win0(dtfield, promptfield, "MDY/"+yrfmt,bsubmit,"G",0);
+}
+</script>
+<script ptdefer="defer" language="JavaScript">
+if (typeof ptStyleSheet == "undefined") {
+ptStyleSheet = 'SSS_STYLESHEET';
+}
+function onLoadExt_win0() {
+modalZoomName = null;
+var pt_pageinfo = document.getElementById('pt_pageinfo_win0');
+if (pt_pageinfo) {
+pt_pageinfo.setAttribute('Page', 'SSR_CLSRCH_ENTRY');
+pt_pageinfo.setAttribute('Component', 'CLASS_SEARCH');
+pt_pageinfo.setAttribute('Menu', 'SA_LEARNER_SERVICES');
+pt_pageinfo.setAttribute('Mode', 'CLASSIC');
+}
+g_bAccessibilityMode=false;
+var actn='';
+setKeyEventHandler_win0();ptEvent.add(window,'scroll',positionWAIT_win0);
+ptCommonObj2.generateABNSearchResults(document.win0);
+getGblSrchPageNum(actn);
+if (gSrchRsltPageNum &lt;= 5) getAllRelatedActions();
+
+ptCommonObj2.moveUnivSrchDiv();
+if (typeof(ptLongEditCounter) != 'undefined' &amp;&amp; ptLongEditCounter != null)
+   ptLongEditCounter.onLoadLongEditCounter();
+if (typeof(HelppopupObj_win0) != 'undefined' &amp;&amp; HelppopupObj_win0 != null)
+ HelppopupObj_win0.StopPopup('win0');
+doModalOnLoad_win0(false, false);
+ResetGlyph_win0();
+self.scroll(0,0);
+objToBeFocus = null;
+if (typeof oWin == 'undefined') setEventHandlers_win0('ICFirstAnchor_win0', 'ICLastAnchor_win0', false);
+ else
+ oWin.setEventHandlers_win0('ICFirstAnchor_win0', 'ICLastAnchor_win0', false);
+setFocus_win0('DERIVED_SSTSNAV_SSTS_MAIN_GOTO$7$',-1);
+ptLoadingStatus_empty(0);
+setupTimeout2();
+processing_win0(0,3000);
+ptConsole2.enable();
+
+UpdateBreadCrumbs();
+GenerateABN();
+GenerateFakeBC();
+bcUpdateForPTF();if (typeof(myAppsWindowOpenJS) != 'undefined' &amp;&amp; myAppsWindowOpenJS != null &amp;&amp; myAppsWindowOpenJS != '')
+ {
+try {eval(myAppsWindowOpenJS);} catch(e) {}
+  myAppsWindowOpenJS=null;
+}
+ResetGlyph_win0();setPageletInfoInCtxmenu_win0("false");
+GetDomData(win0, "TargetContent", "#GetDomInfo");
+}
+try{ptEvent.load(onLoadExt_win0);}catch(e){}
+</script></head>
+<body class="PSPAGE" tabindex="-1">
+<div appserv="//picsapp01.prod.cu.edu:9510" db="ICSPRD/ORACLE" user="WEIS000584" toolsrel="8.54.25" browser="FIREFOX/46.0/MAC" id="pt_envinfo_win0"></div>
+<div mode="CLASSIC" menu="SA_LEARNER_SERVICES" component="CLASS_SEARCH" page="SSR_CLSRCH_RSLT" id="pt_pageinfo_win0"></div>
+<form class="PSForm" autocomplete="off" action="https://isis-cs.prod.cu.edu/psc/csprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL" method="post" name="win0" id="CLASS_SEARCH">
+<div id="win0divPSTOOLSHIDDENS" class="ps_box-toolshiddens"><div id="pt_modalMaskCover" class="ps_modalmask_cover psc_hidden"> </div><div id="pt_modalMask" class="ps_modalmask psc_hidden"> </div><div class="PSMODAL" id="pt_modals"><div style="cursor:nw-resize" class="popupDragFrame" id="ptModalShadow"> </div></div>
+<div id="pt_console" class="ps_ajax_console psc_hidden"><input type="button" title="copy to clipboard" alt="copy to clipboard" onclick="ptConsole2.copy();" value="Copy" id="COPYCONSOLE" /><input type="button" title="clear console" alt="clear console" value="Clear" onclick="ptConsole2.clear();" id="CLEARCONSOLE" /><input type="button" title="hide console" alt="hide console" value="Hide" onclick="ptConsole2.hide();" id="HIDECONSOLE" /><input type="button" title="close console" alt="close console" value="Close" onclick="ptConsole2.deactive();" id="CLOSECONSOLE" /></div><div id="pt_typeahead0" class="ps_typeahead psc_hidden"><span class="spanTextDropdown" id="pt_typeahead"> </span></div><div style="display: none; position: absolute; right: 0px; z-index: 99991; visibility: hidden; top: 889px;" id="WAIT_win0"><img align="left" title="Processing... please wait" alt="Processing... please wait" src="/cs/csprod/cache/PT_PROCESSING_1.gif" id="processing" /></div>
+ <div style="display: none; position: absolute; right: 0px; z-index: 99991; visibility: hidden;" id="SAVED_win0"><table cellspacing="0" cellpadding="0" border="0"><tbody><tr><td><img width="7" border="0" height="39" alt="" src="/cs/csprod/cache/PTPORTAL_POPBOX_LEFT_1.gif" /></td><td width="35" valign="middle" background="/cs/csprod/cache/PTPORTAL_POPBOX_CENTER_1.gif" align="center" id="saveWait_win0"><img width="24" height="24" alt="" src="/cs/csprod/cache/PT_LOADER_1.gif" /></td><td nowrap="nowrap" background="/cs/csprod/cache/PTPORTAL_POPBOX_CENTER_1.gif"><span class="PSPROCESSING" dir="ltr" id="ptStatusText_win0"> </span></td><td><img width="6" height="39" alt="" src="/cs/csprod/cache/PTPORTAL_POPBOX_RIGHT_1.gif" /></td><td> </td></tr></tbody></table></div><div style="display:none" id="win0divPSHIDDENFIELDS" class="x"><input type="hidden" value="Panel" id="ICType" name="ICType" />
+<input type="hidden" value="0" id="ICElementNum" name="ICElementNum" />
+<input type="hidden" value="8" id="ICStateNum" name="ICStateNum" />
+<input type="hidden" value="None" id="ICAction" name="ICAction" />
+<input type="hidden" value="0" id="ICXPos" name="ICXPos" />
+<input type="hidden" value="889" id="ICYPos" name="ICYPos" />
+<input type="hidden" value="-1" id="ResponsetoDiffFrame" name="ResponsetoDiffFrame" />
+<input type="hidden" value="None" id="TargetFrameName" name="TargetFrameName" />
+<input type="hidden" value="None" id="FacetPath" name="FacetPath" />
+<input type="hidden" value="" id="ICFocus" name="ICFocus" />
+<input type="hidden" value="0" id="ICSaveWarningFilter" name="ICSaveWarningFilter" />
+<input type="hidden" value="-1" id="ICChanged" name="ICChanged" />
+<input type="hidden" value="0" id="ICAutoSave" name="ICAutoSave" />
+<input type="hidden" value="0" id="ICResubmit" name="ICResubmit" />
+<input type="hidden" value="jgR4DGVPJjj8/RTcz4QeYsQcwliY8ag6MUlp9a08CzQ=" id="ICSID" name="ICSID" />
+<input type="hidden" value="false" id="ICActionPrompt" name="ICActionPrompt" />
+<input type="hidden" value="undefined" id="ICBcDomData" name="ICBcDomData" />
+<input type="hidden" value="" id="ICFind" name="ICFind" />
+<input type="hidden" value="" id="ICAddCount" name="ICAddCount" />
+<input type="hidden" value="" id="ICAPPCLSDATA" name="ICAPPCLSDATA" />
+</div>
+</div>
+<a id="ICFirstAnchor_win0" name="ICFirstAnchor_win0"></a>
+<div id="PT_HEADER_PANEL" class="ps_header_panel"></div>
+<div id="win0divPAGEBAR" class=""></div>
+<div id="win0divPSPANELTABS" class="ps_box-pagetabs"></div>
+<div id="win0divPAGECONTAINER" class="ps_pagecontainer"><table aria-labelledby="app_label" role="main" class="PSPAGECONTAINER"><tbody><tr><td>
+<div id="win0divPSPAGECONTAINER" class="ps_pspagecontainer"><table width="886" cellspacing="0" cellpadding="0" border="0" cols="21" class="PSPAGECONTAINER" id="ACE_width" role="presentation">
+<tbody><tr>
+<td width="0" height="3"></td>
+<td width="4"></td>
+<td width="4"></td>
+<td width="4"></td>
+<td width="5"></td>
+<td width="3"></td>
+<td width="148"></td>
+<td width="88"></td>
+<td width="96"></td>
+<td width="8"></td>
+<td width="44"></td>
+<td width="48"></td>
+<td width="4"></td>
+<td width="97"></td>
+<td width="8"></td>
+<td width="8"></td>
+<td width="12"></td>
+<td width="110"></td>
+<td width="68"></td>
+<td width="24"></td>
+<td width="103"></td>
+</tr>
+<tr>
+<td height="141"></td>
+<td valign="top" align="left" colspan="18">
+<div id="win0divDERIVED_CLSRCH_GROUPBOX1"><table width="651" cellspacing="0" cellpadding="2" class="PABACKGROUNDINVISIBLEWBO" cols="1">
+<tbody><tr><td width="649">
+<table width="649" cellspacing="0" cellpadding="0" border="0" style="border-style:none" class="PABACKGROUNDINVISIBLE" cols="3" id="ACE_DERIVED_CLSRCH_GROUPBOX1" role="presentation">
+<tbody><tr>
+<td width="3" height="0"></td>
+<td width="636"></td>
+<td width="10"></td>
+</tr>
+<tr>
+<td height="129"></td>
+<td valign="top" align="left">
+<div id="win0divDERIVED_REGFRM1_GROUP_BOX"><table width="635" cellspacing="0" cellpadding="2" class="PABACKGROUNDINVISIBLEWBO" cols="1">
+<tbody><tr><td width="633">
+<table width="633" cellspacing="0" cellpadding="0" border="0" style="border-style:none" class="PABACKGROUNDINVISIBLE" cols="5" id="ACE_DERIVED_REGFRM1_GROUP_BOX" role="presentation">
+<tbody><tr>
+<td width="3" height="0"></td>
+<td width="9"></td>
+<td width="1"></td>
+<td width="610"></td>
+<td width="10"></td>
+</tr>
+<tr>
+<td height="93"></td>
+<td valign="top" align="left" colspan="3">
+<div id="win0divDERIVED_SSTSNAV_GROUP_BOX"><table width="619" cellspacing="0" cellpadding="2" class="PABACKGROUNDINVISIBLEWBO" cols="1">
+<tbody><tr><td width="617">
+<table width="617" cellspacing="0" cellpadding="0" border="0" style="border-style:none" class="PABACKGROUNDINVISIBLE" cols="7" id="ACE_DERIVED_SSTSNAV_GROUP_BOX" role="presentation">
+<tbody><tr>
+<td width="7" height="0"></td>
+<td width="1"></td>
+<td width="1"></td>
+<td width="354"></td>
+<td width="248"></td>
+<td width="1"></td>
+<td width="5"></td>
+</tr>
+<tr>
+<td height="3" colspan="4"></td>
+<td valign="top" align="left" rowspan="2">
+<div id="win0divDERIVED_SSTSNAV_SSTS_MAIN_GOTO"><table width="247" cellspacing="0" cellpadding="2" class="PABACKGROUNDINVISIBLEWBO" cols="1">
+<tbody><tr><td width="245">
+<table width="245" cellspacing="0" cellpadding="0" border="0" style="border-style:none" class="PABACKGROUNDINVISIBLE" cols="5" id="ACE_DERIVED_SSTSNAV_SSTS_MAIN_GOTO" role="presentation">
+<tbody><tr>
+<td width="0" height="0"></td>
+<td width="72"></td>
+<td width="3"></td>
+<td width="148"></td>
+<td width="22"></td>
+</tr>
+<tr>
+<td height="1" colspan="4"></td>
+<td nowrap="nowrap" valign="top" align="left" rowspan="3">
+<div id="win0divDERIVED_SSTSNAV_GO"><a href="javascript:submitAction_win0(document.win0,'DERIVED_SSTSNAV_GO');" onclick="javascript:cancelBubble(event);" tabindex="18" role="button" id="DERIVED_SSTSNAV_GO" name="DERIVED_SSTSNAV_GO"><img border="0" title="Navigate to selected option" alt="Navigate to selected option" name="DERIVED_SSTSNAV_GO$IMG" src="/cs/csprod/cache/PT_NAV_GO_1.gif" /></a>
+</div></td>
+</tr>
+<tr>
+<td height="3" colspan="3"></td>
+<td valign="top" align="left" rowspan="2">
+<div id="win0divDERIVED_SSTSNAV_SSTS_MAIN_GOTO$7$"><select psnchg="0" onkeydown="if ((typeof isLoaderInProcess == 'function') &amp;&amp; isLoaderInProcess() &amp;&amp; ptCommonObj2!=null) { ptCommonObj2.terminateEvent(event); } " onchange="addchg_win0(this);return doEdits_win0(this,'','N','N','N','N','Y','Y',0);" style="width:148px; " class="PSDROPDOWNLIST" size="1" tabindex="17" id="DERIVED_SSTSNAV_SSTS_MAIN_GOTO$7$" name="DERIVED_SSTSNAV_SSTS_MAIN_GOTO$7$">
+<option value="0300">Account Inquiry</option>
+<option value="0200">My Academics</option>
+<option selected="selected" value="0100">Student Center</option>
+</select>
+</div></td>
+</tr>
+<tr>
+<td height="19"></td>
+<td valign="top" align="right">
+<div id="win0divDERIVED_SSTSNAV_SSTS_MAIN_GOTO$7$lbl"><label class="PSDROPDOWNLABEL" id="DERIVED_SSTSNAV_SSTS_MAIN_GOTO$7$_LBL" for="DERIVED_SSTSNAV_SSTS_MAIN_GOTO$7$">Quick Links</label>
+</div></td>
+</tr>
+</tbody></table>
+</td></tr>
+</tbody></table>
+</div></td>
+</tr>
+<tr>
+<td height="25" colspan="3"></td>
+<td valign="top" align="left" rowspan="2">
+<div id="win0divDERIVED_SSTSNAV_PERSON_NAME"><span id="DERIVED_SSTSNAV_PERSON_NAME" class="PALEVEL0PRIMARY">Izaak Weiss</span>
+</div></td>
+</tr>
+<tr>
+<td height="5" colspan="3"></td>
+</tr>
+<tr>
+<td height="28"></td>
+<td valign="top" align="left">
+<div id="win0divDERIVED_SSTSNAV_SSTS_NAV_TABS_DIS"><div style="width:1px; ">
+<!-- Begin HTML Area Name Undisclosed -->
+
+<!-- End HTML Area -->
+</div>
+</div></td>
+<td valign="top" align="left" colspan="4">
+<div id="win0divDERIVED_SSTSNAV_SSTS_NAV_TABS"><div style="width:604px; ">
+<!-- Begin HTML Area Name Undisclosed -->
+<table width="100%" cellspacing="0" cellpadding="0" border="0"><tbody><tr><td><img width="8" height="6" style="display:block;" alt="" src="/cs/csprod/cache/PS_CS_TAB_A_LEFT_TOP_IMG_1.gif" /></td>
+<td><img height="6" class="SSSTABWIDTH" style="display:block;" alt="" src="/cs/csprod/cache/PS_CS_TAB_A_CENTERTOP_IMG_1.gif" /></td>
+<td><img width="8" height="6" style="display:block;" alt="" src="/cs/csprod/cache/PS_CS_TAB_A_RIGHT_TOP_IMG_1.gif" /></td><td><img width="8" height="6" style="display:block;" alt="" src="/cs/csprod/cache/PS_CS_TAB_IA_LEFT_TOP_IMG_1.gif" /></td>
+<td><img height="6" class="SSSTABWIDTH" style="display:block;" alt="" src="/cs/csprod/cache/PS_CS_TAB_IA_CENTERTOP_IMG_1.gif" /></td>
+<td><img width="8" height="6" style="display:block;" alt="" src="/cs/csprod/cache/PS_CS_TAB_IA_RIGHT_TOP_IMG_1.gif" /></td><td><img width="8" height="6" style="display:block;" alt="" src="/cs/csprod/cache/PS_CS_TAB_IA_LEFT_TOP_IMG_1.gif" /></td>
+<td><img height="6" class="SSSTABWIDTH" style="display:block;" alt="" src="/cs/csprod/cache/PS_CS_TAB_IA_CENTERTOP_IMG_1.gif" /></td>
+<td><img width="8" height="6" style="display:block;" alt="" src="/cs/csprod/cache/PS_CS_TAB_IA_RIGHT_TOP_IMG_1.gif" /></td><td><img width="8" height="6" style="display:block;" alt="" src="/cs/csprod/cache/PS_CS_TAB_IA_LEFT_TOP_IMG_1.gif" /></td>
+<td><img height="6" class="SSSTABWIDTH" style="display:block;" alt="" src="/cs/csprod/cache/PS_CS_TAB_IA_CENTERTOP_IMG_1.gif" /></td>
+<td><img width="8" height="6" style="display:block;" alt="" src="/cs/csprod/cache/PS_CS_TAB_IA_RIGHT_TOP_IMG_1.gif" /></td></tr><tr><td><img width="8" height="15" style="display:block;" alt="" src="/cs/csprod/cache/PS_CS_TAB_A_LEFT_CENTER_IMG_1.gif" /></td>
+<td width="25%" class="SSSTABACTIVE"><span aria-label="Current Section Search" tabindex="19" class="SSSTABMAINTEXT">Search</span></td>
+<td><img width="8" height="15" style="display:block;" alt="" src="/cs/csprod/cache/PS_CS_TAB_A_RIGHT_CENTER_IMG_1.gif" /></td><td><img width="8" height="15" style="display:block;" alt="" src="/cs/csprod/cache/PS_CS_TAB_IA_LEFT_CENTER_IMG_1.gif" /></td>
+<td width="25%" class="SSSTABINACTIVE"><a aria-label="Navigate to section Enroll" class="SSSTABMAINTEXT" tabindex="19" href="/psc/csprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.SSR_SSENRL_CART.GBL?Page=SSR_SSENRL_CART&amp;Action=A">Enroll</a></td>
+<td><img width="8" height="15" style="display:block;" alt="" src="/cs/csprod/cache/PS_CS_TAB_IA_RIGHT_CENTER_IMG_1.gif" /></td><td><img width="8" height="15" style="display:block;" alt="" src="/cs/csprod/cache/PS_CS_TAB_IA_LEFT_CENTER_IMG_1.gif" /></td>
+<td width="25%" class="SSSTABINACTIVE"><a aria-label="Navigate to section My Academics" class="SSSTABMAINTEXT" tabindex="19" href="/psc/csprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.SSS_MY_ACAD.GBL?Page=SSS_MY_ACAD&amp;Action=U">My Academics</a></td>
+<td><img width="8" height="15" style="display:block;" alt="" src="/cs/csprod/cache/PS_CS_TAB_IA_RIGHT_CENTER_IMG_1.gif" /></td><td><img width="8" height="15" style="display:block;" alt="" src="/cs/csprod/cache/PS_CS_TAB_IA_LEFT_CENTER_IMG_1.gif" /></td>
+<td width="25%" class="SSSTABINACTIVE"><a aria-label="Navigate to section COF Authorization/Review" class="SSSTABMAINTEXT" tabindex="19" href="/psc/csprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CU_SS_COF.GBL?Page=CU_SSR_COF_ALRT&amp;Action=U">COF Authorization/Review</a></td>
+<td><img width="8" height="15" style="display:block;" alt="" src="/cs/csprod/cache/PS_CS_TAB_IA_RIGHT_CENTER_IMG_1.gif" /></td></tr><tr><td><img width="8" height="2" style="display:block;" alt="" src="/cs/csprod/cache/PS_CS_TAB_A_LEFT_BOTTOM_IMG_1.gif" /></td>
+<td><img height="2" class="SSSTABWIDTH" style="display:block;" alt="" src="/cs/csprod/cache/PS_CS_TAB_A_CENTERBOTTOM_IMG_1.gif" /></td>
+<td><img width="8" height="2" style="display:block;" alt="" src="/cs/csprod/cache/PS_CS_TAB_A_RIGHT_BOTTOM_IMG_1.gif" /></td><td><img width="8" height="2" style="display:block;" alt="" src="/cs/csprod/cache/PS_CS_TAB_IA_LEFT_BOTTOM_IMG_1.gif" /></td>
+<td><img height="2" class="SSSTABWIDTH" style="display:block;" alt="" src="/cs/csprod/cache/PS_CS_TAB_IA_CENTERBOTTOM_IMG_1.gif" /></td>
+<td><img width="8" height="2" style="display:block;" alt="" src="/cs/csprod/cache/PS_CS_TAB_IA_RIGHT_BOTTOM_IMG_1.gif" /></td><td><img width="8" height="2" style="display:block;" alt="" src="/cs/csprod/cache/PS_CS_TAB_IA_LEFT_BOTTOM_IMG_1.gif" /></td>
+<td><img height="2" class="SSSTABWIDTH" style="display:block;" alt="" src="/cs/csprod/cache/PS_CS_TAB_IA_CENTERBOTTOM_IMG_1.gif" /></td>
+<td><img width="8" height="2" style="display:block;" alt="" src="/cs/csprod/cache/PS_CS_TAB_IA_RIGHT_BOTTOM_IMG_1.gif" /></td><td><img width="8" height="2" style="display:block;" alt="" src="/cs/csprod/cache/PS_CS_TAB_IA_LEFT_BOTTOM_IMG_1.gif" /></td>
+<td><img height="2" class="SSSTABWIDTH" style="display:block;" alt="" src="/cs/csprod/cache/PS_CS_TAB_IA_CENTERBOTTOM_IMG_1.gif" /></td>
+<td><img width="8" height="2" style="display:block;" alt="" src="/cs/csprod/cache/PS_CS_TAB_IA_RIGHT_BOTTOM_IMG_1.gif" /></td></tr></tbody></table>
+<!-- End HTML Area -->
+</div>
+</div></td>
+</tr>
+<tr>
+<td height="23"></td>
+<td valign="top" align="left">
+<div id="win0divDERIVED_SSTSNAV_SSTS_NAV_STABS_DIS"><div style="width:1px; ">
+<!-- Begin HTML Area Name Undisclosed -->
+
+<!-- End HTML Area -->
+</div>
+</div></td>
+<td valign="top" align="left" colspan="4">
+<div id="win0divDERIVED_SSTSNAV_SSTS_NAV_SUBTABS"><div style="width:604px; ">
+<!-- Begin HTML Area Name Undisclosed -->
+<table width="100%" cellspacing="0" cellpadding="0" border="0"><tbody><tr><td><img width="8" height="2" style="display:block;" alt="" src="/cs/csprod/cache/PS_CS_TAB_A_LEFT_CENTER_IMG_1.gif" /></td>
+<td height="2" class="SSSTABACTIVE"> </td>
+<td><img width="8" height="2" style="display:block;" alt="" src="/cs/csprod/cache/PS_CS_TAB_A_RIGHT_CENTER_IMG_1.gif" /></td><td><img width="8" height="2" style="display:block;" alt="" src="/cs/csprod/cache/PS_CS_TAB_IA_LEFT_CENTER_IMG_1.gif" /></td>
+<td height="2" class="SSSTABINACTIVE"> </td>
+<td><img width="8" height="2" style="display:block;" alt="" src="/cs/csprod/cache/PS_CS_TAB_IA_RIGHT_CENTER_IMG_1.gif" /></td></tr><tr><td><img width="8" height="15" style="display:block;" alt="" src="/cs/csprod/cache/PS_CS_TAB_A_LEFT_CENTER_IMG_1.gif" /></td>
+<td width="50%" class="SSSTABACTIVE"><span aria-label="Current subsection search for classes" tabindex="21" class="SSSTABMAINTEXT">search for classes</span></td>
+<td><img width="8" height="15" style="display:block;" alt="" src="/cs/csprod/cache/PS_CS_TAB_A_RIGHT_CENTER_IMG_1.gif" /></td><td><img width="8" height="15" style="display:block;" alt="" src="/cs/csprod/cache/PS_CS_TAB_IA_LEFT_CENTER_IMG_1.gif" /></td>
+<td width="50%" class="SSSTABINACTIVE"><a aria-label="Navigate to subsection browse course catalog" class="SSSTABMAINTEXT" tabindex="21" href="/psc/csprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.SSS_BROWSE_CATLG_P.GBL?Page=SSS_BROWSE_CATLG&amp;Action=U">browse course catalog</a></td>
+<td><img width="8" height="15" style="display:block;" alt="" src="/cs/csprod/cache/PS_CS_TAB_IA_RIGHT_CENTER_IMG_1.gif" /></td></tr><tr><td><img width="8" height="1" style="display:block;" alt="" src="/cs/csprod/cache/PS_CS_TAB_A_LEFT_CENTER_IMG_1.gif" /></td>
+<td height="1" class="SSSTABACTIVE"> </td>
+<td><img width="8" height="1" style="display:block;" alt="" src="/cs/csprod/cache/PS_CS_TAB_A_RIGHT_CENTER_IMG_1.gif" /></td><td><img width="8" height="1" style="display:block;" alt="" src="/cs/csprod/cache/PS_CS_TAB_IA_LEFT_CENTER_IMG_1.gif" /></td>
+<td height="1" class="SSSTABINACTIVE"> </td>
+<td><img width="8" height="1" style="display:block;" alt="" src="/cs/csprod/cache/PS_CS_TAB_IA_RIGHT_CENTER_IMG_1.gif" /></td></tr></tbody></table>
+<!-- End HTML Area -->
+</div>
+</div></td>
+</tr>
+</tbody></table>
+</td></tr>
+</tbody></table>
+</div></td>
+</tr>
+<tr>
+<td height="1" colspan="5"></td>
+</tr>
+<tr>
+<td height="14" colspan="3"></td>
+<td valign="top" align="left" colspan="2">
+<div id="win0divDERIVED_REGFRM1_SS_TRANSACT_TITLE"><span id="DERIVED_REGFRM1_SS_TRANSACT_TITLE" class="PATRANSACTIONTITLE" aria-level="1" role="heading">Search for Classes</span>
+</div></td>
+</tr>
+<tr>
+<td height="20" colspan="2"></td>
+<td valign="top" align="left" colspan="3">
+<div id="win0divDERIVED_REGFRM1_TITLE1"><span id="DERIVED_REGFRM1_TITLE1" class="PAPAGETITLE">Search Results</span>
+</div></td>
+</tr>
+</tbody></table>
+</td></tr>
+</tbody></table>
+</div></td>
+</tr>
+<tr>
+<td height="7" colspan="3"></td>
+</tr>
+</tbody></table>
+</td></tr>
+</tbody></table>
+</div></td>
+</tr>
+<tr>
+<td height="4" colspan="21"></td>
+</tr>
+<tr>
+<td height="31" colspan="5"></td>
+<td valign="top" align="left" colspan="16">
+<div id="win0divDERIVED_CLSRCH_SSS_PAGE_KEYDESCR"><span id="DERIVED_CLSRCH_SSS_PAGE_KEYDESCR" class="SSSKEYTEXT">CU Boulder | Fall 2016</span>
+</div></td>
+</tr>
+<tr>
+<td height="176" colspan="3"></td>
+<td valign="top" align="left" colspan="15">
+<div id="win0divDERIVED_SSS_ENR_GROUP_BOX"><table width="575" cellspacing="0" cellpadding="0" border="0" style="border-style:none" class="PSGROUPBOX" cols="5" id="ACE_DERIVED_SSS_ENR_GROUP_BOX" role="presentation">
+<tbody><tr>
+<td width="4" height="0"></td>
+<td width="276"></td>
+<td width="4"></td>
+<td width="276"></td>
+<td width="15"></td>
+</tr>
+<tr>
+<td height="168"></td>
+<td valign="top" align="left">
+<div id="win0divDERIVED_SSS_ENR_"><table width="275" cellspacing="0" cellpadding="2" class="PSGROUPBOXWBO" cols="1">
+<tbody><tr><td width="273">
+<table width="273" cellspacing="0" cellpadding="0" border="0" style="border-style:none" class="PSGROUPBOX" cols="5" id="ACE_DERIVED_SSS_ENR_" role="presentation">
+<tbody><tr>
+<td width="7" height="0"></td>
+<td width="40"></td>
+<td width="144"></td>
+<td width="76"></td>
+<td width="6"></td>
+</tr>
+<tr>
+<td height="6" colspan="3"></td>
+<td valign="top" align="left" rowspan="2">
+<div id="win0div$ICField20"><table width="75" cellspacing="0" cellpadding="2" class="PABACKGROUNDINVISIBLEWBO" cols="1">
+<tbody><tr><td width="73">
+<table width="73" cellspacing="0" cellpadding="0" border="0" style="border-style:none" class="PABACKGROUNDINVISIBLE" cols="2" id="ACE_$ICField20" role="presentation">
+<tbody><tr>
+<td width="3" height="5"></td>
+<td width="70"></td>
+</tr>
+<tr>
+<td height="9"></td>
+<td nowrap="nowrap" valign="top" align="left">
+<div id="win0divDERIVED_SSS_ENR_SSS_SHOW_ALL"><span title="Show All" class="SSSBUTTON_SMALLBLUELINK" id="DERIVED_SSS_ENR_SSS_SHOW_ALL$span"><a class="SSSBUTTON_SMALLBLUELINK" href="javascript:submitAction_win0(document.win0,'DERIVED_SSS_ENR_SSS_SHOW_ALL');" onclick="javascript:cancelBubble(event);" tabindex="30" ptlinktgt="pt_peoplecode" id="DERIVED_SSS_ENR_SSS_SHOW_ALL" name="DERIVED_SSS_ENR_SSS_SHOW_ALL">Collapse</a></span>
+</div></td>
+</tr>
+</tbody></table>
+</td></tr>
+</tbody></table>
+</div></td>
+</tr>
+<tr>
+<td height="10"></td>
+<td nowrap="nowrap" valign="top" align="left" rowspan="2" colspan="2">
+<div id="win0divDERIVED_SSS_ENR_SS_CLS_SCHED_LINK"><span class="PSHYPERLINK" id="DERIVED_SSS_ENR_SS_CLS_SCHED_LINK$span"><a class="PSHYPERLINK" href="javascript:submitAction_win0(document.win0,'DERIVED_SSS_ENR_SS_CLS_SCHED_LINK');" onclick="javascript:cancelBubble(event);" tabindex="29" ptlinktgt="pt_peoplecode" id="DERIVED_SSS_ENR_SS_CLS_SCHED_LINK" name="DERIVED_SSS_ENR_SS_CLS_SCHED_LINK">My Class Schedule</a></span>
+</div></td>
+</tr>
+<tr>
+<td height="5"></td>
+</tr>
+<tr>
+<td height="8"></td>
+<td valign="top" align="left">
+<div id="win0div$ICField13"><table width="40" cellspacing="0" cellpadding="0" class="PSFRAMENBO" cols="1">
+<tbody><tr><td width="40" height="8">
+</td></tr>
+</tbody></table>
+</div></td>
+</tr>
+<tr>
+<td height="4" colspan="5"></td>
+</tr>
+<tr>
+<td height="120"></td>
+<td valign="top" align="left" colspan="3">
+<div id="win0divSTDNT_ENRL_SSVW$0">
+<table width="260" cellspacing="0" cellpadding="2" cols="3" dir="ltr" id="STDNT_ENRL_SSVW$scroll$0" class="PSLEVEL1GRIDNBO">
+<tbody><tr valign="center" onmouseout="hoverLightTR('rgb(249,254,203)','',1,'trSTDNT_ENRL_SSVW$0_row1');" onmouseover="hoverLightTR('rgb(249,254,203)','',0,'trSTDNT_ENRL_SSVW$0_row1');" onclick="HighLightTR('rgb(212,219,217)','','trSTDNT_ENRL_SSVW$0_row1');" id="trSTDNT_ENRL_SSVW$0_row1">
+<td width="53" align="left" height="16" class="PSLEVEL1GRIDROWNBO">
+<div id="win0divDERIVED_SSS_ENR_SSS_SUBJ_CATLG$0"><span id="DERIVED_SSS_ENR_SSS_SUBJ_CATLG$0" class="PSEDITBOX_DISPONLY">CLAS 4110</span>
+</div></td>
+<td width="108" align="left" class="PSLEVEL1GRIDROWNBO">
+<div id="win0divDERIVED_SSS_ENR_SSR_MTG_SCHED_LONG$0"><span id="DERIVED_SSS_ENR_SSR_MTG_SCHED_LONG$0" class="PSLONGEDITBOX">MoWeFr 10:00AM - 10:50AM<br />
+HALE 260</span>
+</div></td>
+<td width="78" align="left" class="PSLEVEL1GRIDROWNBO">
+<div id="win0divSTDNT_ENRL_SSVW_STDNT_ENRL_STATUS$0"><span id="STDNT_ENRL_SSVW_STDNT_ENRL_STATUS$0" class="PSDROPDOWNLIST_DISPONLY">Enrolled</span>
+</div></td>
+</tr>
+<tr valign="center" onmouseout="hoverLightTR('rgb(249,254,203)','',1,'trSTDNT_ENRL_SSVW$0_row2');" onmouseover="hoverLightTR('rgb(249,254,203)','',0,'trSTDNT_ENRL_SSVW$0_row2');" onclick="HighLightTR('rgb(212,219,217)','','trSTDNT_ENRL_SSVW$0_row2');" id="trSTDNT_ENRL_SSVW$0_row2">
+<td align="left" height="16" class="PSLEVEL1GRIDROWNBO">
+<div id="win0divDERIVED_SSS_ENR_SSS_SUBJ_CATLG$1"><span id="DERIVED_SSS_ENR_SSS_SUBJ_CATLG$1" class="PSEDITBOX_DISPONLY">CSCI 3155</span>
+</div></td>
+<td align="left" class="PSLEVEL1GRIDROWNBO">
+<div id="win0divDERIVED_SSS_ENR_SSR_MTG_SCHED_LONG$1"><span id="DERIVED_SSS_ENR_SSR_MTG_SCHED_LONG$1" class="PSLONGEDITBOX">TuTh 9:30AM - 10:45AM<br />
+ECCR 1B40</span>
+</div></td>
+<td align="left" class="PSLEVEL1GRIDROWNBO">
+<div id="win0divSTDNT_ENRL_SSVW_STDNT_ENRL_STATUS$1"><span id="STDNT_ENRL_SSVW_STDNT_ENRL_STATUS$1" class="PSDROPDOWNLIST_DISPONLY">Enrolled</span>
+</div></td>
+</tr>
+<tr valign="center" onmouseout="hoverLightTR('rgb(249,254,203)','',1,'trSTDNT_ENRL_SSVW$0_row3');" onmouseover="hoverLightTR('rgb(249,254,203)','',0,'trSTDNT_ENRL_SSVW$0_row3');" onclick="HighLightTR('rgb(212,219,217)','','trSTDNT_ENRL_SSVW$0_row3');" id="trSTDNT_ENRL_SSVW$0_row3">
+<td align="left" height="16" class="PSLEVEL1GRIDROWNBO">
+<div id="win0divDERIVED_SSS_ENR_SSS_SUBJ_CATLG$2"><span id="DERIVED_SSS_ENR_SSS_SUBJ_CATLG$2" class="PSEDITBOX_DISPONLY"> </span>
+</div></td>
+<td align="left" class="PSLEVEL1GRIDROWNBO">
+<div id="win0divDERIVED_SSS_ENR_SSR_MTG_SCHED_LONG$2"><span id="DERIVED_SSS_ENR_SSR_MTG_SCHED_LONG$2" class="PSLONGEDITBOX">Fr 12:00PM - 12:50PM<br />
+KOBL 235</span>
+</div></td>
+<td align="left" class="PSLEVEL1GRIDROWNBO">
+<div id="win0divSTDNT_ENRL_SSVW_STDNT_ENRL_STATUS$2"><span id="STDNT_ENRL_SSVW_STDNT_ENRL_STATUS$2" class="PSDROPDOWNLIST_DISPONLY">Enrolled</span>
+</div></td>
+</tr>
+<tr valign="center" onmouseout="hoverLightTR('rgb(249,254,203)','',1,'trSTDNT_ENRL_SSVW$0_row4');" onmouseover="hoverLightTR('rgb(249,254,203)','',0,'trSTDNT_ENRL_SSVW$0_row4');" onclick="HighLightTR('rgb(212,219,217)','','trSTDNT_ENRL_SSVW$0_row4');" id="trSTDNT_ENRL_SSVW$0_row4">
+<td align="left" height="16" class="PSLEVEL1GRIDROWNBO">
+<div id="win0divDERIVED_SSS_ENR_SSS_SUBJ_CATLG$3"><span id="DERIVED_SSS_ENR_SSS_SUBJ_CATLG$3" class="PSEDITBOX_DISPONLY">CSCI 4273</span>
+</div></td>
+<td align="left" class="PSLEVEL1GRIDROWNBO">
+<div id="win0divDERIVED_SSS_ENR_SSR_MTG_SCHED_LONG$3"><span id="DERIVED_SSS_ENR_SSR_MTG_SCHED_LONG$3" class="PSLONGEDITBOX">MoWe 3:00PM - 4:15PM<br />
+ECCS 1B12</span>
+</div></td>
+<td align="left" class="PSLEVEL1GRIDROWNBO">
+<div id="win0divSTDNT_ENRL_SSVW_STDNT_ENRL_STATUS$3"><span id="STDNT_ENRL_SSVW_STDNT_ENRL_STATUS$3" class="PSDROPDOWNLIST_DISPONLY">Enrolled</span>
+</div></td>
+</tr>
+<tr valign="center" onmouseout="hoverLightTR('rgb(249,254,203)','',1,'trSTDNT_ENRL_SSVW$0_row5');" onmouseover="hoverLightTR('rgb(249,254,203)','',0,'trSTDNT_ENRL_SSVW$0_row5');" onclick="HighLightTR('rgb(212,219,217)','','trSTDNT_ENRL_SSVW$0_row5');" id="trSTDNT_ENRL_SSVW$0_row5">
+<td align="left" height="16" class="PSLEVEL1GRIDROWNBO">
+<div id="win0divDERIVED_SSS_ENR_SSS_SUBJ_CATLG$4"><span id="DERIVED_SSS_ENR_SSS_SUBJ_CATLG$4" class="PSEDITBOX_DISPONLY">LING 3430</span>
+</div></td>
+<td align="left" class="PSLEVEL1GRIDROWNBO">
+<div id="win0divDERIVED_SSS_ENR_SSR_MTG_SCHED_LONG$4"><span id="DERIVED_SSS_ENR_SSR_MTG_SCHED_LONG$4" class="PSLONGEDITBOX">TuTh 3:30PM - 4:45PM<br />
+EKLC M203</span>
+</div></td>
+<td align="left" class="PSLEVEL1GRIDROWNBO">
+<div id="win0divSTDNT_ENRL_SSVW_STDNT_ENRL_STATUS$4"><span id="STDNT_ENRL_SSVW_STDNT_ENRL_STATUS$4" class="PSDROPDOWNLIST_DISPONLY">Enrolled</span>
+</div></td>
+</tr>
+<tr valign="center" onmouseout="hoverLightTR('rgb(249,254,203)','',1,'trSTDNT_ENRL_SSVW$0_row6');" onmouseover="hoverLightTR('rgb(249,254,203)','',0,'trSTDNT_ENRL_SSVW$0_row6');" onclick="HighLightTR('rgb(212,219,217)','','trSTDNT_ENRL_SSVW$0_row6');" id="trSTDNT_ENRL_SSVW$0_row6">
+<td align="left" height="16" class="PSLEVEL1GRIDROWNBO">
+<div id="win0divDERIVED_SSS_ENR_SSS_SUBJ_CATLG$5"><span id="DERIVED_SSS_ENR_SSS_SUBJ_CATLG$5" class="PSEDITBOX_DISPONLY">MATH 4520</span>
+</div></td>
+<td align="left" class="PSLEVEL1GRIDROWNBO">
+<div id="win0divDERIVED_SSS_ENR_SSR_MTG_SCHED_LONG$5"><span id="DERIVED_SSS_ENR_SSR_MTG_SCHED_LONG$5" class="PSLONGEDITBOX">MoWeFr 2:00PM - 2:50PM<br />
+FLMG 154</span>
+</div></td>
+<td align="left" class="PSLEVEL1GRIDROWNBO">
+<div id="win0divSTDNT_ENRL_SSVW_STDNT_ENRL_STATUS$5"><span id="STDNT_ENRL_SSVW_STDNT_ENRL_STATUS$5" class="PSDROPDOWNLIST_DISPONLY">Enrolled</span>
+</div></td>
+</tr>
+</tbody></table>
+</div>
+</td>
+</tr>
+<tr>
+<td height="5" colspan="5"></td>
+</tr>
+</tbody></table>
+</td></tr>
+</tbody></table>
+</div></td>
+<td rowspan="2"></td>
+<td valign="top" align="left">
+<div id="win0divDERIVED_SSS_CRT_"><table width="275" cellspacing="0" cellpadding="2" class="PSGROUPBOXWBO" cols="1">
+<tbody><tr><td width="273">
+<table width="273" cellspacing="0" cellpadding="0" border="0" style="border-style:none" class="PSGROUPBOX" cols="4" id="ACE_DERIVED_SSS_CRT_" role="presentation">
+<tbody><tr>
+<td width="7" height="0"></td>
+<td width="40"></td>
+<td width="220"></td>
+<td width="6"></td>
+</tr>
+<tr>
+<td height="15"></td>
+<td nowrap="nowrap" valign="top" align="left" colspan="3">
+<div id="win0divDERIVED_SSS_CRT_LINK_ADD_ENRL"><span title="My Shopping Cart" class="PSHYPERLINK" id="DERIVED_SSS_CRT_LINK_ADD_ENRL$span"><a class="PSHYPERLINK" href="javascript:submitAction_win0(document.win0,'DERIVED_SSS_CRT_LINK_ADD_ENRL');" onclick="javascript:cancelBubble(event);" tabindex="240" ptlinktgt="pt_peoplecode" id="DERIVED_SSS_CRT_LINK_ADD_ENRL" name="DERIVED_SSS_CRT_LINK_ADD_ENRL">Shopping Cart</a></span>
+</div></td>
+</tr>
+<tr>
+<td height="8"></td>
+<td valign="top" align="left">
+<div id="win0div$ICField27"><table width="40" cellspacing="0" cellpadding="0" class="PSFRAMENBO" cols="1">
+<tbody><tr><td width="40" height="8">
+</td></tr>
+</tbody></table>
+</div></td>
+</tr>
+<tr>
+<td height="4" colspan="4"></td>
+</tr>
+<tr>
+<td height="19"></td>
+<td valign="top" align="left" colspan="2">
+<div id="win0divSSR_REGFORM_VW$0">
+<table width="260" cellspacing="0" cellpadding="2" cols="1" dir="ltr" id="SSR_REGFORM_VW$scroll$0" class="PSLEVEL1GRIDNBO">
+<tbody><tr valign="center" onmouseout="hoverLightTR('rgb(249,254,203)','',1,'trSSR_REGFORM_VW$0_row1');" onmouseover="hoverLightTR('rgb(249,254,203)','',0,'trSSR_REGFORM_VW$0_row1');" onclick="HighLightTR('rgb(212,219,217)','','trSSR_REGFORM_VW$0_row1');" id="trSSR_REGFORM_VW$0_row1">
+<td width="108" align="left" height="15" class="PSLEVEL1GRIDROWNBO">
+<div id="win0divDERIVED_SSS_CRT_SSR_MTG_SCHED_LONG$0"><span id="DERIVED_SSS_CRT_SSR_MTG_SCHED_LONG$0" class="PSLONGEDITBOX">Your shopping cart is empty.</span>
+</div></td>
+</tr>
+</tbody></table>
+</div>
+</td>
+</tr>
+<tr>
+<td height="5" colspan="4"></td>
+</tr>
+</tbody></table>
+</td></tr>
+</tbody></table>
+</div></td>
+</tr>
+<tr>
+<td height="5" colspan="2"></td>
+</tr>
+</tbody></table>
+</div></td>
+</tr>
+<tr>
+<td height="10" colspan="21"></td>
+</tr>
+<tr>
+<td height="44" colspan="4"></td>
+<td valign="top" align="left" colspan="13">
+<div id="win0div$ICField94"><table width="567" cellspacing="0" cellpadding="2" class="PABACKGROUNDINVISIBLEWBO" cols="1">
+<tbody><tr><td width="565">
+<table width="565" cellspacing="0" cellpadding="0" border="0" style="border-style:none" class="PABACKGROUNDINVISIBLE" cols="3" id="ACE_$ICField94" role="presentation">
+<tbody><tr>
+<td width="3" height="4"></td>
+<td width="552"></td>
+<td width="10"></td>
+</tr>
+<tr>
+<td height="38"></td>
+<td valign="top" align="left">
+<div id="win0divDERIVED_CLSRCH_SSR_CLSRCH_CRIT"><div style="width:552px; ">
+<!-- Begin HTML Area Name Undisclosed -->
+<table class="SSSTEXTBLUE"><tbody><tr><td>The following classes match your search criteria Course Subject: <strong>Asian Studies</strong>,  Show Open Classes Only: <strong>No</strong>,  Campus:  <strong>Boulder Main Campus</strong></td></tr></tbody></table>
+<!-- End HTML Area -->
+</div>
+</div></td>
+</tr>
+</tbody></table>
+</td></tr>
+</tbody></table>
+</div></td>
+</tr>
+<tr>
+<td height="10" colspan="21"></td>
+</tr>
+<tr>
+<td height="61" colspan="6"></td>
+<td valign="top" align="left" colspan="10">
+<div id="win0div$ICField232"><table width="547" cellspacing="0" cellpadding="2" class="SSSMSGINFOFRAMEWBO" cols="1">
+<tbody><tr><td width="543">
+<table width="543" cellspacing="0" cellpadding="0" border="0" style="border-style:none" class="SSSMSGINFOFRAME" cols="2" id="ACE_$ICField232" role="presentation">
+<tbody><tr>
+<td width="11" height="5"></td>
+<td width="532"></td>
+</tr>
+<tr>
+<td height="48"></td>
+<td valign="top" align="left">
+<div id="win0divCU_CLS_RSL_WRK_ACTION_TEXT"><span id="CU_CLS_RSL_WRK_ACTION_TEXT" class="PSLONGEDITBOX">NOTE: If you enroll for both Main Campus and Continuing Education / Extended Studies classes in the same term, your Continuing Education / Extended Studies tuition is separate from any Main Campus tuition and may be billed separately. Continuing Education / Extended Studies class(es) are NOT eligible for the COF stipend.</span>
+</div></td>
+</tr>
+</tbody></table>
+</td></tr>
+</tbody></table>
+</div></td>
+</tr>
+<tr>
+<td height="8" colspan="21"></td>
+</tr>
+<tr>
+<td height="24" colspan="7"></td>
+<td valign="top" align="left" rowspan="2" colspan="2">
+<div id="win0div$ICField239"><table width="183" cellspacing="0" cellpadding="2" class="PABACKGROUNDINVISIBLEWBO" cols="1">
+<tbody><tr><td width="181">
+<table width="181" cellspacing="0" cellpadding="0" border="0" style="border-style:none" class="PABACKGROUNDINVISIBLE" cols="3" id="ACE_$ICField239" role="presentation">
+<tbody><tr>
+<td width="6" height="9"></td>
+<td width="93"></td>
+<td width="82"></td>
+</tr>
+<tr>
+<td height="17"></td>
+<td valign="top" align="left">
+<div id="win0divCU_CLS_RSL_WRK_CU_SSR_COLAPSE_ALL"><span title="Collapse All Sections" class="SSSBUTTON_CANCELLINK" id="CU_CLS_RSL_WRK_CU_SSR_COLAPSE_ALL$span"><a class="SSSBUTTON_CANCELLINK" href="javascript:submitAction_win0(document.win0,'CU_CLS_RSL_WRK_CU_SSR_COLAPSE_ALL');" onclick="javascript:cancelBubble(event);" tabindex="418" ptlinktgt="pt_peoplecode" id="CU_CLS_RSL_WRK_CU_SSR_COLAPSE_ALL" name="CU_CLS_RSL_WRK_CU_SSR_COLAPSE_ALL">Collapse All</a></span>
+</div></td>
+<td valign="top" align="left">
+<div id="win0divCU_CLS_RSL_WRK_CU_SSR_EXPAND_ALL"><span title="Expand All Sections" class="SSSBUTTON_CANCELLINK" id="CU_CLS_RSL_WRK_CU_SSR_EXPAND_ALL$span"><a class="SSSBUTTON_CANCELLINK" href="javascript:submitAction_win0(document.win0,'CU_CLS_RSL_WRK_CU_SSR_EXPAND_ALL');" onclick="javascript:cancelBubble(event);" tabindex="419" ptlinktgt="pt_peoplecode" id="CU_CLS_RSL_WRK_CU_SSR_EXPAND_ALL" name="CU_CLS_RSL_WRK_CU_SSR_EXPAND_ALL">Expand All</a></span>
+</div></td>
+</tr>
+</tbody></table>
+</td></tr>
+</tbody></table>
+</div></td>
+<td rowspan="3"></td>
+<td valign="top" align="left" colspan="2">
+<div id="win0div$ICField235"><table width="91" cellspacing="0" cellpadding="2" class="PABACKGROUNDINVISIBLEWBO" cols="1">
+<tbody><tr><td width="89">
+<table width="89" cellspacing="0" cellpadding="0" border="0" style="border-style:none" class="PABACKGROUNDINVISIBLE" cols="2" id="ACE_$ICField235" role="presentation">
+<tbody><tr>
+<td width="3" height="9"></td>
+<td width="86"></td>
+</tr>
+<tr>
+<td height="13"></td>
+<td valign="top" align="left">
+<div id="win0divCLASS_SRCH_WRK2_SSR_PB_NEW_SEARCH"><span title="Search" class="SSSBUTTON_CONFIRMLINK" id="CLASS_SRCH_WRK2_SSR_PB_NEW_SEARCH$span"><a class="SSSBUTTON_CONFIRMLINK" href="javascript:submitAction_win0(document.win0,'CLASS_SRCH_WRK2_SSR_PB_NEW_SEARCH');" onclick="javascript:cancelBubble(event);" tabindex="420" ptlinktgt="pt_peoplecode" id="CLASS_SRCH_WRK2_SSR_PB_NEW_SEARCH" name="CLASS_SRCH_WRK2_SSR_PB_NEW_SEARCH">New Search</a></span>
+</div></td>
+</tr>
+</tbody></table>
+</td></tr>
+</tbody></table>
+</div></td>
+<td rowspan="3"></td>
+<td valign="top" align="left" colspan="3">
+<div id="win0div$ICField237"><table width="111" cellspacing="0" cellpadding="2" class="PABACKGROUNDINVISIBLEWBO" cols="1">
+<tbody><tr><td width="109">
+<table width="109" cellspacing="0" cellpadding="0" border="0" style="border-style:none" class="PABACKGROUNDINVISIBLE" cols="2" id="ACE_$ICField237" role="presentation">
+<tbody><tr>
+<td width="3" height="9"></td>
+<td width="106"></td>
+</tr>
+<tr>
+<td height="13"></td>
+<td valign="top" align="left">
+<div id="win0divCLASS_SRCH_WRK2_SSR_PB_MODIFY"><span class="SSSBUTTON_CONFIRMLINK" id="CLASS_SRCH_WRK2_SSR_PB_MODIFY$span"><a class="SSSBUTTON_CONFIRMLINK" href="javascript:submitAction_win0(document.win0,'CLASS_SRCH_WRK2_SSR_PB_MODIFY');" onclick="javascript:cancelBubble(event);" tabindex="421" ptlinktgt="pt_peoplecode" id="CLASS_SRCH_WRK2_SSR_PB_MODIFY" name="CLASS_SRCH_WRK2_SSR_PB_MODIFY">Modify Search</a></span>
+</div></td>
+</tr>
+</tbody></table>
+</td></tr>
+</tbody></table>
+</div></td>
+</tr>
+<tr>
+<td height="4" colspan="7"></td>
+</tr>
+<tr>
+<td height="10" colspan="9"></td>
+</tr>
+<tr>
+<td height="34" colspan="2"></td>
+<td valign="top" align="left" colspan="12">
+<div id="win0divDERIVED_REGFRM1_"><table width="549" cellspacing="0" cellpadding="2" class="SSSKEYFRAMEWBO" cols="1">
+<tbody><tr><td align="left" class="PAEXAMPLE">Class Status Legend</td></tr>
+<tr><td width="545">
+<table width="545" cellspacing="0" cellpadding="0" border="0" style="border-style:none" class="SSSKEYFRAME" cols="7" id="ACE_DERIVED_REGFRM1_" role="presentation">
+<tbody><tr>
+<td width="46" height="0"></td>
+<td width="308"></td>
+<td width="4"></td>
+<td width="98"></td>
+<td width="16"></td>
+<td width="52"></td>
+<td width="21"></td>
+</tr>
+<tr>
+<td height="24"></td>
+<td valign="top" align="left">
+<div id="win0divDERIVED_REGFRM1_SSR_WAIT_LIST_ON"><table width="307" cellspacing="0" cellpadding="2" class="PABACKGROUNDINVISIBLEWBO" cols="1">
+<tbody><tr><td width="305">
+<table width="305" cellspacing="0" cellpadding="0" border="0" style="border-style:none" class="PABACKGROUNDINVISIBLE" cols="10" id="ACE_DERIVED_REGFRM1_SSR_WAIT_LIST_ON" role="presentation">
+<tbody><tr>
+<td width="11" height="0"></td>
+<td width="16"></td>
+<td width="44"></td>
+<td width="20"></td>
+<td width="12"></td>
+<td width="52"></td>
+<td width="16"></td>
+<td width="16"></td>
+<td width="100"></td>
+<td width="18"></td>
+</tr>
+<tr>
+<td height="15"></td>
+<td valign="top" align="left">
+<div id="win0div$ICField2"><img width="16" height="16" class="PSSTATICIMAGE" title="Open" alt="Open" src="/cs/csprod/cache/PS_CS_STATUS_OPEN_ICN_1.gif" />
+</div></td>
+<td valign="top" align="left">
+<div id="win0div$ICField3"><span class="SSSKEYTEXT">Open</span>
+</div></td>
+<td></td>
+<td valign="top" align="left">
+<div id="win0div$ICField4"><img width="16" height="16" class="PSSTATICIMAGE" title="Closed" alt="Closed" src="/cs/csprod/cache/PS_CS_STATUS_CLOSED_ICN_1.gif" />
+</div></td>
+<td valign="top" align="left">
+<div id="win0div$ICField5"><span class="SSSKEYTEXT">Closed</span>
+</div></td>
+<td></td>
+<td valign="top" align="left">
+<div id="win0div$ICField6"><img width="16" height="16" class="PSSTATICIMAGE" title="Wait List" alt="Wait List" src="/cs/csprod/cache/PS_CS_STATUS_WAITLIST_ICN_1.gif" />
+</div></td>
+<td valign="top" align="left">
+<div id="win0div$ICField7"><span class="SSSKEYTEXT">Closed Wait List Available</span>
+</div></td>
+</tr>
+</tbody></table>
+</td></tr>
+</tbody></table>
+</div></td>
+<td rowspan="2"></td>
+<td valign="top" align="left">
+<div id="win0divCU_SHPCRT_WRK_CU_TIME_CONFLICT"><table width="98" cellspacing="0" cellpadding="2" class="PABACKGROUNDINVISIBLEWBO" cols="1">
+<tbody><tr><td width="96">
+<table width="96" cellspacing="0" cellpadding="0" border="0" style="border-style:none" class="PABACKGROUNDINVISIBLE" cols="3" id="ACE_CU_SHPCRT_WRK_CU_TIME_CONFLICT" role="presentation">
+<tbody><tr>
+<td width="3" height="0"></td>
+<td width="23"></td>
+<td width="70"></td>
+</tr>
+<tr>
+<td height="22"></td>
+<td valign="top" align="left">
+<div id="win0div$ICField$21$"><img width="23" height="23" class="PSSTATICIMAGE" title="Schedule Conflict" alt="Schedule Conflict" src="/cs/csprod/cache/PS_CS_MESSAGE_ALERT_ICN_1.gif" />
+</div></td>
+<td valign="top" align="left">
+<div id="win0div$ICField21"><span class="SSSKEYTEXT">Schedule Conflict</span>
+</div></td>
+</tr>
+</tbody></table>
+</td></tr>
+</tbody></table>
+</div></td>
+<td rowspan="2"></td>
+<td valign="top" align="left">
+<div id="win0divDERIVED_REGFRM1_$22$"><table width="51" cellspacing="0" cellpadding="2" class="PABACKGROUNDINVISIBLEWBO" cols="1">
+<tbody><tr><td width="49">
+<table width="49" cellspacing="0" cellpadding="0" border="0" style="border-style:none" class="PABACKGROUNDINVISIBLE" cols="4" id="ACE_DERIVED_REGFRM1_$22$" role="presentation">
+<tbody><tr>
+<td width="11" height="0"></td>
+<td width="18"></td>
+<td width="2"></td>
+<td width="18"></td>
+</tr>
+<tr>
+<td height="4" colspan="3"></td>
+<td valign="top" align="left" rowspan="2">
+<div id="win0div$ICField$19$"><span class="SSSKEYTEXT">Error</span>
+</div></td>
+</tr>
+<tr>
+<td height="15"></td>
+<td valign="top" align="left">
+<div id="win0div$ICField$18$"><img width="16" height="16" class="PSSTATICIMAGE" title="Error" alt="Error" src="/cs/csprod/cache/PS_CS_STATUS_ERROR_ICN_1.gif" />
+</div></td>
+</tr>
+</tbody></table>
+</td></tr>
+</tbody></table>
+</div></td>
+</tr>
+<tr>
+<td height="0" colspan="2"></td>
+</tr>
+</tbody></table>
+</td></tr>
+</tbody></table>
+</div></td>
+</tr>
+<tr>
+<td height="7" colspan="21"></td>
+</tr>
+<tr>
+<td height="413"></td>
+<td valign="top" align="left" colspan="17">
+<div id="win0divDERIVED_CLSRCH_GROUP6"><table width="691" cellspacing="0" cellpadding="2" class="PABACKGROUNDINVISIBLEWBO" cols="1">
+<tbody><tr><td width="689">
+<table width="689" cellspacing="0" cellpadding="0" border="0" style="border-style:none" class="PABACKGROUNDINVISIBLE" cols="3" id="ACE_DERIVED_CLSRCH_GROUP6" role="presentation">
+<tbody><tr>
+<td width="3" height="0"></td>
+<td width="672"></td>
+<td width="14"></td>
+</tr>
+<tr>
+<td height="16"></td>
+<td valign="top" align="left">
+<div id="win0divSSR_CLSRSLT_WRK_GROUPBOX1"><table width="564" cellspacing="0" cellpadding="2" class="PABACKGROUNDINVISIBLEWBO" cols="1">
+<tbody><tr><td width="562" height="1">
+</td></tr>
+</tbody></table>
+</div></td>
+</tr>
+<tr>
+<td height="392"></td>
+<td valign="top" align="left">
+<div id="win0div$ICField$4$$0"><table width="672" cellspacing="0" cellpadding="2" onclick="getScrollTableId('$ICField$4$$scroll$0')" id="$ICField$4$$scroll$0" class="PABACKGROUNDINVISIBLEWBO" cols="1">
+<tbody><tr><td width="670">
+<table width="670" cellspacing="0" cellpadding="0" border="0" style="border-style:none" class="PABACKGROUNDINVISIBLE" cols="3" id="ACE_$ICField$4$$0" role="presentation">
+<tbody><tr>
+<td width="0" height="0"></td>
+<td width="669"></td>
+<td width="2"></td>
+</tr>
+<tr>
+<td height="123"></td>
+<td valign="top" align="left">
+<div id="win0divSSR_CLSRSLT_WRK_GROUPBOX2$0"><table width="669" cellspacing="0" cellpadding="2" class="PABACKGROUNDINVISIBLEWBO" cols="1">
+<tbody><tr><td align="left" class="SSSGROUPBOXDKBLUENBO"><div id="win0divSSR_CLSRSLT_WRK_GROUPBOX2GP$0"><a aria-expanded="true" href="javascript:submitAction_win0(document.win0,'SSR_CLSRSLT_WRK_GROUPBOX2$0');" tabindex="713" id="SSR_CLSRSLT_WRK_GROUPBOX2$0" name="SSR_CLSRSLT_WRK_GROUPBOX2$0" title="Collapse section ASIA 2000 - Gateway to Modern Asia: Exploring Regional Connections" class="PSHYPERLINK PTCOLLAPSE_ARROW"><img border="0" title="Collapse section" alt="Collapse section ASIA 2000 - Gateway to Modern Asia: Exploring Regional Connections" src="/cs/csprod/cache/PS_COLLAPSE_ICN_1.gif" /></a> ASIA 2000 - Gateway to Modern Asia: Exploring Regional Connections </div></td></tr>
+<tr><td width="667">
+<table width="667" cellspacing="0" cellpadding="0" border="0" style="border-style:none" class="PABACKGROUNDINVISIBLE" cols="3" id="ACE_SSR_CLSRSLT_WRK_GROUPBOX2$0" role="presentation">
+<tbody><tr>
+<td width="0" height="0"></td>
+<td width="666"></td>
+<td width="2"></td>
+</tr>
+<tr>
+<td height="110"></td>
+<td valign="top" align="left">
+<div id="win0div$ICField48$0"><table width="666" cellspacing="0" cellpadding="2" onclick="getScrollTableId('$ICField48$scroll$0')" id="$ICField48$scroll$0" class="PABACKGROUNDINVISIBLEWBO" cols="1">
+<tbody><tr><td width="664">
+<table width="664" cellspacing="0" cellpadding="0" border="0" style="border-style:none" class="PABACKGROUNDINVISIBLE" cols="5" id="ACE_$ICField48$0" role="presentation">
+<tbody><tr>
+<td width="0" height="3"></td>
+<td width="4"></td>
+<td width="492"></td>
+<td width="167"></td>
+<td width="2"></td>
+</tr>
+<tr>
+<td height="48"></td>
+<td valign="top" align="left" colspan="3">
+<div id="win0divSSR_CLSRSLT_WRK_GROUPBOX3$0"><table width="663" cellspacing="0" cellpadding="2" class="PABACKGROUNDINVISIBLEWBO" cols="1">
+<tbody><tr><td width="661">
+<table width="661" cellspacing="0" cellpadding="0" border="0" style="border-style:none" class="PABACKGROUNDINVISIBLE" cols="3" id="ACE_SSR_CLSRSLT_WRK_GROUPBOX3$0" role="presentation">
+<tbody><tr>
+<td width="0" height="0"></td>
+<td width="660"></td>
+<td width="2"></td>
+</tr>
+<tr>
+<td height="39"></td>
+<td valign="top" align="left">
+<div id="win0divSSR_CLSRCH_MTG1$0">
+<table width="660" cellspacing="0" cellpadding="2" cols="8" dir="ltr" id="SSR_CLSRCH_MTG1$scroll$0" class="PSLEVEL1GRIDNBONBO">
+<tbody><tr>
+<th width="30" align="left" class="PSLEVEL1GRIDCOLUMNHDR" abbr="Class" scope="col">Class</th>
+<th width="80" align="left" class="PSLEVEL1GRIDCOLUMNHDR" abbr="Section" scope="col">Section</th>
+<th width="98" align="left" class="PSLEVEL1GRIDCOLUMNHDR" abbr="Days &amp; Times" scope="col">Days &amp; Times</th>
+<th width="91" align="left" class="PSLEVEL1GRIDCOLUMNHDR" abbr="Room" scope="col">Room</th>
+<th width="98" align="left" class="PSLEVEL1GRIDCOLUMNHDR" abbr="Instructor" scope="col">Instructor</th>
+<th width="98" align="left" class="PSLEVEL1GRIDCOLUMNHDR" abbr="Meeting Dates" scope="col">Meeting Dates</th>
+<th width="64" align="left" class="PSLEVEL1GRIDCOLUMNHDR" abbr="Status" scope="col">Status</th>
+<th width="52" align="left" class="PSLEVEL1GRIDCOLUMNHDR" scope="col"> </th>
+</tr>
+<tr valign="center" onmouseout="hoverLightTR('rgb(249,254,203)','',1,'trSSR_CLSRCH_MTG1$0_row1');" onmouseover="hoverLightTR('rgb(249,254,203)','',0,'trSSR_CLSRCH_MTG1$0_row1');" onclick="HighLightTR('rgb(212,219,217)','','trSSR_CLSRCH_MTG1$0_row1');" id="trSSR_CLSRCH_MTG1$0_row1">
+<td align="left" height="20" class="PSLEVEL3GRIDROW">
+<div id="win0divMTG_CLASS_NBR$0"><span title="Class Nbr" class="PSHYPERLINK" id="MTG_CLASS_NBR$span$0"><a class="PSHYPERLINK" href="javascript:submitAction_win0(document.win0,'MTG_CLASS_NBR$0');" onclick="javascript:cancelBubble(event);" tabindex="740" ptlinktgt="pt_peoplecode" id="MTG_CLASS_NBR$0" name="MTG_CLASS_NBR$0">29768</a></span>
+</div></td>
+<td align="left" class="PSLEVEL3GRIDROW">
+<div id="win0divMTG_CLASSNAME$0"><span title="View Details" class="PSHYPERLINK" id="MTG_CLASSNAME$span$0"><a class="PSHYPERLINK" href="javascript:submitAction_win0(document.win0,'MTG_CLASSNAME$0');" onclick="javascript:cancelBubble(event);" tabindex="741" ptlinktgt="pt_peoplecode" id="MTG_CLASSNAME$0" name="MTG_CLASSNAME$0">001-LEC<br />Boulder Main Campus Semester</a></span>
+</div></td>
+<td align="left" class="PSLEVEL3GRIDROW">
+<div id="win0divMTG_DAYTIME$0"><span id="MTG_DAYTIME$0" class="PSLONGEDITBOX">MoWeFr 11:00AM - 11:50AM</span>
+</div></td>
+<td align="left" class="PSLEVEL3GRIDROW">
+<div id="win0divMTG_ROOM$0"><span id="MTG_ROOM$0" class="PSLONGEDITBOX">RAMY N1B75</span>
+</div></td>
+<td align="left" class="PSLEVEL3GRIDROW">
+<div id="win0divMTG_INSTR$0"><span id="MTG_INSTR$0" class="PSLONGEDITBOX">J Berry</span>
+</div></td>
+<td align="left" class="PSLEVEL3GRIDROW">
+<div id="win0divMTG_TOPIC$0"><span id="MTG_TOPIC$0" class="PSLONGEDITBOX">08/22/2016 - 12/09/2016</span>
+</div></td>
+<td align="left" class="PSLEVEL3GRIDROW">
+<div id="win0divDERIVED_CLSRCH_SSR_STATUS_LONG$0"><div style="min-width:64px; ">
+<!-- Begin HTML Area Name Undisclosed -->
+<img width="16" height="16" class="SSSIMAGECENTER" alt="Closed" src="/cs/csprod/cache/PS_CS_STATUS_CLOSED_ICN_1.gif" />
+<!-- End HTML Area -->
+</div>
+</div></td>
+<td align="left" class="PSLEVEL3GRIDROW">
+<div id="win0divSSR_PB_SELECT$0"><span title="Select Class" class="SSSBUTTON_ACTIONLINK" id="SSR_PB_SELECT$span$0"><a class="SSSBUTTON_ACTIONLINK" href="javascript:submitAction_win0(document.win0,'SSR_PB_SELECT$0');" onclick="javascript:cancelBubble(event);" tabindex="747" ptlinktgt="pt_peoplecode" id="SSR_PB_SELECT$0" name="SSR_PB_SELECT$0">Select</a></span>
+</div></td>
+</tr>
+</tbody></table>
+</div>
+</td>
+</tr>
+<tr>
+<td height="3" colspan="3"></td>
+</tr>
+</tbody></table>
+</td></tr>
+</tbody></table>
+</div></td>
+</tr>
+<tr>
+<td height="4" colspan="5"></td>
+</tr>
+<tr>
+<td height="47" colspan="2"></td>
+<td valign="top" align="left">
+<div id="win0divCU_CLS_RSL_WRK_GROUPBOX$0"><table width="491" cellspacing="0" cellpadding="2" class="PSGROUPBOXWBO" cols="1">
+<tbody><tr><td width="489">
+<table width="489" cellspacing="0" cellpadding="0" border="0" style="border-style:none" class="PSGROUPBOX" cols="12" id="ACE_CU_CLS_RSL_WRK_GROUPBOX$0" role="presentation">
+<tbody><tr>
+<td width="7" height="0"></td>
+<td width="5"></td>
+<td width="47"></td>
+<td width="17"></td>
+<td width="59"></td>
+<td width="21"></td>
+<td width="34"></td>
+<td width="21"></td>
+<td width="30"></td>
+<td width="42"></td>
+<td width="21"></td>
+<td width="185"></td>
+</tr>
+<tr>
+<td height="13" colspan="3"></td>
+<td valign="top" align="left" rowspan="2" colspan="2">
+<div id="win0divCU_CLS_RSL_WRK_CU_SSR_ENRL_RESlbl$0"><span class="PSEDITBOXLABEL">Enrollment <br />Restriction</span> </div></td>
+<td valign="top" align="left" rowspan="3" colspan="3">
+<div id="win0divCU_CLS_RSL_WRK_CU_SSR_CNSNT_REQlbl$0"><span class="PSEDITBOXLABEL">Consent<br /> Required</span> </div></td>
+<td valign="top" align="left" rowspan="3" colspan="2">
+<div id="win0divCU_CLS_RSL_WRK_AVAILABLE_SEATSlbl$0"><span class="PSEDITBOXLABEL">Available<br /> Seats</span> </div></td>
+<td valign="top" align="left" rowspan="3" colspan="2">
+<div id="win0divCU_CLS_RSL_WRK_CU_SSR_WAITLISTlbl$0"><span class="PSEDITBOXLABEL">Wait List <br />Total</span> </div></td>
+</tr>
+<tr>
+<td height="11"></td>
+<td valign="top" align="left" colspan="2">
+<div id="win0divCU_CLS_RSL_WRK_CU_SSR_UNITS_RANGElbl$0"><span class="PSEDITBOXLABEL">Units</span> </div></td>
+</tr>
+<tr>
+<td height="4" colspan="2"></td>
+<td valign="top" align="left" rowspan="2" colspan="2">
+<div id="win0divCU_CLS_RSL_WRK_CU_SSR_UNITS_RANGE$0"><span id="CU_CLS_RSL_WRK_CU_SSR_UNITS_RANGE$0" class="PSEDITBOX_DISPONLY">3</span>
+</div></td>
+</tr>
+<tr>
+<td height="12" colspan="2"></td>
+<td valign="top" align="left" colspan="2">
+<div id="win0divCU_CLS_RSL_WRK_CU_SSR_ENRL_RES$0"><span id="CU_CLS_RSL_WRK_CU_SSR_ENRL_RES$0" class="PSEDITBOX_DISPONLY">N</span>
+</div></td>
+<td valign="top" align="left">
+<div id="win0divCU_CLS_RSL_WRK_CU_SSR_CNSNT_REQ$0"><span id="CU_CLS_RSL_WRK_CU_SSR_CNSNT_REQ$0" class="PSEDITBOX_DISPONLY">N</span>
+</div></td>
+<td valign="top" align="right" colspan="2">
+<div id="win0divCU_CLS_RSL_WRK_AVAILABLE_SEATS$0"><span id="CU_CLS_RSL_WRK_AVAILABLE_SEATS$0" class="PSEDITBOX_DISPONLY">0</span>
+</div></td>
+<td colspan="2"></td>
+<td valign="top" align="left">
+<div id="win0divCU_CLS_RSL_WRK_CU_SSR_WAITLIST$0"><span id="CU_CLS_RSL_WRK_CU_SSR_WAITLIST$0" class="PSEDITBOX_DISPONLY">NA</span>
+</div></td>
+</tr>
+</tbody></table>
+</td></tr>
+</tbody></table>
+</div></td>
+</tr>
+<tr>
+<td height="7" colspan="5"></td>
+</tr>
+</tbody></table>
+</td></tr>
+</tbody></table>
+</div></td>
+</tr>
+</tbody></table>
+</td></tr>
+</tbody></table>
+</div></td>
+</tr>
+<tr>
+<td height="4" colspan="3"></td>
+</tr>
+<tr>
+<td height="139"></td>
+<td valign="top" align="left">
+<div id="win0divSSR_CLSRSLT_WRK_GROUPBOX2$1"><table width="669" cellspacing="0" cellpadding="2" class="PABACKGROUNDINVISIBLEWBO" cols="1">
+<tbody><tr><td align="left" class="SSSGROUPBOXDKBLUENBO"><div id="win0divSSR_CLSRSLT_WRK_GROUPBOX2GP$1"><a aria-expanded="true" href="javascript:submitAction_win0(document.win0,'SSR_CLSRSLT_WRK_GROUPBOX2$1');" tabindex="1156" id="SSR_CLSRSLT_WRK_GROUPBOX2$1" name="SSR_CLSRSLT_WRK_GROUPBOX2$1" title="Collapse section ASIA 4300 - Open Topics in Asian Literature and Culture" class="PSHYPERLINK PTCOLLAPSE_ARROW"><img border="0" title="Collapse section" alt="Collapse section ASIA 4300 - Open Topics in Asian Literature and Culture" src="/cs/csprod/cache/PS_COLLAPSE_ICN_1.gif" /></a> ASIA 4300 - Open Topics in Asian Literature and Culture </div></td></tr>
+<tr><td width="667">
+<table width="667" cellspacing="0" cellpadding="0" border="0" style="border-style:none" class="PABACKGROUNDINVISIBLE" cols="3" id="ACE_SSR_CLSRSLT_WRK_GROUPBOX2$1" role="presentation">
+<tbody><tr>
+<td width="0" height="0"></td>
+<td width="666"></td>
+<td width="2"></td>
+</tr>
+<tr>
+<td height="126"></td>
+<td valign="top" align="left">
+<div id="win0div$ICField48$1"><table width="666" cellspacing="0" cellpadding="2" onclick="getScrollTableId('$ICField48$scroll$1')" id="$ICField48$scroll$1" class="PABACKGROUNDINVISIBLEWBO" cols="1">
+<tbody><tr><td width="664">
+<table width="664" cellspacing="0" cellpadding="0" border="0" style="border-style:none" class="PABACKGROUNDINVISIBLE" cols="5" id="ACE_$ICField48$1" role="presentation">
+<tbody><tr>
+<td width="0" height="3"></td>
+<td width="4"></td>
+<td width="492"></td>
+<td width="167"></td>
+<td width="2"></td>
+</tr>
+<tr>
+<td height="64"></td>
+<td valign="top" align="left" colspan="3">
+<div id="win0divSSR_CLSRSLT_WRK_GROUPBOX3$1"><table width="663" cellspacing="0" cellpadding="2" class="PABACKGROUNDINVISIBLEWBO" cols="1">
+<tbody><tr><td width="661">
+<table width="661" cellspacing="0" cellpadding="0" border="0" style="border-style:none" class="PABACKGROUNDINVISIBLE" cols="4" id="ACE_SSR_CLSRSLT_WRK_GROUPBOX3$1" role="presentation">
+<tbody><tr>
+<td width="0" height="0"></td>
+<td width="9"></td>
+<td width="651"></td>
+<td width="2"></td>
+</tr>
+<tr>
+<td height="39"></td>
+<td valign="top" align="left" colspan="2">
+<div id="win0divSSR_CLSRCH_MTG1$1">
+<table width="660" cellspacing="0" cellpadding="2" cols="8" dir="ltr" id="SSR_CLSRCH_MTG1$scroll$1" class="PSLEVEL1GRIDNBONBO">
+<tbody><tr>
+<th width="30" align="left" class="PSLEVEL1GRIDCOLUMNHDR" abbr="Class" scope="col">Class</th>
+<th width="80" align="left" class="PSLEVEL1GRIDCOLUMNHDR" abbr="Section" scope="col">Section</th>
+<th width="98" align="left" class="PSLEVEL1GRIDCOLUMNHDR" abbr="Days &amp; Times" scope="col">Days &amp; Times</th>
+<th width="91" align="left" class="PSLEVEL1GRIDCOLUMNHDR" abbr="Room" scope="col">Room</th>
+<th width="98" align="left" class="PSLEVEL1GRIDCOLUMNHDR" abbr="Instructor" scope="col">Instructor</th>
+<th width="98" align="left" class="PSLEVEL1GRIDCOLUMNHDR" abbr="Meeting Dates" scope="col">Meeting Dates</th>
+<th width="64" align="left" class="PSLEVEL1GRIDCOLUMNHDR" abbr="Status" scope="col">Status</th>
+<th width="52" align="left" class="PSLEVEL1GRIDCOLUMNHDR" scope="col"> </th>
+</tr>
+<tr valign="center" onmouseout="hoverLightTR('rgb(249,254,203)','',1,'trSSR_CLSRCH_MTG1$1_row1');" onmouseover="hoverLightTR('rgb(249,254,203)','',0,'trSSR_CLSRCH_MTG1$1_row1');" onclick="HighLightTR('rgb(212,219,217)','','trSSR_CLSRCH_MTG1$1_row1');" id="trSSR_CLSRCH_MTG1$1_row1">
+<td align="left" height="20" class="PSLEVEL3GRIDROW">
+<div id="win0divMTG_CLASS_NBR$1"><span title="Class Nbr" class="PSHYPERLINK" id="MTG_CLASS_NBR$span$1"><a class="PSHYPERLINK" href="javascript:submitAction_win0(document.win0,'MTG_CLASS_NBR$1');" onclick="javascript:cancelBubble(event);" tabindex="1183" ptlinktgt="pt_peoplecode" id="MTG_CLASS_NBR$1" name="MTG_CLASS_NBR$1">23759</a></span>
+</div></td>
+<td align="left" class="PSLEVEL3GRIDROW">
+<div id="win0divMTG_CLASSNAME$1"><span title="View Details" class="PSHYPERLINK" id="MTG_CLASSNAME$span$1"><a class="PSHYPERLINK" href="javascript:submitAction_win0(document.win0,'MTG_CLASSNAME$1');" onclick="javascript:cancelBubble(event);" tabindex="1184" ptlinktgt="pt_peoplecode" id="MTG_CLASSNAME$1" name="MTG_CLASSNAME$1">001-LEC<br />Boulder Main Campus Semester</a></span>
+</div></td>
+<td align="left" class="PSLEVEL3GRIDROW">
+<div id="win0divMTG_DAYTIME$1"><span id="MTG_DAYTIME$1" class="PSLONGEDITBOX">MoWeFr 1:00PM - 1:50PM</span>
+</div></td>
+<td align="left" class="PSLEVEL3GRIDROW">
+<div id="win0divMTG_ROOM$1"><span id="MTG_ROOM$1" class="PSLONGEDITBOX">KTCH 1B64</span>
+</div></td>
+<td align="left" class="PSLEVEL3GRIDROW">
+<div id="win0divMTG_INSTR$1"><span id="MTG_INSTR$1" class="PSLONGEDITBOX">J Berry</span>
+</div></td>
+<td align="left" class="PSLEVEL3GRIDROW">
+<div id="win0divMTG_TOPIC$1"><span id="MTG_TOPIC$1" class="PSLONGEDITBOX">08/22/2016 - 12/09/2016</span>
+</div></td>
+<td align="left" class="PSLEVEL3GRIDROW">
+<div id="win0divDERIVED_CLSRCH_SSR_STATUS_LONG$1"><div style="min-width:64px; ">
+<!-- Begin HTML Area Name Undisclosed -->
+<img width="16" height="16" class="SSSIMAGECENTER" alt="Open" src="/cs/csprod/cache/PS_CS_STATUS_OPEN_ICN_1.gif" />
+<!-- End HTML Area -->
+</div>
+</div></td>
+<td align="left" class="PSLEVEL3GRIDROW">
+<div id="win0divSSR_PB_SELECT$1"><span title="Select Class" class="SSSBUTTON_ACTIONLINK" id="SSR_PB_SELECT$span$1"><a class="SSSBUTTON_ACTIONLINK" href="javascript:submitAction_win0(document.win0,'SSR_PB_SELECT$1');" onclick="javascript:cancelBubble(event);" tabindex="1190" ptlinktgt="pt_peoplecode" id="SSR_PB_SELECT$1" name="SSR_PB_SELECT$1">Select</a></span>
+</div></td>
+</tr>
+</tbody></table>
+</div>
+</td>
+</tr>
+<tr>
+<td height="4" colspan="4"></td>
+</tr>
+<tr>
+<td height="15" colspan="2"></td>
+<td valign="top" align="left" colspan="2">
+<div id="win0divDERIVED_CLSRCH_DESCRLONG$1"><span id="DERIVED_CLSRCH_DESCRLONG$1" style="word-wrap:break-word;overflow:hidden;display:block; width:542px;  overflow:auto;" class="PSLONGEDITBOX">Topic: Urban Asia: History/Modernity</span>
+</div></td>
+</tr>
+</tbody></table>
+</td></tr>
+</tbody></table>
+</div></td>
+</tr>
+<tr>
+<td height="4" colspan="5"></td>
+</tr>
+<tr>
+<td height="47" colspan="2"></td>
+<td valign="top" align="left">
+<div id="win0divCU_CLS_RSL_WRK_GROUPBOX$1"><table width="491" cellspacing="0" cellpadding="2" class="PSGROUPBOXWBO" cols="1">
+<tbody><tr><td width="489">
+<table width="489" cellspacing="0" cellpadding="0" border="0" style="border-style:none" class="PSGROUPBOX" cols="12" id="ACE_CU_CLS_RSL_WRK_GROUPBOX$1" role="presentation">
+<tbody><tr>
+<td width="7" height="0"></td>
+<td width="5"></td>
+<td width="47"></td>
+<td width="17"></td>
+<td width="59"></td>
+<td width="21"></td>
+<td width="34"></td>
+<td width="21"></td>
+<td width="30"></td>
+<td width="42"></td>
+<td width="30"></td>
+<td width="176"></td>
+</tr>
+<tr>
+<td height="13" colspan="3"></td>
+<td valign="top" align="left" rowspan="2" colspan="2">
+<div id="win0divCU_CLS_RSL_WRK_CU_SSR_ENRL_RESlbl$1"><span class="PSEDITBOXLABEL">Enrollment <br />Restriction</span> </div></td>
+<td valign="top" align="left" rowspan="3" colspan="3">
+<div id="win0divCU_CLS_RSL_WRK_CU_SSR_CNSNT_REQlbl$1"><span class="PSEDITBOXLABEL">Consent<br /> Required</span> </div></td>
+<td valign="top" align="left" rowspan="3" colspan="2">
+<div id="win0divCU_CLS_RSL_WRK_AVAILABLE_SEATSlbl$1"><span class="PSEDITBOXLABEL">Available<br /> Seats</span> </div></td>
+<td valign="top" align="left" rowspan="3" colspan="2">
+<div id="win0divCU_CLS_RSL_WRK_WAIT_TOTlbl$1"><span class="PSEDITBOXLABEL">Wait List <br />Total</span> </div></td>
+</tr>
+<tr>
+<td height="11"></td>
+<td valign="top" align="left" colspan="2">
+<div id="win0divCU_CLS_RSL_WRK_CU_SSR_UNITS_RANGElbl$1"><span class="PSEDITBOXLABEL">Units</span> </div></td>
+</tr>
+<tr>
+<td height="4" colspan="2"></td>
+<td valign="top" align="left" rowspan="2" colspan="2">
+<div id="win0divCU_CLS_RSL_WRK_CU_SSR_UNITS_RANGE$1"><span id="CU_CLS_RSL_WRK_CU_SSR_UNITS_RANGE$1" class="PSEDITBOX_DISPONLY">3</span>
+</div></td>
+</tr>
+<tr>
+<td height="12" colspan="2"></td>
+<td valign="top" align="left" colspan="2">
+<div id="win0divCU_CLS_RSL_WRK_CU_SSR_ENRL_RES$1"><span id="CU_CLS_RSL_WRK_CU_SSR_ENRL_RES$1" class="PSEDITBOX_DISPONLY">N</span>
+</div></td>
+<td valign="top" align="left">
+<div id="win0divCU_CLS_RSL_WRK_CU_SSR_CNSNT_REQ$1"><span id="CU_CLS_RSL_WRK_CU_SSR_CNSNT_REQ$1" class="PSEDITBOX_DISPONLY">N</span>
+</div></td>
+<td valign="top" align="right" colspan="2">
+<div id="win0divCU_CLS_RSL_WRK_AVAILABLE_SEATS$1"><span id="CU_CLS_RSL_WRK_AVAILABLE_SEATS$1" class="PSEDITBOX_DISPONLY">13</span>
+</div></td>
+<td valign="top" align="right" colspan="2">
+<div id="win0divCU_CLS_RSL_WRK_WAIT_TOT$1"><span id="CU_CLS_RSL_WRK_WAIT_TOT$1" class="PSEDITBOX_DISPONLY">0</span>
+</div></td>
+</tr>
+</tbody></table>
+</td></tr>
+</tbody></table>
+</div></td>
+</tr>
+<tr>
+<td height="7" colspan="5"></td>
+</tr>
+</tbody></table>
+</td></tr>
+</tbody></table>
+</div></td>
+</tr>
+</tbody></table>
+</td></tr>
+</tbody></table>
+</div></td>
+</tr>
+<tr>
+<td height="4" colspan="3"></td>
+</tr>
+<tr>
+<td height="122"></td>
+<td valign="top" align="left">
+<div id="win0divSSR_CLSRSLT_WRK_GROUPBOX2$2"><table width="669" cellspacing="0" cellpadding="2" class="PABACKGROUNDINVISIBLEWBO" cols="1">
+<tbody><tr><td align="left" class="SSSGROUPBOXDKBLUENBO"><div id="win0divSSR_CLSRSLT_WRK_GROUPBOX2GP$2"><a aria-expanded="true" href="javascript:submitAction_win0(document.win0,'SSR_CLSRSLT_WRK_GROUPBOX2$2');" tabindex="1599" id="SSR_CLSRSLT_WRK_GROUPBOX2$2" name="SSR_CLSRSLT_WRK_GROUPBOX2$2" title="Collapse section ASIA 4840 - Independent Study" class="PSHYPERLINK PTCOLLAPSE_ARROW"><img border="0" title="Collapse section" alt="Collapse section ASIA 4840 - Independent Study" src="/cs/csprod/cache/PS_COLLAPSE_ICN_1.gif" /></a> ASIA 4840 - Independent Study </div></td></tr>
+<tr><td width="667">
+<table width="667" cellspacing="0" cellpadding="0" border="0" style="border-style:none" class="PABACKGROUNDINVISIBLE" cols="3" id="ACE_SSR_CLSRSLT_WRK_GROUPBOX2$2" role="presentation">
+<tbody><tr>
+<td width="0" height="0"></td>
+<td width="666"></td>
+<td width="2"></td>
+</tr>
+<tr>
+<td height="110"></td>
+<td valign="top" align="left">
+<div id="win0div$ICField48$2"><table width="666" cellspacing="0" cellpadding="2" onclick="getScrollTableId('$ICField48$scroll$2')" id="$ICField48$scroll$2" class="PABACKGROUNDINVISIBLEWBO" cols="1">
+<tbody><tr><td width="664">
+<table width="664" cellspacing="0" cellpadding="0" border="0" style="border-style:none" class="PABACKGROUNDINVISIBLE" cols="5" id="ACE_$ICField48$2" role="presentation">
+<tbody><tr>
+<td width="0" height="3"></td>
+<td width="4"></td>
+<td width="492"></td>
+<td width="167"></td>
+<td width="2"></td>
+</tr>
+<tr>
+<td height="48"></td>
+<td valign="top" align="left" colspan="3">
+<div id="win0divSSR_CLSRSLT_WRK_GROUPBOX3$2"><table width="663" cellspacing="0" cellpadding="2" class="PABACKGROUNDINVISIBLEWBO" cols="1">
+<tbody><tr><td width="661">
+<table width="661" cellspacing="0" cellpadding="0" border="0" style="border-style:none" class="PABACKGROUNDINVISIBLE" cols="3" id="ACE_SSR_CLSRSLT_WRK_GROUPBOX3$2" role="presentation">
+<tbody><tr>
+<td width="0" height="0"></td>
+<td width="660"></td>
+<td width="2"></td>
+</tr>
+<tr>
+<td height="39"></td>
+<td valign="top" align="left">
+<div id="win0divSSR_CLSRCH_MTG1$2">
+<table width="660" cellspacing="0" cellpadding="2" cols="8" dir="ltr" id="SSR_CLSRCH_MTG1$scroll$2" class="PSLEVEL1GRIDNBONBO">
+<tbody><tr>
+<th width="30" align="left" class="PSLEVEL1GRIDCOLUMNHDR" abbr="Class" scope="col">Class</th>
+<th width="80" align="left" class="PSLEVEL1GRIDCOLUMNHDR" abbr="Section" scope="col">Section</th>
+<th width="98" align="left" class="PSLEVEL1GRIDCOLUMNHDR" abbr="Days &amp; Times" scope="col">Days &amp; Times</th>
+<th width="91" align="left" class="PSLEVEL1GRIDCOLUMNHDR" abbr="Room" scope="col">Room</th>
+<th width="98" align="left" class="PSLEVEL1GRIDCOLUMNHDR" abbr="Instructor" scope="col">Instructor</th>
+<th width="98" align="left" class="PSLEVEL1GRIDCOLUMNHDR" abbr="Meeting Dates" scope="col">Meeting Dates</th>
+<th width="64" align="left" class="PSLEVEL1GRIDCOLUMNHDR" abbr="Status" scope="col">Status</th>
+<th width="52" align="left" class="PSLEVEL1GRIDCOLUMNHDR" scope="col"> </th>
+</tr>
+<tr valign="center" onmouseout="hoverLightTR('rgb(249,254,203)','',1,'trSSR_CLSRCH_MTG1$2_row1');" onmouseover="hoverLightTR('rgb(249,254,203)','',0,'trSSR_CLSRCH_MTG1$2_row1');" onclick="HighLightTR('rgb(212,219,217)','','trSSR_CLSRCH_MTG1$2_row1');" id="trSSR_CLSRCH_MTG1$2_row1">
+<td align="left" height="20" class="PSLEVEL3GRIDROW">
+<div id="win0divMTG_CLASS_NBR$2"><span title="Class Nbr" class="PSHYPERLINK" id="MTG_CLASS_NBR$span$2"><a class="PSHYPERLINK" href="javascript:submitAction_win0(document.win0,'MTG_CLASS_NBR$2');" onclick="javascript:cancelBubble(event);" tabindex="1626" ptlinktgt="pt_peoplecode" id="MTG_CLASS_NBR$2" name="MTG_CLASS_NBR$2">24371</a></span>
+</div></td>
+<td align="left" class="PSLEVEL3GRIDROW">
+<div id="win0divMTG_CLASSNAME$2"><span title="View Details" class="PSHYPERLINK" id="MTG_CLASSNAME$span$2"><a class="PSHYPERLINK" href="javascript:submitAction_win0(document.win0,'MTG_CLASSNAME$2');" onclick="javascript:cancelBubble(event);" tabindex="1627" ptlinktgt="pt_peoplecode" id="MTG_CLASSNAME$2" name="MTG_CLASSNAME$2">901-IND<br />Boulder Main Campus Semester</a></span>
+</div></td>
+<td align="left" class="PSLEVEL3GRIDROW">
+<div id="win0divMTG_DAYTIME$2"><span id="MTG_DAYTIME$2" class="PSLONGEDITBOX">TBA</span>
+</div></td>
+<td align="left" class="PSLEVEL3GRIDROW">
+<div id="win0divMTG_ROOM$2"><span id="MTG_ROOM$2" class="PSLONGEDITBOX">TBA</span>
+</div></td>
+<td align="left" class="PSLEVEL3GRIDROW">
+<div id="win0divMTG_INSTR$2"><span id="MTG_INSTR$2" class="PSLONGEDITBOX">Staff</span>
+</div></td>
+<td align="left" class="PSLEVEL3GRIDROW">
+<div id="win0divMTG_TOPIC$2"><span id="MTG_TOPIC$2" class="PSLONGEDITBOX">08/22/2016 - 12/09/2016</span>
+</div></td>
+<td align="left" class="PSLEVEL3GRIDROW">
+<div id="win0divDERIVED_CLSRCH_SSR_STATUS_LONG$2"><div style="min-width:64px; ">
+<!-- Begin HTML Area Name Undisclosed -->
+<img width="16" height="16" class="SSSIMAGECENTER" alt="Open" src="/cs/csprod/cache/PS_CS_STATUS_OPEN_ICN_1.gif" />
+<!-- End HTML Area -->
+</div>
+</div></td>
+<td align="left" class="PSLEVEL3GRIDROW">
+<div id="win0divSSR_PB_SELECT$2"><span title="Select Class" class="SSSBUTTON_ACTIONLINK" id="SSR_PB_SELECT$span$2"><a class="SSSBUTTON_ACTIONLINK" href="javascript:submitAction_win0(document.win0,'SSR_PB_SELECT$2');" onclick="javascript:cancelBubble(event);" tabindex="1633" ptlinktgt="pt_peoplecode" id="SSR_PB_SELECT$2" name="SSR_PB_SELECT$2">Select</a></span>
+</div></td>
+</tr>
+</tbody></table>
+</div>
+</td>
+</tr>
+<tr>
+<td height="3" colspan="3"></td>
+</tr>
+</tbody></table>
+</td></tr>
+</tbody></table>
+</div></td>
+</tr>
+<tr>
+<td height="4" colspan="5"></td>
+</tr>
+<tr>
+<td height="47" colspan="2"></td>
+<td valign="top" align="left">
+<div id="win0divCU_CLS_RSL_WRK_GROUPBOX$2"><table width="491" cellspacing="0" cellpadding="2" class="PSGROUPBOXWBO" cols="1">
+<tbody><tr><td width="489">
+<table width="489" cellspacing="0" cellpadding="0" border="0" style="border-style:none" class="PSGROUPBOX" cols="12" id="ACE_CU_CLS_RSL_WRK_GROUPBOX$2" role="presentation">
+<tbody><tr>
+<td width="7" height="0"></td>
+<td width="5"></td>
+<td width="47"></td>
+<td width="17"></td>
+<td width="59"></td>
+<td width="21"></td>
+<td width="34"></td>
+<td width="21"></td>
+<td width="30"></td>
+<td width="42"></td>
+<td width="30"></td>
+<td width="176"></td>
+</tr>
+<tr>
+<td height="13" colspan="3"></td>
+<td valign="top" align="left" rowspan="2" colspan="2">
+<div id="win0divCU_CLS_RSL_WRK_CU_SSR_ENRL_RESlbl$2"><span class="PSEDITBOXLABEL">Enrollment <br />Restriction</span> </div></td>
+<td valign="top" align="left" rowspan="3" colspan="3">
+<div id="win0divCU_CLS_RSL_WRK_CU_SSR_CNSNT_REQlbl$2"><span class="PSEDITBOXLABEL">Consent<br /> Required</span> </div></td>
+<td valign="top" align="left" rowspan="3" colspan="2">
+<div id="win0divCU_CLS_RSL_WRK_AVAILABLE_SEATSlbl$2"><span class="PSEDITBOXLABEL">Available<br /> Seats</span> </div></td>
+<td valign="top" align="left" rowspan="3" colspan="2">
+<div id="win0divCU_CLS_RSL_WRK_WAIT_TOTlbl$2"><span class="PSEDITBOXLABEL">Wait List <br />Total</span> </div></td>
+</tr>
+<tr>
+<td height="11"></td>
+<td valign="top" align="left" colspan="2">
+<div id="win0divCU_CLS_RSL_WRK_CU_SSR_UNITS_RANGElbl$2"><span class="PSEDITBOXLABEL">Units</span> </div></td>
+</tr>
+<tr>
+<td height="4" colspan="2"></td>
+<td valign="top" align="left" rowspan="2" colspan="2">
+<div id="win0divCU_CLS_RSL_WRK_CU_SSR_UNITS_RANGE$2"><span id="CU_CLS_RSL_WRK_CU_SSR_UNITS_RANGE$2" class="PSEDITBOX_DISPONLY">1 - 3</span>
+</div></td>
+</tr>
+<tr>
+<td height="12" colspan="2"></td>
+<td valign="top" align="left" colspan="2">
+<div id="win0divCU_CLS_RSL_WRK_CU_SSR_ENRL_RES$2"><span id="CU_CLS_RSL_WRK_CU_SSR_ENRL_RES$2" class="PSEDITBOX_DISPONLY">Y</span>
+</div></td>
+<td valign="top" align="left">
+<div id="win0divCU_CLS_RSL_WRK_CU_SSR_CNSNT_REQ$2"><span id="CU_CLS_RSL_WRK_CU_SSR_CNSNT_REQ$2" class="PSEDITBOX_DISPONLY">Y</span>
+</div></td>
+<td valign="top" align="right" colspan="2">
+<div id="win0divCU_CLS_RSL_WRK_AVAILABLE_SEATS$2"><span id="CU_CLS_RSL_WRK_AVAILABLE_SEATS$2" class="PSEDITBOX_DISPONLY">97</span>
+</div></td>
+<td valign="top" align="right" colspan="2">
+<div id="win0divCU_CLS_RSL_WRK_WAIT_TOT$2"><span id="CU_CLS_RSL_WRK_WAIT_TOT$2" class="PSEDITBOX_DISPONLY">0</span>
+</div></td>
+</tr>
+</tbody></table>
+</td></tr>
+</tbody></table>
+</div></td>
+</tr>
+<tr>
+<td height="7" colspan="5"></td>
+</tr>
+</tbody></table>
+</td></tr>
+</tbody></table>
+</div></td>
+</tr>
+</tbody></table>
+</td></tr>
+</tbody></table>
+</div></td>
+</tr>
+</tbody></table>
+</td></tr>
+</tbody></table>
+</div></td>
+</tr>
+</tbody></table>
+</td></tr>
+</tbody></table>
+</div></td>
+</tr>
+<tr>
+<td height="8" colspan="21"></td>
+</tr>
+<tr>
+<td height="21" colspan="8"></td>
+<td valign="top" align="left" colspan="3">
+<div id="win0div$ICField$6$"><table width="147" cellspacing="0" cellpadding="2" class="PABACKGROUNDINVISIBLEWBO" cols="1">
+<tbody><tr><td width="145">
+<table width="145" cellspacing="0" cellpadding="0" border="0" style="border-style:none" class="PABACKGROUNDINVISIBLE" cols="2" id="ACE_$ICField$6$" role="presentation">
+<tbody><tr>
+<td width="3" height="9"></td>
+<td width="142"></td>
+</tr>
+<tr>
+<td height="10"></td>
+<td valign="top" align="left">
+<div id="win0divCLASS_SRCH_WRK2_SSR_PB_NEW_SEARCH$4$"><span title="Start a New Search" class="SSSBUTTON_CONFIRMLINK" id="CLASS_SRCH_WRK2_SSR_PB_NEW_SEARCH$4$$span"><a class="SSSBUTTON_CONFIRMLINK" href="javascript:submitAction_win0(document.win0,'CLASS_SRCH_WRK2_SSR_PB_NEW_SEARCH$4$');" onclick="javascript:cancelBubble(event);" tabindex="2116" ptlinktgt="pt_peoplecode" id="CLASS_SRCH_WRK2_SSR_PB_NEW_SEARCH$4$" name="CLASS_SRCH_WRK2_SSR_PB_NEW_SEARCH$4$">New Search</a></span>
+</div></td>
+</tr>
+</tbody></table>
+</td></tr>
+</tbody></table>
+</div></td>
+<td valign="top" align="left" colspan="4">
+<div id="win0div$ICField$7$"><table width="155" cellspacing="0" cellpadding="2" class="PABACKGROUNDINVISIBLEWBO" cols="1">
+<tbody><tr><td width="153">
+<table width="153" cellspacing="0" cellpadding="0" border="0" style="border-style:none" class="PABACKGROUNDINVISIBLE" cols="2" id="ACE_$ICField$7$" role="presentation">
+<tbody><tr>
+<td width="7" height="9"></td>
+<td width="146"></td>
+</tr>
+<tr>
+<td height="10"></td>
+<td valign="top" align="left">
+<div id="win0divCLASS_SRCH_WRK2_SSR_PB_MODIFY$6$"><span class="SSSBUTTON_CONFIRMLINK" id="CLASS_SRCH_WRK2_SSR_PB_MODIFY$6$$span"><a class="SSSBUTTON_CONFIRMLINK" href="javascript:submitAction_win0(document.win0,'CLASS_SRCH_WRK2_SSR_PB_MODIFY$6$');" onclick="javascript:cancelBubble(event);" tabindex="2117" ptlinktgt="pt_peoplecode" id="CLASS_SRCH_WRK2_SSR_PB_MODIFY$6$" name="CLASS_SRCH_WRK2_SSR_PB_MODIFY$6$">Modify Search</a></span>
+</div></td>
+</tr>
+</tbody></table>
+</td></tr>
+</tbody></table>
+</div></td>
+</tr>
+<tr>
+<td height="10" colspan="21"></td>
+</tr>
+<tr>
+<td height="122" colspan="2"></td>
+<td valign="top" align="left" colspan="18">
+<div id="win0divDERIVED_CLSRCH_SSR_GROUP_FTR1"><table width="671" cellspacing="0" cellpadding="2" class="PABACKGROUNDINVISIBLEWBO" cols="1">
+<tbody><tr><td width="669">
+<table width="669" cellspacing="0" cellpadding="0" border="0" style="border-style:none" class="PABACKGROUNDINVISIBLE" cols="3" id="ACE_DERIVED_CLSRCH_SSR_GROUP_FTR1" role="presentation">
+<tbody><tr>
+<td width="3" height="0"></td>
+<td width="652"></td>
+<td width="14"></td>
+</tr>
+<tr>
+<td height="100"></td>
+<td valign="top" align="left">
+<div id="win0divDERIVED_SSTSNAV_GROUP_BOX$19$"><table width="651" cellspacing="0" cellpadding="2" class="PABACKGROUNDINVISIBLEWBO" cols="1">
+<tbody><tr><td width="649">
+<table width="649" cellspacing="0" cellpadding="0" border="0" style="border-style:none" class="PABACKGROUNDINVISIBLE" cols="9" id="ACE_DERIVED_SSTSNAV_GROUP_BOX$19$" role="presentation">
+<tbody><tr>
+<td width="3" height="0"></td>
+<td width="2"></td>
+<td width="2"></td>
+<td width="2"></td>
+<td width="36"></td>
+<td width="218"></td>
+<td width="362"></td>
+<td width="2"></td>
+<td width="22"></td>
+</tr>
+<tr>
+<td height="13" colspan="2"></td>
+<td valign="top" align="left" colspan="5">
+<hr width="100%" align="left" class="PSHORIZONTALRULE" />
+</td>
+</tr>
+<tr>
+<td height="20" colspan="3"></td>
+<td valign="top" align="left" colspan="5">
+<div id="win0divDERIVED_SSTSNAV_SSS_FOOTER_LINKS"><div style="width:620px; ">
+<!-- Begin HTML Area Name Undisclosed -->
+<table cellspacing="0" cellpadding="0" border="0"><tbody><tr><td> </td>
+<td><a class="SSSFOOTERLINKBOLD" href="/psc/csprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?Page=SSR_CLSRCH_ENTRY&amp;Action=U">Search</a></td>
+<td> </td>
+<td> </td><td> </td>
+<td><a class="SSSFOOTERLINKBOLD" href="/psc/csprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.SSR_SSENRL_CART.GBL?Page=SSR_SSENRL_CART&amp;Action=A">Enroll</a></td>
+<td> </td>
+<td> </td><td> </td>
+<td><a class="SSSFOOTERLINKBOLD" href="/psc/csprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.SSS_MY_ACAD.GBL?Page=SSS_MY_ACAD&amp;Action=U">My Academics</a></td>
+<td> </td>
+<td> </td><td> </td>
+<td><a class="SSSFOOTERLINKBOLD" href="/psc/csprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CU_SS_COF.GBL?Page=CU_SSR_COF_ALRT&amp;Action=U">Cof Authorization/Review</a></td>
+<td> </td>
+<td> </td></tr></tbody></table>
+<!-- End HTML Area -->
+</div>
+</div></td>
+</tr>
+<tr>
+<td height="19" colspan="3"></td>
+<td valign="top" align="left" colspan="5">
+<div id="win0divDERIVED_SSTSNAV_SSS_SUBFOOT_LINKS"><div style="width:620px; ">
+<!-- Begin HTML Area Name Undisclosed -->
+<table cellspacing="0" cellpadding="0" border="0"><tbody><tr><td> </td>
+<td><a class="SSSFOOTERLINK" href="/psc/csprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?Page=SSR_CLSRCH_ENTRY&amp;Action=U">Search For Classes</a></td>
+<td> </td>
+<td> </td><td> </td>
+<td><a class="SSSFOOTERLINK" href="/psc/csprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.SSS_BROWSE_CATLG_P.GBL?Page=SSS_BROWSE_CATLG&amp;Action=U">Browse Course Catalog</a></td>
+<td> </td>
+<td> </td></tr></tbody></table>
+<!-- End HTML Area -->
+</div>
+</div></td>
+</tr>
+<tr>
+<td height="8" colspan="4"></td>
+<td valign="top" align="left">
+<div id="win0div$ICField$15$"><table width="36" cellspacing="0" cellpadding="2" class="PABACKGROUNDINVISIBLEWBO" cols="1">
+<tbody><tr><td width="34" height="6">
+</td></tr>
+</tbody></table>
+</div></td>
+</tr>
+<tr>
+<td height="28"></td>
+<td valign="top" align="left" colspan="5">
+<div id="win0divDERIVED_SSTSNAV_SSTS_MAIN_GOTO$16$"><table width="259" cellspacing="0" cellpadding="2" class="PABACKGROUNDINVISIBLEWBO" cols="1">
+<tbody><tr><td width="257">
+<table width="257" cellspacing="0" cellpadding="0" border="0" style="border-style:none" class="PABACKGROUNDINVISIBLE" cols="5" id="ACE_DERIVED_SSTSNAV_SSTS_MAIN_GOTO$16$" role="presentation">
+<tbody><tr>
+<td width="0" height="0"></td>
+<td width="74"></td>
+<td width="3"></td>
+<td width="148"></td>
+<td width="32"></td>
+</tr>
+<tr>
+<td height="1" colspan="4"></td>
+<td nowrap="nowrap" valign="top" align="left" rowspan="3">
+<div id="win0divDERIVED_SSTSNAV_GO$8$"><a href="javascript:submitAction_win0(document.win0,'DERIVED_SSTSNAV_GO$8$');" onclick="javascript:cancelBubble(event);" tabindex="2123" role="button" id="DERIVED_SSTSNAV_GO$8$" name="DERIVED_SSTSNAV_GO$8$"><img border="0" title="Navigate to selected option" alt="Navigate to selected option" name="DERIVED_SSTSNAV_GO$8$$IMG" src="/cs/csprod/cache/PT_NAV_GO_1.gif" /></a>
+</div></td>
+</tr>
+<tr>
+<td height="3" colspan="3"></td>
+<td valign="top" align="left" rowspan="2">
+<div id="win0divDERIVED_SSTSNAV_SSTS_MAIN_GOTO$8$"><select psnchg="0" onkeydown="if ((typeof isLoaderInProcess == 'function') &amp;&amp; isLoaderInProcess() &amp;&amp; ptCommonObj2!=null) { ptCommonObj2.terminateEvent(event); } " onchange="addchg_win0(this);return doEdits_win0(this,'','N','N','N','N','Y','Y',0);" style="width:148px; " class="PSDROPDOWNLIST" size="1" tabindex="2122" id="DERIVED_SSTSNAV_SSTS_MAIN_GOTO$8$" name="DERIVED_SSTSNAV_SSTS_MAIN_GOTO$8$">
+<option value="0300">Account Inquiry</option>
+<option value="0200">My Academics</option>
+<option selected="selected" value="0100">Student Center</option>
+</select>
+</div></td>
+</tr>
+<tr>
+<td height="19"></td>
+<td valign="top" align="right">
+<div id="win0divDERIVED_SSTSNAV_SSTS_MAIN_GOTO$8$lbl"><label class="PSDROPDOWNLABEL" id="DERIVED_SSTSNAV_SSTS_MAIN_GOTO$8$_LBL" for="DERIVED_SSTSNAV_SSTS_MAIN_GOTO$8$">Quick Links</label>
+</div></td>
+</tr>
+</tbody></table>
+</td></tr>
+</tbody></table>
+</div></td>
+</tr>
+<tr>
+<td height="7" colspan="9"></td>
+</tr>
+</tbody></table>
+</td></tr>
+</tbody></table>
+</div></td>
+</tr>
+<tr>
+<td height="9" colspan="3"></td>
+</tr>
+</tbody></table>
+</td></tr>
+</tbody></table>
+</div></td>
+</tr>
+<tr>
+<td height="4" colspan="21"></td>
+</tr>
+</tbody></table>
+</div>
+</td></tr>
+</tbody></table>
+<div id="pt_dragtxt" class="x"></div><div onmbouseover="ptGridResizeObj_win0.dragTD=true;" onmouseout="ptGridResizeObj_win0.dragTD=false;" id="pt_dragResize" onmousemove="ptGridResizeObj_win0.TDselMove();" onmouseup="ptGridResizeObj_win0.TDselUp();"></div></div>
+<div id="win0divPSPANELTABLINKS" class="ps_box-pagetabs"></div>
+<div frameborder="0" width="0" height="0" id="DetachDiv"></div>
+<a id="ICLastAnchor_win0" name="ICLastAnchor_win0"></a>
+
+<!-- Embedded Help popup Begin -->
+<div style="display:none; position:absolute; top:0; left:0" id="HelppopupDiv_win0">t</div>
+<div class="popupDragFrame" id="HelpDragFrame_win0"> </div><table width="20" cellspacing="0" cellpadding="0" border="0" style="opacity: 1; display: none; position: absolute; top: 0px; left: 0px; visibility: hidden;" id="HelppopupContainer_win0">
+<tbody><tr>
+<td valign="top" align="left" style="position:absolute;z-Index:302;" class="HelppopupInner" id="HelppopupInner_win0">
+<div style="width:341px" class="PTPOPUP_HEADER HelppopupTitleBar" id="HelppopupTitleBar_win0"><div id="HelppopupTitleBarLeftImage"></div><div dir="ltr" class="HelppopupTitleBarMiddle" style="width:333px" id="HelppopupTitleBarMiddle_win0">
+<table>
+<tbody><tr><td style="width:290px; cursor: move;" id="HelppopupTitle_win0"><span class="PTPOPUP_TITLE">Help</span></td>
+<td style="width:45px"><img align="right" src="/cs/csprod/cache/PT_PORTAL_IC_CLOSE_1.gif" onclick='HelppopupObj_win0.StopPopup("win0");' alt="Close" title="Close" style="cursor:pointer" id="#HELPPOPUPCLOSE" /></td>
+</tr></tbody></table>
+</div><div id="HelppopupTitleBarRightImage"></div></div><div style="border: 1px #bcbaba solid; padding:12px; overflow:auto;" onclick="HelppopupObj_win0.SetFocusFlag(false);" tabindex="-1" class="MOBGImage HelpdivpopupFrame" id="HelpdivpopupFrame_win0">test</div><div style="position:absolute;z-index:-1;" class="popupShadow" id="HelppopupShadow"><div style="height:10px;" class="popupShadowTopRightCorner" id="HelppopupShadowTopRightCorner"> </div><div class="popupShadowTop" id="HelppopupShadowTop"> </div><div style="height:10px" class="popupShadowBottom" id="HelppopupShadowBottom"><div style="height:10px;width:10px" class="popupShadowBottomLeftCorner" id="HelppopupShadowBottomLeftCorner"> </div><div style="height:10px;" class="popupShadowBottomMiddle" id="HelppopupShadowBottomMiddle"> </div><div style="height:10px;width:10px" class="popupShadowBottomRightCorner" id="HelppopupShadowBottomRightCorner"> </div></div></div></td>
+</tr>
+</tbody></table>
+<!-- Embedded Help popup End  -->
+<div style="display:none;" id="ptus_universalSrch"><span>Default Local Node:</span><input type="text" value="ICSPRD" id="ptus_defaultlocalnode" name="ptus_defaultlocalnode" readonly="readonly" /><br /><span>DbName:</span><input type="text" value="ICSPRD" id="ptus_dbname" name="ptus_dbname" readonly="readonly" /><br /><span>Portal:</span><input type="text" value="UCB2" id="ptus_portal" name="ptus_portal" readonly="readonly" /><br /><span>Node:</span><input type="text" value="HRMS" id="ptus_node" name="ptus_node" readonly="readonly" /><br /><span>WorkCenter Id:</span><input type="text" value="" id="ptus_workcenterid" name="ptus_workcenterid" readonly="readonly" /><br /><span>Url:</span><input type="text" value="https://isis-cs.prod.cu.edu/psp/csprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL" id="ptus_componenturl" name="ptus_componenturl" readonly="readonly" /><br /></div></form>
+<div class="popupDragFrame" id="popupDragFrame"> </div>
+<!-- Mouse-over popup Begin -->
+<table width="20" cellspacing="0" cellpadding="0" border="0" onmouseout="MOpopupObj_win0.StopPopup();" onmouseover="MOpopupObj_win0.StartPopup('win0MOpopupContainer', '');" style="display:none; position:absolute; top:0; left:0;" id="win0MOpopupContainer"><tbody><tr>
+<td width="20" valign="top" align="left" height="25" class="MOBGImage" id="win0MOpopupInner">
+<div style="overflow:auto; width:20px; height: 60px; padding:8px; box-shadow:0 0 5px #000000; background-color:white; border: 1px solid #666666;" onclick="MOpopupObj_win0.SetFocusFlag(false);" tabindex="-1" id="win0MOdivpopupFrame">test</div></td>
+</tr>
+</tbody></table>
+<!-- Mouse-over popup End  -->
+
+<script language="JavaScript">
+var nMaxSavedStates=5;
+var sHistURL="https://isis-cs.prod.cu.edu/psc/csprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?page=SSR_CLSRCH_ENTRY&amp;Page=SSR_CLSRCH_ENTRY&amp;PortalActualURL=https://isis-cs.prod.cu.edu/psc/csprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?Page=SSR_CLSRCH_ENTRY&amp;PortalContentURL=https://isis-cs.prod.cu.edu/psc/csprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL&amp;PortalContentProvider=HRMS&amp;PortalCRefLabel=Class%20Search%20(Active)&amp;PortalRegistryName=UCB2&amp;PortalServletURI=https://portal.prod.cu.edu/psp/epprod/&amp;PortalURI=https://portal.prod.cu.edu/psc/epprod/&amp;PortalHostNode=ENTP&amp;NoCrumbs=yes&amp;PortalKeyStruct=yes";
+var bHtml5Doc = true;
+var bClearBackState=false;
+var bPageTransfered=false;
+var bTransferAnimate=false;
+var bCleanHtml = false;
+var bDefer = true;
+document.deferFldArr_win0 = new Array();
+document.hiddenFldArr_win0 =new Array('ICType','ICElementNum','ICStateNum','ICAction','ICXPos','ICYPos','ResponsetoDiffFrame','TargetFrameName','FacetPath','ICFocus','ICSaveWarningFilter','ICChanged','ICAutoSave','ICResubmit','ICSID','ICActionPrompt','ICBcDomData','ICFind','ICAddCount','ICAPPCLSDATA');
+document.chgFldArr_win0 = new Array();
+AddToHistory('Criteria Entry', '', '', 'SSR_CLSRCH_ENTRY', 1, 0, 1, 0,  0);
+var bCleanHtml = false;
+var bDefer = true;
+document.hiddenFldArr_win0 =new Array('ICType','ICElementNum','ICStateNum','ICAction','ICXPos','ICYPos','ResponsetoDiffFrame','TargetFrameName','FacetPath','ICFocus','ICSaveWarningFilter','ICChanged','ICAutoSave','ICResubmit','ICSID','ICActionPrompt','ICBcDomData','ICFind','ICAddCount','ICAPPCLSDATA');
+document.chgFldArr_win0 = new Array();
+var bCDATA = false;
+var bAccessibleLayout = false;
+var bLoadCompleted = true;
+</script>
+</body></html>
