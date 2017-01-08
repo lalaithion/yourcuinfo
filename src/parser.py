@@ -4,6 +4,8 @@ from html.parser import HTMLParser
 from string import printable
 import json
 import departments_list
+from os import listdir
+from os.path import isfile, join
 
 class Section():
     def __init__(self,data):
@@ -52,7 +54,7 @@ class Course():
             data["type"] = "other"
             self.sections["other"].append(Section(data))
         else:
-            print(data["section"][-3:])
+            pass#print(data["section"][-3:])
     def __repr__(self):
         rep = "Course("
         rep += self.identifier + " - " + self.name
@@ -145,7 +147,26 @@ class MyHTMLParser(HTMLParser):
 
 
 def jsonify(filename):
+    assert(filename.endswith(".html"))
     with open(filename, "r") as f:
         parser = MyHTMLParser(False)
         parser.feed(f.read())
         return parser.json()
+
+def jsonify_dir(dirpath):
+    class_info = []
+    for f in listdir(dirpath):
+        filepath = join(dirpath, f)
+        if isfile(filepath):
+            if filepath.endswith(".html"):
+                print("Reading file:", filepath)
+                class_info.append(jsonify(filepath))
+        else:
+            print("Reading dir:", filepath)
+            class_info.extend(jsonify_dir(filepath))
+    return class_info
+			
+root = "../raw_html/"
+classes = jsonify_dir(root)
+with open('classes.json', 'w') as outfile:
+    json.dump(classes, outfile)

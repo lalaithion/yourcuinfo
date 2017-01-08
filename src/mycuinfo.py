@@ -52,17 +52,17 @@ url = "https://portal.prod.cu.edu/psp/epprod/UCB2/ENTP/h/?tab=DEFAULT"
 ukeys = input("User: ").strip('\n')
 pkeys = getpass.getpass()
 
-loginTimer = 5 # time for login to complete
+loginTimer = 7 # time for login to complete
 searchTimer = 10 # time for search to complete
 minDropdownTimer = 3 # minimum time for dropdown to open
 maxDropdownTimer = 15 # maximum time for dropdown to open
 
 date = strftime("%Y-%m-%d", gmtime())
-filepath = "../raw_html/" + date + "/"
+filepath = "../raw_html/" + "backlog" + "/" #date + "/"
 newDir(filepath)
 log = open(filepath + "log.txt", 'a+')
 log.write("{0}\n{1}: Beggining new data harvest\n".format(date, strftime("%H:%M", gmtime())))
-for current in departments_list.departments:
+for current in ["APRD", "CESR", "CHEN", "EMEN", "GSLL"]:#departments_list.departments:
 	try:
 		driver = login(ukeys, pkeys)
 	except Exception as err:
