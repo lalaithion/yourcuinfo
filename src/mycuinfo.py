@@ -25,8 +25,19 @@ def login(ukeys, pkeys):
     return driver
 
 def runSearch(driver):
-	driver.find_element_by_link_text('Search for Classes').click()
-
+	timer = 0
+	maxTimer = 5
+	while True:
+		try:
+			driver.find_element_by_link_text('Search for Classes').click()
+			break
+		except Exception:
+			if timer <= maxTimer:
+				time.sleep(1)
+				timer += 1
+			else:
+				raise
+			
 	time.sleep(3)
 
 	driver.switch_to_frame("ptifrmtgtframe")
@@ -58,11 +69,12 @@ minDropdownTimer = 3 # minimum time for dropdown to open
 maxDropdownTimer = 15 # maximum time for dropdown to open
 
 date = strftime("%Y-%m-%d", gmtime())
-filepath = "../raw_html/" + "backlog" + "/" #date + "/"
+filepath = "../raw_html/" + "errors" + "/" #date + "/"
 newDir(filepath)
-log = open(filepath + "log.txt", 'a+')
+log = open(filepath + "scrape.log", 'w+')
 log.write("{0}\n{1}: Beggining new data harvest\n".format(date, strftime("%H:%M", gmtime())))
-for current in ["APRD", "CESR", "CHEN", "EMEN", "GSLL"]:#departments_list.departments:
+for current in ["CHEM", "ECEN", "GRTE", "IPHY", "PHYS", "PMUS", "THTR"]:#departments_list.departments:
+	error = False
 	try:
 		driver = login(ukeys, pkeys)
 	except Exception as err:
@@ -79,23 +91,39 @@ for current in ["APRD", "CESR", "CHEN", "EMEN", "GSLL"]:#departments_list.depart
 		driver.close()
 		continue
 
-	time.sleep(searchTimer)
+	# wait for arrows to appear
+	while True:
+		time.sleep(1)
+		numCourses = len(driver.find_elements_by_class_name("PTEXPAND_ARROW"))
+		try:
+			warning = driver.find_element_by_id("DERIVED_CLSMSG_ERROR_TEXT")
+			log.write("{0}: Search for {1} unable to complete: {2}\n".format(strftime("%H:%M", gmtime()), current, warning.text))
+			error = True
+			break
+		except Exception:
+			pass
+		if numCourses:
+			break
+
+	if error:
+		driver.close()
+		continue
 
 	try:
-		dropdownTimer = minDropdownTimer
-		previousLenButtons = 0
-		while True:
-			time.sleep(dropdownTimer)
+		numButtons = previousNumButtons = numCourses
+		while numButtons > 0:
 			buttons = driver.find_elements_by_class_name("PTEXPAND_ARROW")
-			if len(buttons) == 0:
-				break
-			if len(buttons) == previousLenButtons:
-				if dropdownTimer <= maxDropdownTimer:
-					dropdownTimer += 1
-				else:
-					raise Exception("Unable to open dropdown")
-			previousLenButtons = len(buttons)
 			buttons[0].click()
+			# wait for dropdowns to open before trying to re-click the buttons
+			timer = 0
+			while numButtons == previousNumButtons:
+				if timer <= maxDropdownTimer:
+					time.sleep(1)
+					timer += 1
+					numButtons = len(driver.find_elements_by_class_name("PTEXPAND_ARROW"))
+				else:
+					raise Exception("Unable to open dropdown: timeout")
+			previousNumButtons = numButtons
 	except Exception as err:
 		log.write("Error during parsing of {0}:\n  {1}\n".format(current, err))
 		driver.close()

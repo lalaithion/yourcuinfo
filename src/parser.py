@@ -2,6 +2,7 @@
 
 from html.parser import HTMLParser
 from string import printable
+from time import strftime, gmtime
 import json
 import departments_list
 from os import listdir
@@ -153,6 +154,10 @@ def jsonify(filename):
         parser.feed(f.read())
         return parser.json()
 
+date = strftime("%Y-%m-%d", gmtime())
+log = open("parse.log", 'a+')
+log.write("{0}\n{1}: Beginning parse:\n".format(date, strftime("%H:%M", gmtime())))
+errors = False
 def jsonify_dir(dirpath):
     class_info = []
     for f in listdir(dirpath):
@@ -160,13 +165,25 @@ def jsonify_dir(dirpath):
         if isfile(filepath):
             if filepath.endswith(".html"):
                 print("Reading file:", filepath)
-                class_info.append(jsonify(filepath))
+                try:
+                    info = jsonify(filepath)
+                    if not info:
+                        raise Exception("Unable to parse file")
+                    class_info.append(info)
+                except Exception as err:
+                    errors = True
+                    log.write("Error during parsing of {0}:\n  {1}\n".format(filepath, err))
+                    
         else:
             print("Reading dir:", filepath)
             class_info.extend(jsonify_dir(filepath))
     return class_info
-			
+
 root = "../raw_html/"
 classes = jsonify_dir(root)
 with open('classes.json', 'w') as outfile:
     json.dump(classes, outfile)
+    
+log.write("{0}: Parse finished\n".format(strftime("%H:%M", gmtime())))
+log.close()
+print("Parse finished with no errors" if not errors else "Parse finished with errors")
