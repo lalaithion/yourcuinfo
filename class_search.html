@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+
+<html lang="en-US">
+
+<head>
+	<meta charset="UTF-8" />
+	<title>YourCUInfo</title>
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css"></link>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+	<script src="datatables.js"></script>
+</head>
+
+<body style="margin: 0px;">
+<div style="font-family: sans-serif; font-size: 45px; color: #FFF; background: #000; height: 55px; padding: 10px; padding-right: 25px; padding-left: 25px;">
+	<a style="float: left; text-decoration: none; color: #FFF;" href="index.html">
+		<
+	</a>
+	<b style="float: right;">Your<span style="color: #A67C00">CU</span>Info</b>
+</div>
+<div style="margin-top: 10px; margin-left: 10px; border-radius: 15px 50px; background: #EEE; padding: 20px; float: left; width: 70%;">
+<table id="example" class="display" cellspacing="0" width="100%">
+<thead>
+    <tr>
+        <th>Course Code</th>
+        <th>Name</th>
+        <th>Time</th>
+        <th>Seats</th>
+        <th>Waitlist</th>
+        <th>Units</th>
+    </tr>
+</thead>
+<tfoot>
+    <tr>
+        <th>Course Code</th>
+        <th>Name</th>
+        <th>Time</th>
+        <th>Seats</th>
+        <th>Waitlist</th>
+        <th>Units</th>
+    </tr>
+</tfoot>
+</table>
+
+</div>
+<div style="margin-top: 10px; margin-right: 10px; border-radius: 15px 50px; background: #EEE; padding: 20px; float: right; width: 20%;">
+	Possible classes:
+	<textarea id="class-filter" rows="5" style="resize: none; width: 100%;"></textarea>
+	<div id="errors">
+
+	</div>
+</div>
+</body>
+</html>
