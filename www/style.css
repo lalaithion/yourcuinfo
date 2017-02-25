@@ -1,0 +1,36 @@
+#header {
+  font-family: sans-serif;
+  font-size: 45px;
+  color: #FFF;
+  background: #000;
+  height: 55px;
+  padding: 10px;
+  padding-right: 25px;
+  padding-left: 25px;
+}
+
+#table-div {
+  margin-top: 10px;
+  margin-left: 10px;
+  border-radius: 15px 50px;
+  background: #EEE;
+  padding: 20px;
+  float: left;
+  width: 20%;
+}
+
+#calendar {
+  float: right;
+  margin: 10px;
+  width: 40%;
+}
+
+#class-search {
+  margin-top: 10px;
+  margin-right: 10px;
+  border-radius: 15px 50px;
+  background: #EEE;
+  padding: 20px;
+  float: right;
+  width: 20%;
+}
