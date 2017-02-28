@@ -11,6 +11,11 @@ import departments_list
 import os
 import errno
 
+url = "https://portal.prod.cu.edu/psp/epprod/UCB2/ENTP/h/?tab=DEFAULT" # mycuinfo url
+loginTimer = 7 # time for login to complete
+searchTimer = 10 # time for search to complete
+maxDropdownTimer = 15 # maximum time for dropdown to open
+depts = ["CHEM", "ECEN", "GRTE", "IPHY", "PHYS", "PMUS", "THTR"]#departments_list.departments
 
 def login(ukeys, pkeys):
     driver = webdriver.Chrome()
@@ -57,12 +62,6 @@ def newDir(path):
     except OSError as exception:
         if exception.errno != errno.EEXIST:
             raise
-
-url = "https://portal.prod.cu.edu/psp/epprod/UCB2/ENTP/h/?tab=DEFAULT" # mycuinfo url
-loginTimer = 7 # time for login to complete
-searchTimer = 10 # time for search to complete
-maxDropdownTimer = 15 # maximum time for dropdown to open
-depts = ["CHEM", "ECEN", "GRTE", "IPHY", "PHYS", "PMUS", "THTR"]#departments_list.departments
 
 def main():
 	ukeys = input("User: ").strip('\n')
