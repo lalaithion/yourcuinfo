@@ -9,26 +9,37 @@
   padding-left: 25px;
 }
 
+.search {
+  width: 50%;
+}
+
+#settings {
+  margin-top: 10px;
+  float: left;
+}
+
 #table-div {
   margin-top: 10px;
   margin-left: 10px;
-  border-radius: 15px 50px;
+  border-radius: 15px;
   background: #EEE;
   padding: 20px;
   float: left;
-  width: 20%;
+  width: 50%;
 }
 
 #calendar {
   float: right;
-  margin: 10px;
+  margin-top: -25px;
+  margin-left: 10px;
+  margin-right: 10px;
   width: 40%;
 }
 
 #class-search {
   margin-top: 10px;
   margin-right: 10px;
-  border-radius: 15px 50px;
+  border-radius: 15px;
   background: #EEE;
   padding: 20px;
   float: right;
