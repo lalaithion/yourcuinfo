@@ -154,10 +154,6 @@ def jsonify(filename):
         parser.feed(f.read())
         return parser.json()
 
-date = strftime("%Y-%m-%d", gmtime())
-log = open("parse.log", 'a+')
-log.write("{0}\n{1}: Beginning parse:\n".format(date, strftime("%H:%M", gmtime())))
-errors = False
 def jsonify_dir(dirpath):
     class_info = []
     for f in listdir(dirpath):
@@ -179,11 +175,20 @@ def jsonify_dir(dirpath):
             class_info.extend(jsonify_dir(filepath))
     return class_info
 
-root = "../raw_html/"
-classes = jsonify_dir(root)
-with open('classes.json', 'w') as outfile:
-    json.dump(classes, outfile)
-    
-log.write("{0}: Parse finished\n".format(strftime("%H:%M", gmtime())))
-log.close()
-print("Parse finished with no errors" if not errors else "Parse finished with errors")
+def main():
+    date = strftime("%Y-%m-%d", gmtime())
+    log = open("parse.log", 'a+')
+    log.write("{0}\n{1}: Beginning parse:\n".format(date, strftime("%H:%M", gmtime())))
+    errors = False
+
+    root = "../raw_html/"
+    classes = jsonify_dir(root)
+    with open('classes.json', 'w') as outfile:
+        json.dump(classes, outfile)
+        
+    log.write("{0}: Parse finished\n".format(strftime("%H:%M", gmtime())))
+    log.close()
+    print("Parse finished with no errors" if not errors else "Parse finished with errors")
+
+if __name__ == "__main__":
+    main()
