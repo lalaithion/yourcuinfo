@@ -181,7 +181,7 @@ def main():
     log.write("{0}\n{1}: Beginning parse:\n".format(date, strftime("%H:%M", gmtime())))
     errors = False
 
-    root = "../raw_html/"
+    root = "../mycuinfo_html/" + date + "/"
     classes = jsonify_dir(root)
     with open('classes.json', 'w') as outfile:
         json.dump(classes, outfile)

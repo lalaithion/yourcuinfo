@@ -11,7 +11,6 @@ import departments_list
 import os
 import errno
 
-depts = ["CHEM"]#, "ECEN", "GRTE", "IPHY", "PHYS", "PMUS", "THTR"]#departments_list.departments
 date = strftime("%Y-%m-%d", gmtime())
 store = '../catalog_html/'
 url = 'http://www.colorado.edu/catalog/2016-17/courses?subject='
@@ -23,7 +22,7 @@ def newDir(path):
         if exception.errno != errno.EEXIST:
             raise
 
-def main():
+def main(depts):
     path = store + date + '/'
     newDir(path)
     for dept in depts:
@@ -47,4 +46,4 @@ def main():
         driver.close()
 
 if __name__ == "__main__":
-    main()
+    main(["CHEM", "CSCI", "APPM"])
