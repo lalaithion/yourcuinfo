@@ -25,7 +25,6 @@ def main(depts):
     path = store + date + '/'
     newDir(path)
     for dept in depts:
-        print(dept)
         driver = webdriver.Chrome()
         driver.implicitly_wait(10)
         driver.get(url + dept)

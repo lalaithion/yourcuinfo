@@ -183,8 +183,8 @@ def main():
 
     root = "../mycuinfo_html/" + date + "/"
     classes = jsonify_dir(root)
-    with open('classes.json', 'w') as outfile:
-        json.dump(classes, outfile)
+    with open('../json/classes.json', 'w') as outfile:
+        json.dump(classes, outfile, indent=4, separators=(',', ': '))
         
     log.write("{0}: Parse finished\n".format(strftime("%H:%M", gmtime())))
     log.close()

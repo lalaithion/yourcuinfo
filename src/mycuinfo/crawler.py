@@ -88,17 +88,17 @@ def main(depts):
             driver.close()
             continue
 
-        time.sleep(3)
+        time.sleep(10)
 
         # wait for arrows to appear
         try:
-            numCourses = driver.find_element_by_id("CU_CLS_RSL_WRK_CU_SSR_EXPAND_ALL")
+            numCourses = driver.find_element_by_id("CU_CLS_RSL_WRK_CU_SSR_EXPAND_ALL").click()
         except Exception as err:
             log.write("Error expanding all arrows in {0}:\n  {1}\n".format(current, err))
             driver.close()
             continue
 
-        time.sleep(10)
+        time.sleep(2)
 
         try:
             with open(filepath + current + ".html", 'w') as f:
