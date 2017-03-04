@@ -1,5 +1,5 @@
-# SeeYouInfo
+# YourCUInfo
 
-This is a tool for viewing MyCUInfo data in a more readable format.
+This is an unofficial replacement for viewing classes on MyCUInfo. Visit us at yourcuinfo.com.
 
-It is currently barely written!
+Contact us at yourcuinfo@gmail.com
