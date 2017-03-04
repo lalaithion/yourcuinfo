@@ -2,10 +2,10 @@
 
 import mycuinfo.crawler as crawler
 import mycuinfo.parser as parser
-from departments_list import test_departments
+from departments_list import departments
 
 def mcui():
-    crawler.main(test_departments)
+    crawler.main(departments)
     parser.main()
     
 if __name__ == "__main__":
