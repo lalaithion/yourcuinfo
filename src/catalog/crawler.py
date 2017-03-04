@@ -7,7 +7,6 @@ from selenium.webdriver.common.keys import Keys
 import getpass
 import time
 from time import strftime, gmtime
-import departments_list
 import os
 import errno
 
@@ -27,7 +26,7 @@ def main(depts):
     newDir(path)
     for dept in depts:
         print(dept)
-        driver = webdriver.Firefox()
+        driver = webdriver.Chrome()
         driver.implicitly_wait(10)
         driver.get(url + dept)
         i = 0
@@ -38,6 +37,7 @@ def main(depts):
             print(filepath)
             with open(filepath, 'wb') as f:
                 f.write(driver.page_source.encode())
+            time.sleep(1)
             try:
                 link = driver.find_element_by_class_name("pager-next")
                 link.click()

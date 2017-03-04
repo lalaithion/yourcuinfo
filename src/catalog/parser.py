@@ -1,6 +1,7 @@
 from html.parser import HTMLParser
 from string import printable
 from time import strftime, gmtime
+from collections import defaultdict
 import json
 from os import listdir
 from os.path import isfile, join
@@ -68,7 +69,7 @@ class MyHTMLParser(HTMLParser):
             self.fields[self.current] = printable_data
 
     def json(self):
-        return {i.dept + i.number:i.json() for i in self.courses}
+        return {i.number:i.json() for i in self.courses}
 
 def jsonify(filename):
     assert(filename.endswith(".html"))
@@ -79,23 +80,22 @@ def jsonify(filename):
     return j
 
 def jsonify_dir(dirpath):
-    class_info = []
+    class_info = defaultdict(dict)
+    last = ''
     for f in listdir(dirpath):
         filepath = join(dirpath, f)
         if isfile(filepath):
             if filepath.endswith(".html"):
                 print("Reading file:", filepath)
                 try:
-                    print("Hello world")
                     info = jsonify(filepath)
-                    print("Goodbye world")
                     if not info:
                         raise Exception("Unable to parse file")
-                    class_info.append(info)
+                    dept = filepath.split('/')[-1].split('.')[0][:4]
+                    class_info[dept].update(info)
                 except Exception as err:
                     errors = True
                     log.write("Error during parsing of {0}:\n  {1}\n".format(filepath, str(err)))
-                    
         else:
             print("Reading dir:", filepath)
             class_info.extend(jsonify_dir(filepath))
