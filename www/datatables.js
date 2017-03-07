@@ -1,6 +1,6 @@
 function format ( d ) {
     // `d` is the original data object for the row
-    console.log(d)
+    // console.log(d)
     return `<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">
             <thead>
               <td>Type</td>
@@ -9,8 +9,8 @@ function format ( d ) {
               <td>Waitlist</td>
               <td>Teacher</td>
             </thead>`+
-    d.slice(4).reduce( function(acc, n) { return acc +
-      `<tr>
+    d.slice(4).reduce( function(acc, n, i) { return acc +
+      `<tr class="child" id="${d[0]}-${i}">
         <td>${n[0]}</td>
         <td>${n[1]}</td>
         <td>${n[2]}</td>
@@ -68,35 +68,45 @@ $(document).ready(function() {
   $('#table tbody').on('click', 'tr', function (e) {
     var tr = $(this).closest('tr');
     var row = table.row( tr );
+    if(tr[0].className == "") return;
+    if(tr[0].className.indexOf("child") != -1) {
+      // return;
+      id = tr[0].id;
+      dt = formatDays(tr[0].children[1].innerHTML);
+      // console.log(id, dt);
+      if (selected[id] === undefined) {
+        selected[id] = dt[0].map(function (date) {
+          var event = $('#calendar').fullCalendar('renderEvent', {
+            id: id,
+            start: `${date}T${dt[1]}`,
+            end: `${date}T${dt[2]}`,
+          }, true);
+          return event[0];
+        })
+      } else {
+        selected[id].forEach((event) => $('#calendar').fullCalendar( 'removeEvents', event._id));
+        selected[id] = undefined;
+      }
 
-    if ( row.child.isShown() ) {
-      // This row is already open - close it
-      row.child.hide();
-      tr.removeClass('shown');
+      $(this).toggleClass('selected');
     }
     else {
-      // Open this row
-      row.child( format(row.data()) ).show();
-      tr.addClass('shown');
+      if ( row.child.isShown() ) {
+        // This row is already open - close it
+        row.child.hide();
+        tr.removeClass('shown');
+      }
+      else {
+        // Open this row
+        // console.log(row)
+        row.child( format(row.data()) ).show();
+        row.child().hover(function(){
+          $(this).css("background-color", "white");
+        });
+        tr.addClass('shown');
+      }
     }
 
-    // title = this.childNodes[0].innerHTML;
-    // dt = formatDays(this.childNodes[2].innerHTML);
-    // if (selected[title] === undefined) {
-    //   selected[title] = dt[0].map(function (date) {
-    //     var event = $('#calendar').fullCalendar('renderEvent', {
-    //       title: title,
-    //       start: `${date}T${dt[1]}`,
-    //       end: `${date}T${dt[2]}`,
-    //     }, true);
-    //     return event[0];
-    //   })
-    // } else {
-    //   selected[title].forEach((event) => $('#calendar').fullCalendar( 'removeEvents', event._id));
-    //   selected[title] = undefined;
-    // }
-    //
-    // $(this).toggleClass('selected');
   });
 
   $('#code-search').on( 'keyup change', function () {
