@@ -1,3 +1,39 @@
+function format ( d ) {
+    // `d` is the original data object for the row
+    console.log(d)
+    return `<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">
+            <thead>
+              <td>Type</td>
+              <td>Time</td>
+              <td>Seats</td>
+              <td>Waitlist</td>
+              <td>Teacher</td>
+            </thead>`+
+    d.slice(4).reduce( function(acc, n) { return acc +
+      `<tr>
+        <td>${n[0]}</td>
+        <td>${n[1]}</td>
+        <td>${n[2]}</td>
+        <td>${n[3]}</td>
+        <td>${n[4]}</td>
+      </tr>` }, '') +
+    `</table>`;
+}
+
+// Turns a myCUinfo-style date/time ("TuTh 2:00-2:50") into a fullCalendar-style date/time ("2014-06-09T14:50"). If you have to dig through it I am very sorry.
+function formatDays(classDays) {
+  days = [ { day: "Mo", date: "09" }, { day: "Tu", date: "10" }, { day: "We", date: "11" }, { day: "Th", date: "12" }, { day: "Fr", date: "13" } ];
+  var dates = days.reduce(function(acc, val) {
+    return (classDays.indexOf(val.day) == -1) ? acc : acc.concat(`2014-06-${val.date}`);
+  }, []);
+  times = classDays.match(/(\d{1,2}):(\d{2})(.M) - (\d{1,2}):(\d{2})(.M)/);
+  startHour = String(Number(times[1]) + ((times[3] == "PM" && times[1] != "12") ? 12 : 0));
+  endHour = String(Number(times[4]) + ((times[6] == "PM" && times[4] != "12") ? 12 : 0));
+  start = `${(startHour.length > 1)?'':'0'}${startHour}:${times[2]}`;
+  end = `${(endHour.length > 1)?'':'0'}${endHour}:${times[5]}`;
+  return [dates, start, end];
+}
+
 $(document).ready(function() {
   $('#calendar').fullCalendar({
     header: {
@@ -17,23 +53,8 @@ $(document).ready(function() {
     events: []
   });
 
-  days = [ { day: "Mo", date: "09" }, { day: "Tu", date: "10" }, { day: "We", date: "11" }, { day: "Th", date: "12" }, { day: "Fr", date: "13" } ];
-
-  // Turns a myCUinfo-style date/time ("TuTh 2:00-2:50") into a fullCalendar-style date/time ("2014-06-09T14:50"). If you have to dig through it I am very sorry.
-  function formatDays(classDays) {
-    var dates = days.reduce(function(acc, val) {
-      return (classDays.indexOf(val.day) == -1) ? acc : acc.concat(`2014-06-${val.date}`);
-    }, []);
-    times = classDays.match(/(\d{1,2}):(\d{2})(.M) - (\d{1,2}):(\d{2})(.M)/);
-    startHour = String(Number(times[1]) + ((times[3] == "PM" && times[1] != "12") ? 12 : 0));
-    endHour = String(Number(times[4]) + ((times[6] == "PM" && times[4] != "12") ? 12 : 0));
-    start = `${(startHour.length > 1)?'':'0'}${startHour}:${times[2]}`;
-    end = `${(endHour.length > 1)?'':'0'}${endHour}:${times[5]}`;
-    return [dates, start, end];
-  }
-
   var table = $('#table').DataTable({
-    "ajax": "class_data.txt",
+    "ajax": "data_test.json",
     "scrollY": "400px",
     "scrollCollapse": true,
     "paging": false,
@@ -45,23 +66,37 @@ $(document).ready(function() {
 
   var selected = {};
   $('#table tbody').on('click', 'tr', function (e) {
-    title = this.childNodes[0].innerHTML;
-    dt = formatDays(this.childNodes[2].innerHTML);
-    if (selected[title] === undefined) {
-      selected[title] = dt[0].map(function (date) {
-        var event = $('#calendar').fullCalendar('renderEvent', {
-          title: title,
-          start: `${date}T${dt[1]}`,
-          end: `${date}T${dt[2]}`,
-        }, true);
-        return event[0];
-      })
-    } else {
-      selected[title].forEach((event) => $('#calendar').fullCalendar( 'removeEvents', event._id));
-      selected[title] = undefined;
+    var tr = $(this).closest('tr');
+    var row = table.row( tr );
+
+    if ( row.child.isShown() ) {
+      // This row is already open - close it
+      row.child.hide();
+      tr.removeClass('shown');
+    }
+    else {
+      // Open this row
+      row.child( format(row.data()) ).show();
+      tr.addClass('shown');
     }
 
-    $(this).toggleClass('selected');
+    // title = this.childNodes[0].innerHTML;
+    // dt = formatDays(this.childNodes[2].innerHTML);
+    // if (selected[title] === undefined) {
+    //   selected[title] = dt[0].map(function (date) {
+    //     var event = $('#calendar').fullCalendar('renderEvent', {
+    //       title: title,
+    //       start: `${date}T${dt[1]}`,
+    //       end: `${date}T${dt[2]}`,
+    //     }, true);
+    //     return event[0];
+    //   })
+    // } else {
+    //   selected[title].forEach((event) => $('#calendar').fullCalendar( 'removeEvents', event._id));
+    //   selected[title] = undefined;
+    // }
+    //
+    // $(this).toggleClass('selected');
   });
 
   $('#code-search').on( 'keyup change', function () {

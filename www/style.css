@@ -45,3 +45,10 @@
   float: right;
   width: 20%;
 }
+
+/*table.dataTable.display tbody tr.child {
+    background: white;
+}*/
+.child {
+  background: #f6f6f6;
+}
