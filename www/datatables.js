@@ -1,7 +1,9 @@
-function format ( d ) {
+function format ( d, selected, filter ) {
     // `d` is the original data object for the row
     // console.log(d)
-    return `<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">
+    return `<i>Description:</i><br>
+            <div style="padding-left:25px">${d[3]}</div>
+            <table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">
             <thead>
               <td>Type</td>
               <td>Time</td>
@@ -9,8 +11,10 @@ function format ( d ) {
               <td>Waitlist</td>
               <td>Teacher</td>
             </thead>`+
-    d.slice(4).reduce( function(acc, n, i) { return acc +
-      `<tr class="child" id="${d[0]}-${i}">
+    d.slice(4).reduce( function(acc, n, i) {
+      id = `${d[0]}-${i}`;
+      return acc +
+      `<tr class="${selected[id]!=undefined ? "child selected" : "child" }" id="${id}">
         <td>${n[0]}</td>
         <td>${n[1]}</td>
         <td>${n[2]}</td>
@@ -32,6 +36,17 @@ function formatDays(classDays) {
   start = `${(startHour.length > 1)?'':'0'}${startHour}:${times[2]}`;
   end = `${(endHour.length > 1)?'':'0'}${endHour}:${times[5]}`;
   return [dates, start, end];
+}
+
+function getColor(type) {
+  switch(type) {
+    case "Lecture":
+        return "#774444";
+    case "Recitation":
+        return "#447744";
+    default:
+        return "grey";
+  }
 }
 
 $(document).ready(function() {
@@ -78,8 +93,10 @@ $(document).ready(function() {
         selected[id] = dt[0].map(function (date) {
           var event = $('#calendar').fullCalendar('renderEvent', {
             id: id,
+            title: `${tr[0].id.substr(0,9)}`,
             start: `${date}T${dt[1]}`,
             end: `${date}T${dt[2]}`,
+            color: getColor( tr[0].children[0].innerHTML ),
           }, true);
           return event[0];
         })
@@ -99,7 +116,7 @@ $(document).ready(function() {
       else {
         // Open this row
         // console.log(row)
-        row.child( format(row.data()) ).show();
+        row.child( format(row.data(), selected) ).show();
         row.child().hover(function(){
           $(this).css("background-color", "white");
         });

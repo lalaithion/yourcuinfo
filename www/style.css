@@ -18,6 +18,12 @@
   float: left;
 }
 
+#settings {
+  /*background: white;*/
+  padding: 5px;
+  /*width: 100%;*/
+}
+
 #table-div {
   margin-top: 10px;
   margin-left: 10px;
