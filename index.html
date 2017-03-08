@@ -21,12 +21,16 @@
 	<b style="float: right;">Your<span style="color: #A67C00">CU</span>Info<i style="font-size: 50%; color: #A67C00">BETA</i></b>
 </div>
 <div id="table-div">
+	<div id="settings">
+		<input type="text" id="code-search" placeholder="Search by course code"/>
+		<input type="text" id="name-search" placeholder="Search by course name"/>
+		<input type="checkbox" id="display-full"/><label>Hide classes without seats</label>
+	</div>
   <table id="table" class="display" cellspacing="0" width="100%">
   <thead>
       <tr>
           <th>Course Code</th>
           <th>Name</th>
-					<th>Units</th>
 					<th>Status</th>
           <!-- <th>Time</th>
           <th>Seats</th>
@@ -46,11 +50,6 @@
   </tfoot> -->
   </table>
 
-	<div id="settings">
-		<input type="checkbox" id="display-full"/><label>Hide classes without seats</label><br/>
-		<input type="text" id="code-search" placeholder="Search by course code"/><br/>
-		<input type="text" id="name-search" placeholder="Search by course name"/>
-	</div>
 </div>
 <div id="calendar"></div>
 

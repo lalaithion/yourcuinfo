@@ -2,16 +2,16 @@ function format ( d, selected, filter ) {
     // `d` is the original data object for the row
     // console.log(d)
     return `<i>Description:</i><br>
-            <div style="padding-left:25px">${d[4]}</div>
+            <div style="padding-left:25px">${d[3]}</div>
             <table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">
             <thead>
               <td>Type</td>
               <td>Time</td>
               <td>Seats</td>
               <td>Waitlist</td>
-              <td>Teacher</td>
+              <td>Instructor</td>
             </thead>`+
-    d.slice(5).reduce( function(acc, n, i) {
+    d.slice(6).reduce( function(acc, n, i) {
       id = `${d[0]}-${i}`;
       return acc +
       `<tr class="${selected[id]!=undefined ? "child selected" : "child" }" id="${id}">
@@ -40,9 +40,9 @@ function formatDays(classDays) {
 
 function getColor(type) {
   switch(type) {
-    case "Lecture":
+    case "lecture":
         return "#774444";
-    case "Recitation":
+    case "recitation":
         return "#447744";
     default:
         return "grey";
@@ -69,8 +69,8 @@ $(document).ready(function() {
   });
 
   var table = $('#table').DataTable({
-    "ajax": "data_test.json",
-    "scrollY": "400px",
+    "ajax": "class_data.json",
+    "scrollY": "500px",
     "scrollCollapse": true,
     "paging": false,
     "deferRender": true,
@@ -142,9 +142,8 @@ $(document).ready(function() {
     if (target.target.checked) {
       $.fn.dataTable.ext.search.push(
         function( settings, data, dataIndex ) {
-          var seats = parseFloat( data[3] ) || 0;
-
-          return seats > 0;
+          return data[2] == "open";
+          // return seats > 0;
         }
       );
     }
