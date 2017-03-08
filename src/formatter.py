@@ -43,6 +43,5 @@ def main():
                 classes.append('["{0}","{1}","{2}","{3}",{4},{5},{6}]'.format(code, name, status, description, seats, waitlist, sections))
     classList = ',\n'.join(classes)
     outfile.write('{{"data":[\n{0}\n]}}'.format(classList))
-
 if __name__ == "__main__":
     main()
