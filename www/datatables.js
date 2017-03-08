@@ -2,7 +2,7 @@ function format ( d, selected, filter ) {
     // `d` is the original data object for the row
     // console.log(d)
     return `<i>Description:</i><br>
-            <div style="padding-left:25px">${d[3]}</div>
+            <div style="padding-left:25px">${d[4]}</div>
             <table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">
             <thead>
               <td>Type</td>
@@ -11,7 +11,7 @@ function format ( d, selected, filter ) {
               <td>Waitlist</td>
               <td>Teacher</td>
             </thead>`+
-    d.slice(4).reduce( function(acc, n, i) {
+    d.slice(5).reduce( function(acc, n, i) {
       id = `${d[0]}-${i}`;
       return acc +
       `<tr class="${selected[id]!=undefined ? "child selected" : "child" }" id="${id}">
