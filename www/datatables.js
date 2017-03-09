@@ -1,6 +1,6 @@
 // Helper function that creates the child rows.
 function format ( d, selected, filters ) {
-    header = `<div style="padding-left:25px"><i>Description:</i><br/>${d[3]}</div>
+    header = `<div style="padding-left:25px">${d[3]}</div>
     <table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">
     <thead>
       <td>Type</td>
