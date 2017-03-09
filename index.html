@@ -20,51 +20,48 @@
 <div id="header">
 	<b>Your<span style="color: #A67C00">CU</span>Info<i style="font-size: 50%; color: #A67C00">BETA</i></b>
 </div>
-<hr style="width: 80%; align: center;"/>
-<div id="table-div">
+<hr style="width: 80%; margin-top: 5px;"/>
+<div id="table-main">
 	<div id="settings">
 		<input type="text" id="code-search" placeholder="Search by course code"/>
 		<input type="text" id="name-search" placeholder="Search by course name"/>
+		<br/>
 		<input type="checkbox" id="display-full"/><label>Hide classes without seats</label>
 		<input type="checkbox" id="display-selected"/><label>Show selected</label>
 	</div>
-  <table id="table" class="display" cellspacing="0" width="100%">
-  <thead>
-      <tr>
-          <th>Course Code</th>
-          <th>Name</th>
-          <th>Status</th>
-          <th>Description</th>
-          <!-- <th>Time</th>
-          <th>Seats</th>
-          <th>Waitlist</th>
-          <th>Units</th> -->
-      </tr>
-  </thead>
-  <!-- <tfoot>
-      <tr>
-          <th>Course Code</th>
-          <th>Name</th>
-          <th>Time</th>
-          <th>Seats</th>
-          <th>Waitlist</th>
-          <th>Units</th>
-      </tr>
-  </tfoot> -->
-  </table>
-
-</div>
-<div id="calendar"></div>
-
-<!-- <div style="margin-top: 10px; margin-right: 10px; border-radius: 15px 50px; background: #EEE; padding: 20px; float: right; width: 20%;">
-	Possible classes:
-	<textarea id="class-filter" rows="5" style="resize: none; width: 100%;"></textarea>
-	<div id="errors">
+	<div id="table-wrap">
+	  <table id="table" class="display" cellspacing="0" width="100%">
+	  <thead>
+	      <tr>
+	          <th>Course Code</th>
+	          <th>Name</th>
+	          <th>Status</th>
+	          <th>Description</th>
+	          <!-- <th>Time</th>
+	          <th>Seats</th>
+	          <th>Waitlist</th>
+	          <th>Units</th> -->
+	      </tr>
+	  </thead>
+	  <!-- <tfoot>
+	      <tr>
+	          <th>Course Code</th>
+	          <th>Name</th>
+	          <th>Time</th>
+	          <th>Seats</th>
+	          <th>Waitlist</th>
+	          <th>Units</th>
+	      </tr>
+	  </tfoot> -->
+	  </table>
 
 	</div>
-</div> -->
-
-
+</div>
+<div id="calendar-main">
+	<div id="calendar-wrap">
+		<div id="calendar"></div>
+	</div>
+</div>
 </body>
 
 <script>

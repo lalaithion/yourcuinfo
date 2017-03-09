@@ -4,34 +4,49 @@
   /*color: #FFF;*/
   /*background: #000;*/
   height: 55px;
+  margin-bottom: 0px;
+  padding-bottom: 0px;
   padding-top: 10px;
   padding-right: 15px;
   padding-left: 15px;
-  align: center;
+  text-align: center;
 }
 
-#settings {
-  margin-top: 10px;
-  float: left;
-}
-
-#table-div {
-  margin-top: 10px;
-  margin-left: 10px;
-  border-radius: 15px;
-  background: #EEE;
-  padding-left: 20px;
-  padding-right: 20px;
+#table-main {
   float: left;
   width: 50%;
 }
 
-#calendar {
+#settings {
+  margin: 0px 10px 10px 10px;
+  border-radius: 15px;
+  padding: 10px 10px 10px 10px;
+  /*background: #E6DAC0;*/
+  background: #EEE;
+}
+
+#table-wrap {
+  margin: 10px 10px 0px 10px;
+  border-radius: 15px;
+  padding: 0px 10px 10px 10px;
+  /*background: #E6DAC0;*/
+  background: #EEE;
+}
+
+#calendar-main {
   float: right;
+  width: 50%;
+}
+
+#calendar-wrap {
+  background: #EEE;
+  margin: 0px 10px 0px 10px;
+  padding: 5px 10px 10px 10px;
+  border-radius: 15px;
+}
+
+#calendar {
   margin-top: -25px;
-  margin-left: 10px;
-  margin-right: 10px;
-  width: 40%;
 }
 
 #class-search {
