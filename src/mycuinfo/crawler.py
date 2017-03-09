@@ -7,15 +7,14 @@ from selenium.webdriver.common.keys import Keys
 import getpass
 import time
 from time import strftime, gmtime
-import departments_list
 import os
 import errno
 
 url = "https://portal.prod.cu.edu/psp/epprod/UCB2/ENTP/h/?tab=DEFAULT" # mycuinfo url
 login_timer = 10 # time for login to complete
-expand_timer = 2 # time for dropdown arrows to open
+expand_timer = 5 # time for dropdown arrows to open
 
-def find_elem(driver_func, name, max_timer = 15):
+def find_elem(driver_func, name, max_timer = 25):
     timer = 0
     while True:
         try:
@@ -42,7 +41,7 @@ def login(ukeys, pkeys):
     passwd.send_keys(Keys.RETURN)
     return driver
 
-def runSearch(driver, current):
+def runSearch(driver, current, second_time=False):
     find_elem(driver.find_element_by_link_text, 'Search for Classes').click()
 
     time.sleep(1)
@@ -71,11 +70,27 @@ def runSearch(driver, current):
 
     find_elem(driver.find_element_by_id,"SSR_CLSRCH_WRK_SUBJECT$1").send_keys(current)
     
+    # Chem has too many classes! AAAAAH
+    if current == "CHEM":
+        if second_time:
+            Select(
+                find_elem(driver.find_element_by_id, "SSR_CLSRCH_WRK_SSR_EXACT_MATCH1$2")
+            ).select_by_visible_text("greater than or equal to")
+        else:
+            Select(
+                find_elem(driver.find_element_by_id, "SSR_CLSRCH_WRK_SSR_EXACT_MATCH1$2")
+            ).select_by_visible_text("less than or equal to")
+        
+        time.sleep(1)
+        
+        find_elem(driver.find_element_by_id, "SSR_CLSRCH_WRK_CATALOG_NBR$2").send_keys("3000")
+    
     time.sleep(1)
     
     find_elem(driver.find_element_by_id,"CLASS_SRCH_WRK2_SSR_PB_CLASS_SRCH").click()
 
-def department(filepath, current, log, login_data):
+
+def department(filepath, current, log, login_data, second_time=False):
     
     print(current)
     try:
@@ -88,7 +103,7 @@ def department(filepath, current, log, login_data):
     time.sleep(login_timer)
 
     try:
-        runSearch(driver, current)
+        runSearch(driver, current, second_time)
     except Exception as err:
         log.write("Error getting to classes {0}:\n  {1}\n".format(current, err))
         driver.close()
@@ -113,13 +128,20 @@ def department(filepath, current, log, login_data):
     time.sleep(expand_timer)
 
     try:
+        if second_time:
+            current = current + '2'
         with open(filepath + current + ".html", 'w') as f:
             f.write(driver.page_source)
             f.close()
     except Exception as err:
         log.write("Error saving {0} to file:\n  {1}\n".format(current, err))
+        driver.close()
+        raise err
 
     driver.close()
+
+    if current == "CHEM" and not second_time:
+        department(filepath, current, log, login_data, True)
 
 def main(depts):
     ukeys = input("User: ").strip('\n')
@@ -137,14 +159,15 @@ def main(depts):
         try:
             department(filepath, current, log, login)
         except Exception as err:
+            raise err
             error = True
             continue
 
     log.write("{0}: Finished data harvest\n".format(strftime("%H:%M", gmtime())))
     log.close()
 
-    if error:
-        print("Scrape finished with Errors")
+    if not error:
+        print("Scrape finished with no Errors")
     else:
         print("!!! Scrape finished with Errors !!!")
 
@@ -179,4 +202,4 @@ def redo(depts):
             print("!!! Scrape finished with Errors !!!")
 
 if __name__ == "__main__":
-    main(["CHEM", "APPM", "CSCI"])
+    main(["CHEM"])
