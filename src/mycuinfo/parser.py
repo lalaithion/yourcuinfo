@@ -4,7 +4,6 @@ from html.parser import HTMLParser
 from string import printable
 from time import strftime, gmtime
 import json
-import departments_list
 from os import listdir
 from os.path import isfile, join
 
@@ -176,12 +175,12 @@ def jsonify_dir(dirpath):
     return class_info
 
 def main():
-    date = strftime("%Y-%m-%d", gmtime())
     log = open("parse.log", 'a+')
+    date = strftime("%Y-%m-%d", gmtime())
     log.write("{0}\n{1}: Beginning parse:\n".format(date, strftime("%H:%M", gmtime())))
     errors = False
 
-    root = "../mycuinfo_html/" + date + "/"
+    root = "../mycuinfo_html/"
     classes = jsonify_dir(root)
     with open('../json/classes.json', 'w') as outfile:
         json.dump(classes, outfile, indent=4, separators=(',', ': '))
