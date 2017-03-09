@@ -1,0 +1,488 @@
+2017-03-09
+05:01: Beggining new data harvest
+Error getting to classes AIRR:
+  Message: unknown error: Element <a href="https://portal.prod.cu.edu/psp/epprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?Page=SSR_CLSRCH_ENTRY" class="darkButton">...</a> is not clickable at point (155, 437). Other element would receive the click: <div id="div_loading_CU_ACADEMICS" class="ptoverlay ptoverlayshow" role="presentation">...</div>
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error getting to classes ANTH:
+  Message: unknown error: Element <a href="https://portal.prod.cu.edu/psp/epprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?Page=SSR_CLSRCH_ENTRY" class="darkButton">...</a> is not clickable at point (155, 437). Other element would receive the click: <div id="div_loading_CU_ACADEMICS" class="ptoverlay ptoverlayshow" role="presentation">...</div>
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error getting to classes APPM:
+  Message: unknown error: Element <a href="https://portal.prod.cu.edu/psp/epprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?Page=SSR_CLSRCH_ENTRY" class="darkButton">...</a> is not clickable at point (155, 437). Other element would receive the click: <div id="div_loading_CU_ACADEMICS" class="ptoverlay ptoverlayshow" role="presentation">...</div>
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error getting to classes ARSC:
+  Message: unknown error: Element <a href="https://portal.prod.cu.edu/psp/epprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?Page=SSR_CLSRCH_ENTRY" class="darkButton">...</a> is not clickable at point (155, 437). Other element would receive the click: <div id="div_loading_CU_ACADEMICS" class="ptoverlay ptoverlayshow" role="presentation">...</div>
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error getting to classes ARTF:
+  Message: unknown error: Element <a href="https://portal.prod.cu.edu/psp/epprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?Page=SSR_CLSRCH_ENTRY" class="darkButton">...</a> is not clickable at point (155, 437). Other element would receive the click: <div id="div_loading_CU_ACADEMICS" class="ptoverlay ptoverlayshow" role="presentation">...</div>
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error getting to classes ARTS:
+  Message: unknown error: Element <a href="https://portal.prod.cu.edu/psp/epprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?Page=SSR_CLSRCH_ENTRY" class="darkButton">...</a> is not clickable at point (155, 437). Other element would receive the click: <div id="div_loading_CU_ACADEMICS" class="ptoverlay ptoverlayshow" role="presentation">...</div>
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error getting to classes ASEN:
+  Message: unknown error: Element <a href="https://portal.prod.cu.edu/psp/epprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?Page=SSR_CLSRCH_ENTRY" class="darkButton">...</a> is not clickable at point (155, 437). Other element would receive the click: <div id="div_loading_CU_ACADEMICS" class="ptoverlay ptoverlayshow" role="presentation">...</div>
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error getting to classes ASIA:
+  Message: unknown error: Element <a href="https://portal.prod.cu.edu/psp/epprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?Page=SSR_CLSRCH_ENTRY" class="darkButton">...</a> is not clickable at point (155, 437). Other element would receive the click: <div id="div_loading_CU_ACADEMICS" class="ptoverlay ptoverlayshow" role="presentation">...</div>
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error getting to classes ATOC:
+  Message: unknown error: Element <a href="https://portal.prod.cu.edu/psp/epprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?Page=SSR_CLSRCH_ENTRY" class="darkButton">...</a> is not clickable at point (155, 437). Other element would receive the click: <div id="div_loading_CU_ACADEMICS" class="ptoverlay ptoverlayshow" role="presentation">...</div>
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error getting to classes BADM:
+  Message: unknown error: Element <a href="https://portal.prod.cu.edu/psp/epprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?Page=SSR_CLSRCH_ENTRY" class="darkButton">...</a> is not clickable at point (155, 437). Other element would receive the click: <div id="div_loading_CU_ACADEMICS" class="ptoverlay ptoverlayshow" role="presentation">...</div>
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error exapnding classes BAKR:
+  Message: no such element: Unable to locate element: {"method":"id","selector":"CU_CLS_RSL_WRK_CU_SSR_EXPAND_ALL"}
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error getting to classes BCOR:
+  Message: unknown error: Element <a href="https://portal.prod.cu.edu/psp/epprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?Page=SSR_CLSRCH_ENTRY" class="darkButton">...</a> is not clickable at point (155, 437). Other element would receive the click: <div id="div_loading_CU_ACADEMICS" class="ptoverlay ptoverlayshow" role="presentation">...</div>
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error getting to classes BMEN:
+  Message: unknown error: Element <a href="https://portal.prod.cu.edu/psp/epprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?Page=SSR_CLSRCH_ENTRY" class="darkButton">...</a> is not clickable at point (155, 437). Other element would receive the click: <div id="div_loading_CU_ACADEMICS" class="ptoverlay ptoverlayshow" role="presentation">...</div>
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error getting to classes BPOL:
+  Message: unknown error: Element <a href="https://portal.prod.cu.edu/psp/epprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?Page=SSR_CLSRCH_ENTRY" class="darkButton">...</a> is not clickable at point (155, 437). Other element would receive the click: <div id="div_loading_CU_ACADEMICS" class="ptoverlay ptoverlayshow" role="presentation">...</div>
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error getting to classes BSLW:
+  Message: unknown error: Element <a href="https://portal.prod.cu.edu/psp/epprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?Page=SSR_CLSRCH_ENTRY" class="darkButton">...</a> is not clickable at point (155, 437). Other element would receive the click: <div id="div_loading_CU_ACADEMICS" class="ptoverlay ptoverlayshow" role="presentation">...</div>
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error getting to classes BUSM:
+  Message: unknown error: Element <a href="https://portal.prod.cu.edu/psp/epprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?Page=SSR_CLSRCH_ENTRY" class="darkButton">...</a> is not clickable at point (155, 437). Other element would receive the click: <div id="div_loading_CU_ACADEMICS" class="ptoverlay ptoverlayshow" role="presentation">...</div>
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error getting to classes CAMW:
+  Message: unknown error: Element <a href="https://portal.prod.cu.edu/psp/epprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?Page=SSR_CLSRCH_ENTRY" class="darkButton">...</a> is not clickable at point (155, 437). Other element would receive the click: <div id="div_loading_CU_ACADEMICS" class="ptoverlay ptoverlayshow" role="presentation">...</div>
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error getting to classes CEES:
+  Message: unknown error: Element <a href="https://portal.prod.cu.edu/psp/epprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?Page=SSR_CLSRCH_ENTRY" class="darkButton">...</a> is not clickable at point (155, 437). Other element would receive the click: <div id="div_loading_CU_ACADEMICS" class="ptoverlay ptoverlayshow" role="presentation">...</div>
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error exapnding classes CHEM:
+  Message: no such element: Unable to locate element: {"method":"id","selector":"CU_CLS_RSL_WRK_CU_SSR_EXPAND_ALL"}
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error getting to classes CHEN:
+  Message: unknown error: Element <a href="https://portal.prod.cu.edu/psp/epprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?Page=SSR_CLSRCH_ENTRY" class="darkButton">...</a> is not clickable at point (155, 437). Other element would receive the click: <div id="div_loading_CU_ACADEMICS" class="ptoverlay ptoverlayshow" role="presentation">...</div>
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error getting to classes CHIN:
+  Message: unknown error: Element <a href="https://portal.prod.cu.edu/psp/epprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?Page=SSR_CLSRCH_ENTRY" class="darkButton">...</a> is not clickable at point (155, 437). Other element would receive the click: <div id="div_loading_CU_ACADEMICS" class="ptoverlay ptoverlayshow" role="presentation">...</div>
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error getting to classes CMCI:
+  Message: unknown error: Element <a href="https://portal.prod.cu.edu/psp/epprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?Page=SSR_CLSRCH_ENTRY" class="darkButton">...</a> is not clickable at point (155, 437). Other element would receive the click: <div id="div_loading_CU_ACADEMICS" class="ptoverlay ptoverlayshow" role="presentation">...</div>
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error getting to classes COEN:
+  Message: unknown error: Element <a href="https://portal.prod.cu.edu/psp/epprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?Page=SSR_CLSRCH_ENTRY" class="darkButton">...</a> is not clickable at point (155, 437). Other element would receive the click: <div id="div_loading_CU_ACADEMICS" class="ptoverlay ptoverlayshow" role="presentation">...</div>
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error getting to classes COMM:
+  Message: unknown error: Element <a href="https://portal.prod.cu.edu/psp/epprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?Page=SSR_CLSRCH_ENTRY" class="darkButton">...</a> is not clickable at point (155, 437). Other element would receive the click: <div id="div_loading_CU_ACADEMICS" class="ptoverlay ptoverlayshow" role="presentation">...</div>
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error getting to classes COMR:
+  Message: unknown error: Element <a href="https://portal.prod.cu.edu/psp/epprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?Page=SSR_CLSRCH_ENTRY" class="darkButton">...</a> is not clickable at point (155, 437). Other element would receive the click: <div id="div_loading_CU_ACADEMICS" class="ptoverlay ptoverlayshow" role="presentation">...</div>
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error getting to classes CSCI:
+  Message: unknown error: Element <a href="https://portal.prod.cu.edu/psp/epprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?Page=SSR_CLSRCH_ENTRY" class="darkButton">...</a> is not clickable at point (155, 437). Other element would receive the click: <div id="div_loading_CU_ACADEMICS" class="ptoverlay ptoverlayshow" role="presentation">...</div>
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error getting to classes CSVC:
+  Message: unknown error: Element <a href="https://portal.prod.cu.edu/psp/epprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?Page=SSR_CLSRCH_ENTRY" class="darkButton">...</a> is not clickable at point (155, 437). Other element would receive the click: <div id="div_loading_CU_ACADEMICS" class="ptoverlay ptoverlayshow" role="presentation">...</div>
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error getting to classes CWCV:
+  Message: unknown error: Element <a href="https://portal.prod.cu.edu/psp/epprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?Page=SSR_CLSRCH_ENTRY" class="darkButton">...</a> is not clickable at point (155, 437). Other element would receive the click: <div id="div_loading_CU_ACADEMICS" class="ptoverlay ptoverlayshow" role="presentation">...</div>
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error getting to classes DANE:
+  Message: unknown error: Element <a href="https://portal.prod.cu.edu/psp/epprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?Page=SSR_CLSRCH_ENTRY" class="darkButton">...</a> is not clickable at point (155, 437). Other element would receive the click: <div id="div_loading_CU_ACADEMICS" class="ptoverlay ptoverlayshow" role="presentation">...</div>
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error getting to classes DNCE:
+  Message: unknown error: Element <a href="https://portal.prod.cu.edu/psp/epprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?Page=SSR_CLSRCH_ENTRY" class="darkButton">...</a> is not clickable at point (155, 437). Other element would receive the click: <div id="div_loading_CU_ACADEMICS" class="ptoverlay ptoverlayshow" role="presentation">...</div>
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error getting to classes EALC:
+  Message: unknown error: Element <a href="https://portal.prod.cu.edu/psp/epprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?Page=SSR_CLSRCH_ENTRY" class="darkButton">...</a> is not clickable at point (155, 437). Other element would receive the click: <div id="div_loading_CU_ACADEMICS" class="ptoverlay ptoverlayshow" role="presentation">...</div>
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error getting to classes EBIO:
+  Message: unknown error: Element <a href="https://portal.prod.cu.edu/psp/epprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?Page=SSR_CLSRCH_ENTRY" class="darkButton">...</a> is not clickable at point (155, 437). Other element would receive the click: <div id="div_loading_CU_ACADEMICS" class="ptoverlay ptoverlayshow" role="presentation">...</div>
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error getting to classes ECEN:
+  Message: unknown error: Element <a href="https://portal.prod.cu.edu/psp/epprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?Page=SSR_CLSRCH_ENTRY" class="darkButton">...</a> is not clickable at point (155, 437). Other element would receive the click: <div id="div_loading_CU_ACADEMICS" class="ptoverlay ptoverlayshow" role="presentation">...</div>
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error getting to classes EDEN:
+  Message: unknown error: Element <a href="https://portal.prod.cu.edu/psp/epprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?Page=SSR_CLSRCH_ENTRY" class="darkButton">...</a> is not clickable at point (155, 437). Other element would receive the click: <div id="div_loading_CU_ACADEMICS" class="ptoverlay ptoverlayshow" role="presentation">...</div>
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error getting to classes EMEN:
+  Message: unknown error: Element <a href="https://portal.prod.cu.edu/psp/epprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?Page=SSR_CLSRCH_ENTRY" class="darkButton">...</a> is not clickable at point (155, 437). Other element would receive the click: <div id="div_loading_CU_ACADEMICS" class="ptoverlay ptoverlayshow" role="presentation">...</div>
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error getting to classes ENEN:
+  Message: unknown error: Element <a href="https://portal.prod.cu.edu/psp/epprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?Page=SSR_CLSRCH_ENTRY" class="darkButton">...</a> is not clickable at point (155, 437). Other element would receive the click: <div id="div_loading_CU_ACADEMICS" class="ptoverlay ptoverlayshow" role="presentation">...</div>
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error getting to classes ENGL:
+  Message: unknown error: Element <a href="https://portal.prod.cu.edu/psp/epprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?Page=SSR_CLSRCH_ENTRY" class="darkButton">...</a> is not clickable at point (155, 437). Other element would receive the click: <div id="div_loading_CU_ACADEMICS" class="ptoverlay ptoverlayshow" role="presentation">...</div>
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error getting to classes ESBM:
+  Message: unknown error: Element <a href="https://portal.prod.cu.edu/psp/epprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?Page=SSR_CLSRCH_ENTRY" class="darkButton">...</a> is not clickable at point (155, 437). Other element would receive the click: <div id="div_loading_CU_ACADEMICS" class="ptoverlay ptoverlayshow" role="presentation">...</div>
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error getting to classes ESLG:
+  Message: unknown error: Element <a href="https://portal.prod.cu.edu/psp/epprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?Page=SSR_CLSRCH_ENTRY" class="darkButton">...</a> is not clickable at point (155, 437). Other element would receive the click: <div id="div_loading_CU_ACADEMICS" class="ptoverlay ptoverlayshow" role="presentation">...</div>
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error getting to classes ETHN:
+  Message: unknown error: Element <a href="https://portal.prod.cu.edu/psp/epprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?Page=SSR_CLSRCH_ENTRY" class="darkButton">...</a> is not clickable at point (155, 437). Other element would receive the click: <div id="div_loading_CU_ACADEMICS" class="ptoverlay ptoverlayshow" role="presentation">...</div>
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error getting to classes EVEN:
+  Message: unknown error: Element <a href="https://portal.prod.cu.edu/psp/epprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?Page=SSR_CLSRCH_ENTRY" class="darkButton">...</a> is not clickable at point (155, 437). Other element would receive the click: <div id="div_loading_CU_ACADEMICS" class="ptoverlay ptoverlayshow" role="presentation">...</div>
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error getting to classes FARR:
+  Message: unknown error: Element <a href="https://portal.prod.cu.edu/psp/epprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?Page=SSR_CLSRCH_ENTRY" class="darkButton">...</a> is not clickable at point (155, 437). Other element would receive the click: <div id="div_loading_CU_ACADEMICS" class="ptoverlay ptoverlayshow" role="presentation">...</div>
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error getting to classes FINN:
+  Message: unknown error: Element <a href="https://portal.prod.cu.edu/psp/epprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?Page=SSR_CLSRCH_ENTRY" class="darkButton">...</a> is not clickable at point (155, 437). Other element would receive the click: <div id="div_loading_CU_ACADEMICS" class="ptoverlay ptoverlayshow" role="presentation">...</div>
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error getting to classes FNCE:
+  Message: unknown error: Element <a href="https://portal.prod.cu.edu/psp/epprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?Page=SSR_CLSRCH_ENTRY" class="darkButton">...</a> is not clickable at point (155, 437). Other element would receive the click: <div id="div_loading_CU_ACADEMICS" class="ptoverlay ptoverlayshow" role="presentation">...</div>
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error getting to classes FREN:
+  Message: unknown error: Element <a href="https://portal.prod.cu.edu/psp/epprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?Page=SSR_CLSRCH_ENTRY" class="darkButton">...</a> is not clickable at point (155, 437). Other element would receive the click: <div id="div_loading_CU_ACADEMICS" class="ptoverlay ptoverlayshow" role="presentation">...</div>
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error getting to classes GEEN:
+  Message: unknown error: Element <a href="https://portal.prod.cu.edu/psp/epprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?Page=SSR_CLSRCH_ENTRY" class="darkButton">...</a> is not clickable at point (155, 437). Other element would receive the click: <div id="div_loading_CU_ACADEMICS" class="ptoverlay ptoverlayshow" role="presentation">...</div>
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error getting to classes GEOG:
+  Message: unknown error: Element <a href="https://portal.prod.cu.edu/psp/epprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?Page=SSR_CLSRCH_ENTRY" class="darkButton">...</a> is not clickable at point (155, 437). Other element would receive the click: <div id="div_loading_CU_ACADEMICS" class="ptoverlay ptoverlayshow" role="presentation">...</div>
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error getting to classes GEOL:
+  Message: unknown error: Element <a href="https://portal.prod.cu.edu/psp/epprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?Page=SSR_CLSRCH_ENTRY" class="darkButton">...</a> is not clickable at point (155, 437). Other element would receive the click: <div id="div_loading_CU_ACADEMICS" class="ptoverlay ptoverlayshow" role="presentation">...</div>
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error getting to classes GREK:
+  Message: unknown error: Element <a href="https://portal.prod.cu.edu/psp/epprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?Page=SSR_CLSRCH_ENTRY" class="darkButton">...</a> is not clickable at point (155, 437). Other element would receive the click: <div id="div_loading_CU_ACADEMICS" class="ptoverlay ptoverlayshow" role="presentation">...</div>
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error getting to classes GRTE:
+  Message: unknown error: Element <a href="https://portal.prod.cu.edu/psp/epprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?Page=SSR_CLSRCH_ENTRY" class="darkButton">...</a> is not clickable at point (155, 437). Other element would receive the click: <div id="div_loading_CU_ACADEMICS" class="ptoverlay ptoverlayshow" role="presentation">...</div>
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error getting to classes GSAP:
+  Message: unknown error: Element <a href="https://portal.prod.cu.edu/psp/epprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?Page=SSR_CLSRCH_ENTRY" class="darkButton">...</a> is not clickable at point (155, 437). Other element would receive the click: <div id="div_loading_CU_ACADEMICS" class="ptoverlay ptoverlayshow" role="presentation">...</div>
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error getting to classes HIST:
+  Message: unknown error: Element <a href="https://portal.prod.cu.edu/psp/epprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?Page=SSR_CLSRCH_ENTRY" class="darkButton">...</a> is not clickable at point (155, 437). Other element would receive the click: <div id="div_loading_CU_ACADEMICS" class="ptoverlay ptoverlayshow" role="presentation">...</div>
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error getting to classes INDO:
+  Message: unknown error: Element <a href="https://portal.prod.cu.edu/psp/epprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?Page=SSR_CLSRCH_ENTRY" class="darkButton">...</a> is not clickable at point (155, 437). Other element would receive the click: <div id="div_loading_CU_ACADEMICS" class="ptoverlay ptoverlayshow" role="presentation">...</div>
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error getting to classes INVS:
+  Message: unknown error: Element <a href="https://portal.prod.cu.edu/psp/epprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?Page=SSR_CLSRCH_ENTRY" class="darkButton">...</a> is not clickable at point (155, 437). Other element would receive the click: <div id="div_loading_CU_ACADEMICS" class="ptoverlay ptoverlayshow" role="presentation">...</div>
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error exapnding classes IPHY:
+  Message: no such element: Unable to locate element: {"method":"id","selector":"CU_CLS_RSL_WRK_CU_SSR_EXPAND_ALL"}
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error exapnding classes JOUR:
+  Message: no such element: Unable to locate element: {"method":"id","selector":"CU_CLS_RSL_WRK_CU_SSR_EXPAND_ALL"}
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error getting to classes JPNS:
+  Message: unknown error: Element <a href="https://portal.prod.cu.edu/psp/epprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?Page=SSR_CLSRCH_ENTRY" class="darkButton">...</a> is not clickable at point (155, 437). Other element would receive the click: <div id="div_loading_CU_ACADEMICS" class="ptoverlay ptoverlayshow" role="presentation">...</div>
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error getting to classes JRNL:
+  Message: unknown error: Element <a href="https://portal.prod.cu.edu/psp/epprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?Page=SSR_CLSRCH_ENTRY" class="darkButton">...</a> is not clickable at point (155, 437). Other element would receive the click: <div id="div_loading_CU_ACADEMICS" class="ptoverlay ptoverlayshow" role="presentation">...</div>
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error getting to classes JWST:
+  Message: unknown error: Element <a href="https://portal.prod.cu.edu/psp/epprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?Page=SSR_CLSRCH_ENTRY" class="darkButton">...</a> is not clickable at point (155, 437). Other element would receive the click: <div id="div_loading_CU_ACADEMICS" class="ptoverlay ptoverlayshow" role="presentation">...</div>
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error getting to classes KREN:
+  Message: unknown error: Element <a href="https://portal.prod.cu.edu/psp/epprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?Page=SSR_CLSRCH_ENTRY" class="darkButton">...</a> is not clickable at point (155, 437). Other element would receive the click: <div id="div_loading_CU_ACADEMICS" class="ptoverlay ptoverlayshow" role="presentation">...</div>
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error getting to classes LAWS:
+  Message: unknown error: Element <a href="https://portal.prod.cu.edu/psp/epprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?Page=SSR_CLSRCH_ENTRY" class="darkButton">...</a> is not clickable at point (155, 437). Other element would receive the click: <div id="div_loading_CU_ACADEMICS" class="ptoverlay ptoverlayshow" role="presentation">...</div>
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error exapnding classes LDSP:
+  Message: no such element: Unable to locate element: {"method":"id","selector":"CU_CLS_RSL_WRK_CU_SSR_EXPAND_ALL"}
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error getting to classes LEAD:
+  Message: unknown error: Element <a href="https://portal.prod.cu.edu/psp/epprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?Page=SSR_CLSRCH_ENTRY" class="darkButton">...</a> is not clickable at point (155, 437). Other element would receive the click: <div id="div_loading_CU_ACADEMICS" class="ptoverlay ptoverlayshow" role="presentation">...</div>
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error getting to classes LGBT:
+  Message: unknown error: Element <a href="https://portal.prod.cu.edu/psp/epprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?Page=SSR_CLSRCH_ENTRY" class="darkButton">...</a> is not clickable at point (155, 437). Other element would receive the click: <div id="div_loading_CU_ACADEMICS" class="ptoverlay ptoverlayshow" role="presentation">...</div>
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error exapnding classes LGTC:
+  Message: no such element: Unable to locate element: {"method":"id","selector":"CU_CLS_RSL_WRK_CU_SSR_EXPAND_ALL"}
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error exapnding classes LIBB:
+  Message: no such element: Unable to locate element: {"method":"id","selector":"CU_CLS_RSL_WRK_CU_SSR_EXPAND_ALL"}
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error getting to classes LIBR:
+  Message: unknown error: Element <a href="https://portal.prod.cu.edu/psp/epprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?Page=SSR_CLSRCH_ENTRY" class="darkButton">...</a> is not clickable at point (155, 437). Other element would receive the click: <div id="div_loading_CU_ACADEMICS" class="ptoverlay ptoverlayshow" role="presentation">...</div>
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error getting to classes LING:
+  Message: unknown error: Element <a href="https://portal.prod.cu.edu/psp/epprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?Page=SSR_CLSRCH_ENTRY" class="darkButton">...</a> is not clickable at point (155, 437). Other element would receive the click: <div id="div_loading_CU_ACADEMICS" class="ptoverlay ptoverlayshow" role="presentation">...</div>
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error getting to classes MATH:
+  Message: unknown error: Element <a href="https://portal.prod.cu.edu/psp/epprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?Page=SSR_CLSRCH_ENTRY" class="darkButton">...</a> is not clickable at point (155, 437). Other element would receive the click: <div id="div_loading_CU_ACADEMICS" class="ptoverlay ptoverlayshow" role="presentation">...</div>
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error getting to classes MBAC:
+  Message: unknown error: Element <a href="https://portal.prod.cu.edu/psp/epprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?Page=SSR_CLSRCH_ENTRY" class="darkButton">...</a> is not clickable at point (155, 437). Other element would receive the click: <div id="div_loading_CU_ACADEMICS" class="ptoverlay ptoverlayshow" role="presentation">...</div>
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error getting to classes MBAX:
+  Message: unknown error: Element <a href="https://portal.prod.cu.edu/psp/epprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?Page=SSR_CLSRCH_ENTRY" class="darkButton">...</a> is not clickable at point (155, 437). Other element would receive the click: <div id="div_loading_CU_ACADEMICS" class="ptoverlay ptoverlayshow" role="presentation">...</div>
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error getting to classes MCEN:
+  Message: unknown error: Element <a href="https://portal.prod.cu.edu/psp/epprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?Page=SSR_CLSRCH_ENTRY" class="darkButton">...</a> is not clickable at point (155, 437). Other element would receive the click: <div id="div_loading_CU_ACADEMICS" class="ptoverlay ptoverlayshow" role="presentation">...</div>
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error getting to classes MDST:
+  Message: unknown error: Element <a href="https://portal.prod.cu.edu/psp/epprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?Page=SSR_CLSRCH_ENTRY" class="darkButton">...</a> is not clickable at point (155, 437). Other element would receive the click: <div id="div_loading_CU_ACADEMICS" class="ptoverlay ptoverlayshow" role="presentation">...</div>
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error exapnding classes MSBC:
+  Message: no such element: Unable to locate element: {"method":"id","selector":"CU_CLS_RSL_WRK_CU_SSR_EXPAND_ALL"}
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error getting to classes MSBX:
+  Message: unknown error: Element <a href="https://portal.prod.cu.edu/psp/epprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?Page=SSR_CLSRCH_ENTRY" class="darkButton">...</a> is not clickable at point (155, 437). Other element would receive the click: <div id="div_loading_CU_ACADEMICS" class="ptoverlay ptoverlayshow" role="presentation">...</div>
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error getting to classes MSEN:
+  Message: unknown error: Element <a href="https://portal.prod.cu.edu/psp/epprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?Page=SSR_CLSRCH_ENTRY" class="darkButton">...</a> is not clickable at point (155, 437). Other element would receive the click: <div id="div_loading_CU_ACADEMICS" class="ptoverlay ptoverlayshow" role="presentation">...</div>
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error getting to classes MUEL:
+  Message: unknown error: Element <a href="https://portal.prod.cu.edu/psp/epprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?Page=SSR_CLSRCH_ENTRY" class="darkButton">...</a> is not clickable at point (155, 437). Other element would receive the click: <div id="div_loading_CU_ACADEMICS" class="ptoverlay ptoverlayshow" role="presentation">...</div>
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error getting to classes MUSM:
+  Message: unknown error: Element <a href="https://portal.prod.cu.edu/psp/epprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?Page=SSR_CLSRCH_ENTRY" class="darkButton">...</a> is not clickable at point (155, 437). Other element would receive the click: <div id="div_loading_CU_ACADEMICS" class="ptoverlay ptoverlayshow" role="presentation">...</div>
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error exapnding classes NORW:
+  Message: no such element: Unable to locate element: {"method":"id","selector":"CU_CLS_RSL_WRK_CU_SSR_EXPAND_ALL"}
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error getting to classes NRLN:
+  Message: unknown error: Element <a href="https://portal.prod.cu.edu/psp/epprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?Page=SSR_CLSRCH_ENTRY" class="darkButton">...</a> is not clickable at point (155, 437). Other element would receive the click: <div id="div_loading_CU_ACADEMICS" class="ptoverlay ptoverlayshow" role="presentation">...</div>
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error getting to classes NRSC:
+  Message: unknown error: Element <a href="https://portal.prod.cu.edu/psp/epprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?Page=SSR_CLSRCH_ENTRY" class="darkButton">...</a> is not clickable at point (155, 437). Other element would receive the click: <div id="div_loading_CU_ACADEMICS" class="ptoverlay ptoverlayshow" role="presentation">...</div>
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error getting to classes OPIM:
+  Message: unknown error: Element <a href="https://portal.prod.cu.edu/psp/epprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?Page=SSR_CLSRCH_ENTRY" class="darkButton">...</a> is not clickable at point (155, 437). Other element would receive the click: <div id="div_loading_CU_ACADEMICS" class="ptoverlay ptoverlayshow" role="presentation">...</div>
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error exapnding classes OPMG:
+  Message: no such element: Unable to locate element: {"method":"id","selector":"CU_CLS_RSL_WRK_CU_SSR_EXPAND_ALL"}
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error exapnding classes PMUS:
+  Message: no such element: Unable to locate element: {"method":"id","selector":"CU_CLS_RSL_WRK_CU_SSR_EXPAND_ALL"}
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error getting to classes PRLC:
+  Message: unknown error: Element <a href="https://portal.prod.cu.edu/psp/epprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?Page=SSR_CLSRCH_ENTRY" class="darkButton">...</a> is not clickable at point (155, 437). Other element would receive the click: <div id="div_loading_CU_ACADEMICS" class="ptoverlay ptoverlayshow" role="presentation">...</div>
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error getting to classes PSYC:
+  Message: unknown error: Element <a href="https://portal.prod.cu.edu/psp/epprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?Page=SSR_CLSRCH_ENTRY" class="darkButton">...</a> is not clickable at point (155, 437). Other element would receive the click: <div id="div_loading_CU_ACADEMICS" class="ptoverlay ptoverlayshow" role="presentation">...</div>
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error getting to classes RLST:
+  Message: unknown error: Element <a href="https://portal.prod.cu.edu/psp/epprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?Page=SSR_CLSRCH_ENTRY" class="darkButton">...</a> is not clickable at point (155, 437). Other element would receive the click: <div id="div_loading_CU_ACADEMICS" class="ptoverlay ptoverlayshow" role="presentation">...</div>
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error exapnding classes RSEI:
+  Message: no such element: Unable to locate element: {"method":"id","selector":"CU_CLS_RSL_WRK_CU_SSR_EXPAND_ALL"}
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error getting to classes SCAN:
+  Message: unknown error: Element <a href="https://portal.prod.cu.edu/psp/epprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?Page=SSR_CLSRCH_ENTRY" class="darkButton">...</a> is not clickable at point (155, 437). Other element would receive the click: <div id="div_loading_CU_ACADEMICS" class="ptoverlay ptoverlayshow" role="presentation">...</div>
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error exapnding classes SEWL:
+  Message: no such element: Unable to locate element: {"method":"id","selector":"CU_CLS_RSL_WRK_CU_SSR_EXPAND_ALL"}
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error exapnding classes SNSK:
+  Message: no such element: Unable to locate element: {"method":"id","selector":"CU_CLS_RSL_WRK_CU_SSR_EXPAND_ALL"}
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error exapnding classes SSIR:
+  Message: no such element: Unable to locate element: {"method":"id","selector":"CU_CLS_RSL_WRK_CU_SSR_EXPAND_ALL"}
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error exapnding classes SUST:
+  Message: no such element: Unable to locate element: {"method":"id","selector":"CU_CLS_RSL_WRK_CU_SSR_EXPAND_ALL"}
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error exapnding classes TBTN:
+  Message: no such element: Unable to locate element: {"method":"id","selector":"CU_CLS_RSL_WRK_CU_SSR_EXPAND_ALL"}
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error getting to classes TLEN:
+  Message: unknown error: Element <a href="https://portal.prod.cu.edu/psp/epprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?Page=SSR_CLSRCH_ENTRY" class="darkButton">...</a> is not clickable at point (155, 437). Other element would receive the click: <div id="div_loading_CU_ACADEMICS" class="ptoverlay ptoverlayshow" role="presentation">...</div>
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error exapnding classes WMST:
+  Message: no such element: Unable to locate element: {"method":"id","selector":"CU_CLS_RSL_WRK_CU_SSR_EXPAND_ALL"}
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+Error getting to classes YIDD:
+  Message: unknown error: Element <a href="https://portal.prod.cu.edu/psp/epprod/UCB2/HRMS/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?Page=SSR_CLSRCH_ENTRY" class="darkButton">...</a> is not clickable at point (155, 437). Other element would receive the click: <div id="div_loading_CU_ACADEMICS" class="ptoverlay ptoverlayshow" role="presentation">...</div>
+  (Session info: chrome=57.0.2987.88)
+  (Driver info: chromedriver=2.27.440174 (e97a722caafc2d3a8b807ee115bfb307f7d2cfd9),platform=Mac OS X 10.11.6 x86_64)
+
+05:35: Finished data harvest

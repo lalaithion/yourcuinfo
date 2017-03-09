@@ -25,8 +25,8 @@ def main():
                     units = section["units"]
                     instructor = section["instructor"]
                     # print(section_type.type)
-                    # print(minWaitlist.get(section_type, sys.maxint), waitlist)
-                    minWaitlist[section_type] = min(minWaitlist.get(section_type, sys.maxint), waitlist)
+                    # print(minWaitlist.get(section_type, float("inf")), waitlist)
+                    minWaitlist[section_type] = min(minWaitlist.get(section_type, float("inf")), waitlist)
                     maxSeats[section_type] = max(maxSeats.get(section_type, 0), seats)
                     sectionList.append('["{0}","{1}",{2},{3},"{4}","{5}"]'.format(type, time, seats, waitlist, instructor, units))
             if len(minWaitlist) > 0:
@@ -43,5 +43,6 @@ def main():
                 classes.append('["{0}","{1}","{2}","{3}",{4},{5},{6}]'.format(code, name, status, description, seats, waitlist, sections))
     classList = ',\n'.join(classes)
     outfile.write('{{"data":[\n{0}\n]}}'.format(classList))
+
 if __name__ == "__main__":
     main()
