@@ -44,5 +44,6 @@ def main():
     classList = ',\n'.join(classes)
     outfile.write('{{"data":[\n{0}\n]}}'.format(classList))
 
+
 if __name__ == "__main__":
     main()
