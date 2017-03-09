@@ -42,7 +42,7 @@ def login(ukeys, pkeys):
     passwd.send_keys(Keys.RETURN)
     return driver
 
-def runSearch(driver, current):
+def runSearch(driver, current, second_time=False):
     find_elem(driver.find_element_by_link_text, 'Search for Classes').click()
 
     time.sleep(1)
@@ -71,11 +71,27 @@ def runSearch(driver, current):
 
     find_elem(driver.find_element_by_id,"SSR_CLSRCH_WRK_SUBJECT$1").send_keys(current)
     
+    # Chem has too many classes! AAAAAH
+    if current == "CHEM":
+        if second_time:
+            Select(
+                find_elem(driver.find_element_by_id, "SSR_CLSRCH_WRK_SSR_EXACT_MATCH1$2")
+            ).select_by_visible_text("greater than or equal to")
+        else:
+            Select(
+                find_elem(driver.find_element_by_id, "SSR_CLSRCH_WRK_SSR_EXACT_MATCH1$2")
+            ).select_by_visible_text("less than or equal to")
+        
+        time.sleep(1)
+        
+        find_elem(driver.find_element_by_id, "SSR_CLSRCH_WRK_CATALOG_NBR$2").send_keys("3000")
+    
     time.sleep(1)
     
     find_elem(driver.find_element_by_id,"CLASS_SRCH_WRK2_SSR_PB_CLASS_SRCH").click()
 
-def department(filepath, current, log, login_data):
+
+def department(filepath, current, log, login_data, second_time=False):
     
     print(current)
     try:
@@ -88,7 +104,7 @@ def department(filepath, current, log, login_data):
     time.sleep(login_timer)
 
     try:
-        runSearch(driver, current)
+        runSearch(driver, current, second_time)
     except Exception as err:
         log.write("Error getting to classes {0}:\n  {1}\n".format(current, err))
         driver.close()
@@ -113,13 +129,19 @@ def department(filepath, current, log, login_data):
     time.sleep(expand_timer)
 
     try:
-        with open(filepath + current + ".html", 'w') as f:
+        mode = 'w'
+        if second_time:
+            mode = 'wa'
+        with open(filepath + current + ".html", mode) as f:
             f.write(driver.page_source)
             f.close()
     except Exception as err:
         log.write("Error saving {0} to file:\n  {1}\n".format(current, err))
 
     driver.close()
+
+    if current == "CHEM" and not second_time:
+        department(filepath, current, log, login_data, True)
 
 def main(depts):
     ukeys = input("User: ").strip('\n')
