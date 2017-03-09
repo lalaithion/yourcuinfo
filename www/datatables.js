@@ -144,11 +144,15 @@ $(document).ready(function() {
             end: `${date}T${dt[2]}`,
             color: getColor( tr[0].children[0].innerHTML ),
           }
-          event.id = $('#calendar').fullCalendar('renderEvent', event, true)._id;
+          // console.log()
+          event.id = $('#calendar').fullCalendar('renderEvent', event, true)[0]._id;
           return event;
         })
       } else {
-        selected[id].forEach((event) => $('#calendar').fullCalendar( 'removeEvents', event.id ));
+        console.log(selected[id])
+        selected[id].forEach( function(event) {
+          console.log(event),$('#calendar').fullCalendar( 'removeEvents', event.id );
+        });
         delete selected[id];
       }
       setCookie("selected", JSON.stringify(selected), 30);
