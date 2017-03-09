@@ -144,14 +144,12 @@ $(document).ready(function() {
             end: `${date}T${dt[2]}`,
             color: getColor( tr[0].children[0].innerHTML ),
           }
-          // console.log()
           event.id = $('#calendar').fullCalendar('renderEvent', event, true)[0]._id;
           return event;
         })
       } else {
-        console.log(selected[id])
         selected[id].forEach( function(event) {
-          console.log(event),$('#calendar').fullCalendar( 'removeEvents', event.id );
+          $('#calendar').fullCalendar( 'removeEvents', event.id );
         });
         delete selected[id];
       }
@@ -209,7 +207,6 @@ $(document).ready(function() {
         return false;
       },
       child: function( id, data ) {
-        console.log(data)
         for (entry in selected) {
           if (entry == id) {
             return true;

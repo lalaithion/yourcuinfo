@@ -1,16 +1,13 @@
 #header {
   font-family: sans-serif;
   font-size: 45px;
-  color: #FFF;
-  background: #000;
+  /*color: #FFF;*/
+  /*background: #000;*/
   height: 55px;
-  padding: 10px;
-  padding-right: 25px;
-  padding-left: 25px;
-}
-
-.search {
-  width: 50%;
+  padding-top: 10px;
+  padding-right: 15px;
+  padding-left: 15px;
+  align: center;
 }
 
 #settings {
@@ -18,18 +15,13 @@
   float: left;
 }
 
-#settings {
-  /*background: white;*/
-  padding: 5px;
-  /*width: 100%;*/
-}
-
 #table-div {
   margin-top: 10px;
   margin-left: 10px;
   border-radius: 15px;
   background: #EEE;
-  padding: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
   float: left;
   width: 50%;
 }
@@ -52,9 +44,19 @@
   width: 20%;
 }
 
-/*table.dataTable.display tbody tr.child {
-    background: white;
-}*/
+.search {
+  width: 50%;
+}
+
 .child {
   background: #f6f6f6;
+}
+
+@media only screen and (max-width: 700px) {
+  #table-div {
+    width: 80%;
+  }
+  #calendar {
+    width: 80%;
+  }
 }
