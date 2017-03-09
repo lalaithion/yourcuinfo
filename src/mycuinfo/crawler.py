@@ -15,7 +15,7 @@ url = "https://portal.prod.cu.edu/psp/epprod/UCB2/ENTP/h/?tab=DEFAULT" # mycuinf
 login_timer = 10 # time for login to complete
 expand_timer = 2 # time for dropdown arrows to open
 
-def find_elem(driver_func, name, max_timer = 15):
+def find_elem(driver_func, name, max_timer = 25):
     timer = 0
     while True:
         try:
