@@ -75,11 +75,18 @@ $(document).ready(function() {
     "paging": false,
     "deferRender": true,
     // "bInfo" : false,
-    'sDom': 't'
+    'sDom': 't',
+    "columns": [
+      null,
+      null,
+      null,
+      { "visible": false }
+      ]
     // "bFilter": false
   });
 
   var selected = {};
+  
   $('#table tbody').on('click', 'tr', function (e) {
     var tr = $(this).closest('tr');
     var row = table.row( tr );
@@ -133,7 +140,8 @@ $(document).ready(function() {
     }
   });
   $('#name-search').on( 'keyup change', function () {
-    col = table.columns(1);
+    col = table.columns(3)
+    console.log(col)
     if ( col.search() !== this.value ) {
         col.search(this.value).draw();
     }
