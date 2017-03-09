@@ -76,6 +76,7 @@ def runSearch(driver, current):
     find_elem(driver.find_element_by_id,"CLASS_SRCH_WRK2_SSR_PB_CLASS_SRCH").click()
 
 def department(filepath, current, log, login_data):
+    
     print(current)
     try:
         driver = login(login_data["uname"], login_data["pswd"])
@@ -84,12 +85,23 @@ def department(filepath, current, log, login_data):
         driver.close()
         raise err
 
+    time.sleep(login_timer)
+
     try:
         runSearch(driver, current)
     except Exception as err:
         log.write("Error getting to classes {0}:\n  {1}\n".format(current, err))
         driver.close()
         raise err
+
+    time.sleep(1)
+    
+    try:
+        driver.find_element_by_id("win0divDERIVED_CLSMSG_ERROR_TEXT")
+        return
+    except:
+        pass
+    
 
     try:
         find_elem(driver.find_element_by_id, "CU_CLS_RSL_WRK_CU_SSR_EXPAND_ALL").click()
@@ -135,6 +147,36 @@ def main(depts):
         print("Scrape finished with Errors")
     else:
         print("!!! Scrape finished with Errors !!!")
+
+def redo(depts):
+        ukeys = input("User: ").strip('\n')
+        pkeys = getpass.getpass()
+        login = {"uname": ukeys, "pswd": pkeys}
+        
+        filepath = "../mycuinfo_html/"
+
+        date = strftime("%Y-%m-%d", gmtime())
+        log = open(filepath + "scrape.log", 'w+')
+        log.write("{0}\n{1}: Beggining new data harvest\n".format(date, strftime("%H:%M", gmtime())))
+
+        error = False
+        for current in depts:
+            import os.path
+            if os.path.isfile(filepath + current + '.html'):
+                continue
+            try:
+                department(filepath, current, log, login)
+            except Exception as err:
+                error = True
+                continue
+
+        log.write("{0}: Finished data harvest\n".format(strftime("%H:%M", gmtime())))
+        log.close()
+
+        if error:
+            print("Scrape finished with Errors")
+        else:
+            print("!!! Scrape finished with Errors !!!")
 
 if __name__ == "__main__":
     main(["CHEM", "APPM", "CSCI"])
