@@ -1,9 +1,8 @@
 body {
-  font-family: sans-serif;
+  font-family: 'Montserrat', sans-serif;;
 }
 
 #header {
-  font-family: sans-serif;
   font-size: 45px;
   /*color: #FFF;*/
   /*background: #000;*/
@@ -14,6 +13,12 @@ body {
   padding-right: 15px;
   padding-left: 15px;
   text-align: center;
+}
+
+#disclaimer {
+    text-align: center;
+    font-size: 50%;
+    margin: 5px;
 }
 
 #table-main {
