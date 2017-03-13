@@ -120,13 +120,17 @@ $(document).ready(function() {
   var scookie = getCookie("selected");
   var selected = scookie ? JSON.parse(scookie) : {};
 
-  for (course in selected) {
-    selected[course] = selected[course].map( function(instance) {
-      var newID = $('#calendar').fullCalendar('renderEvent', instance, true)._id;
-      instance.id = newID;
-      return instance;
-    });
+  drawCal = function(selected) {
+    for (course in selected) {
+      selected[course] = selected[course].map( function(instance) {
+        var newID = $('#calendar').fullCalendar('renderEvent', instance, true)._id;
+        instance.id = newID;
+        return instance;
+      });
+    }
   }
+  
+  drawCal(selected)
 
   // Callback when parent row is opened or child row is selected.
   $('#table tbody').on('click', 'tr', function (e) {
@@ -148,10 +152,9 @@ $(document).ready(function() {
           return event;
         })
       } else {
-        selected[id].forEach( function(event) {
-          $('#calendar').fullCalendar( 'removeEvents', event.id );
-        });
         delete selected[id];
+        $('#calendar').fullCalendar('removeEvents');
+        drawCal(selected);
       }
       setCookie("selected", JSON.stringify(selected), 30);
       $(this).toggleClass('selected');
