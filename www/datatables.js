@@ -79,7 +79,55 @@ function getCookie(cname) {
     return "";
 }
 
+jQuery.fn.dataTableExt.oApi.fnFindCellRowIndexes = function ( oSettings, sSearch, iColumn )
+{
+	var
+		i,iLen, j, jLen, val,
+		aOut = [], aData,
+		columns = oSettings.aoColumns;
+
+	for ( i=0, iLen=oSettings.aoData.length ; i<iLen ; i++ )
+	{
+		aData = oSettings.aoData[i]._aData;
+
+		if ( iColumn === undefined )
+		{
+			for ( j=0, jLen=columns.length ; j<jLen ; j++ )
+			{
+				val = this.fnGetData(i, j);
+
+				if ( val == sSearch )
+				{
+					aOut.push( i );
+				}
+			}
+		}
+		else if (this.fnGetData(i, iColumn) == sSearch )
+		{
+			aOut.push( i );
+		}
+	}
+
+	return aOut;
+};
+
 $(document).ready(function() {
+    // Instantiate table.
+    var table = $('#table').DataTable({
+      "ajax": "class_data.json",
+      "scrollY": "500px",
+      "scrollCollapse": true,
+      "paging": false,
+      "deferRender": true,
+      'sDom': 't',
+      "columns": [
+        null,
+        null,
+        null,
+        { "visible": false }
+        ]
+    });
+  
   // Instantiate calendar.
   $('#calendar').fullCalendar({
     header: {
@@ -94,25 +142,25 @@ $(document).ready(function() {
     minTime: '08:00:00',
     maxTime: '20:00:00',
     height: 656,
+    scrollY: 200,
     allDaySlot: false,
     editable: false,
-    events: []
-  });
-
-  // Instantiate table.
-  var table = $('#table').DataTable({
-    "ajax": "class_data.json",
-    "scrollY": "500px",
-    "scrollCollapse": true,
-    "paging": false,
-    "deferRender": true,
-    'sDom': 't',
-    "columns": [
-      null,
-      null,
-      null,
-      { "visible": false }
-      ]
+    scroller: true,
+    events: [],
+    eventClick: function(calEvent, jsEvent, view) {
+      code = 'CSCI 1300';
+      tablen = table.rows()[0].length;
+      data = table.column(0).data();
+      for (var i = 0; i < tablen; i++) {
+        if (data[i] == code) {
+          console.log(table.row(i).data()[0]);
+          console.log("before");
+          $('#table').scrollTop(500);
+          console.log("after");
+          break;
+        }
+      }
+    }
   });
 
   // Used to store which courses have been selected and added to the calendar.

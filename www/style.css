@@ -2,6 +2,10 @@ body {
   font-family: 'Montserrat', sans-serif;;
 }
 
+b {
+  font-weight: 800;
+}
+
 #header {
   font-size: 45px;
   /*color: #FFF;*/
