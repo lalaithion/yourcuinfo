@@ -19,8 +19,9 @@ def main():
             maxSeats = {}
             for section_type in department[course]["sections"].keys():
                 for section in department[course]["sections"][section_type]:
-                    type = section["type"]
+                    typ = section["type"]
                     time = section["time"]
+                    room = section["room"]
                     seats = int(section["seats"])
                     waitlist = int(section["waitlist"])
                     units = section["units"]
@@ -29,7 +30,7 @@ def main():
                     # print(minWaitlist.get(section_type, float("inf")), waitlist)
                     minWaitlist[section_type] = min(minWaitlist.get(section_type, float("inf")), waitlist)
                     maxSeats[section_type] = max(maxSeats.get(section_type, 0), seats)
-                    sectionList.append('["{0}","{1}",{2},{3},"{4}","{5}"]'.format(type, time, seats, waitlist, instructor, units))
+                    sectionList.append('["{0}","{1}",{2},{3},"{4}","{5}","{6}"]'.format(typ, time, seats, waitlist, instructor, units, room))
             if len(minWaitlist) > 0:
                 dept, num = course.split(' ')
                 code = course;
