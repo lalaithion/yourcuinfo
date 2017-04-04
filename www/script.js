@@ -3,11 +3,12 @@ function format ( d, selected, filters ) {
     header = `<div style="padding-left:25px">${d[3]}</div>
     <table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">
     <thead>
-      <td>Type</td>
-      <td>Time</td>
-      <td>Seats</td>
-      <td>Waitlist</td>
-      <td>Instructor</td>
+      <th>Type</th>
+      <th>Time</th>
+      <th>Seats</th>
+      <th>Waitlist</th>
+      <th>Instructor</th>
+      <th>Room</th>
     </thead>`;
 
     children = d.slice(6).reduce( function(acc, n, i) {
@@ -22,6 +23,7 @@ function format ( d, selected, filters ) {
         <td>${n[2]}</td>
         <td>${n[3]}</td>
         <td>${n[4]}</td>
+        <td>${n[6]}</td>
       </tr>`
     }, '');
 
