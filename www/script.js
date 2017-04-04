@@ -25,7 +25,7 @@ function format ( d, selected, filters ) {
         <td>${n[3]}</td>
         <td>${n[4]}</td>
         <td>${n[6]}</td>
-        <td><input type="checkbox" disabled="disabled" ${selected[id]!==undefined ? "checked=1" : "" }  ></td>
+        <td><input type="checkbox" onclick="$(this).parent.click" ${selected[id]!==undefined ? "checked=1" : "" }  ></td>
       </tr>`
     }, '');
 
