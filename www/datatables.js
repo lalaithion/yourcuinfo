@@ -174,7 +174,6 @@ $(document).ready(function() {
         tr.addClass('shown');
       }
     }
-
   });
 
   $('#code-search').on( 'keyup change', function () {
@@ -182,12 +181,14 @@ $(document).ready(function() {
     if ( col.search() !== this.value ) {
         col.search(this.value).draw();
     }
+    table.focus();
   });
   $('#name-search').on( 'keyup change', function () {
     col = table.columns(3)
     if ( col.search() !== this.value ) {
         col.search(this.value).draw();
     }
+    table.focus();
   });
 
   var filters = {
@@ -204,17 +205,21 @@ $(document).ready(function() {
       parent: function( settings, data, dataIndex ) {
         for (entry in selected) {
           if (entry.substring(0,9) == data[0]) {
+            table.focus();
             return true;
           }
         }
+        table.focus();
         return false;
       },
       child: function( id, data ) {
         for (entry in selected) {
           if (entry == id) {
+            table.focus();
             return true;
           }
         }
+        table.focus();
         return false;
       },
       active: false

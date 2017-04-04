@@ -32,7 +32,8 @@ class Course():
             "seminars":[],
             "labs":[],
             "pra":[],
-            "other":[]
+            "other":[],
+            "studios":[]
         }
     def add_section(self,data):
         if data["section"][-3:] == "LEC":
@@ -53,13 +54,16 @@ class Course():
         elif data["section"][-3:] == "OTH":
             data["type"] = "other"
             self.sections["other"].append(Section(data))
+        elif data["section"][-3:] == "STU":
+            data["type"] = "studio"
+            self.sections["studios"].append(Section(data))
         else:
             pass#print(data["section"][-3:])
     def __repr__(self):
         rep = "Course("
         rep += self.identifier + " - " + self.name
         num_sec = (self.sections["lectures"] + self.sections["recitations"] + self.sections["labs"]
-                  + self.sections["seminars"] + self.sections["pra"] + self.sections["other"])
+                  + self.sections["seminars"] + self.sections["pra"] + self.sections["other"] + self.sections["studios"])
         rep += ", sections:" + str(num_sec)
         rep += ")"
         return rep
