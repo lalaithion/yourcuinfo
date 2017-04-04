@@ -9,6 +9,7 @@ function format ( d, selected, filters ) {
       <th>Waitlist</th>
       <th>Instructor</th>
       <th>Room</th>
+      <th>Selected</th>
     </thead>`;
 
     children = d.slice(6).reduce( function(acc, n, i) {
@@ -24,6 +25,7 @@ function format ( d, selected, filters ) {
         <td>${n[3]}</td>
         <td>${n[4]}</td>
         <td>${n[6]}</td>
+        <td><input type="checkbox" disabled="disabled" ${selected[id]!==undefined ? "checked=1" : "" }  ></td>
       </tr>`
     }, '');
 
@@ -131,7 +133,7 @@ $(document).ready(function() {
       });
     }
   }
-  
+
   drawCal(selected)
 
   // Callback when parent row is opened or child row is selected.
@@ -160,6 +162,7 @@ $(document).ready(function() {
       }
       setCookie("selected", JSON.stringify(selected), 30);
       $(this).toggleClass('selected');
+      this.cells[6].childNodes[0].checked = selected[id] !== undefined ? 1 : undefined;
     }
     else {
       if ( row.child.isShown() ) {
@@ -183,14 +186,14 @@ $(document).ready(function() {
     if ( col.search() !== this.value ) {
         col.search(this.value).draw();
     }
-    table.focus();
+    // table.focus();
   });
   $('#name-search').on( 'keyup change', function () {
     col = table.columns(3)
     if ( col.search() !== this.value ) {
         col.search(this.value).draw();
     }
-    table.focus();
+    // table.focus();
   });
 
   var filters = {
@@ -207,21 +210,21 @@ $(document).ready(function() {
       parent: function( settings, data, dataIndex ) {
         for (entry in selected) {
           if (entry.substring(0,9) == data[0]) {
-            table.focus();
+            // table.focus();
             return true;
           }
         }
-        table.focus();
+        // table.focus();
         return false;
       },
       child: function( id, data ) {
         for (entry in selected) {
           if (entry == id) {
-            table.focus();
+            // table.focus();
             return true;
           }
         }
-        table.focus();
+        // table.focus();
         return false;
       },
       active: false
