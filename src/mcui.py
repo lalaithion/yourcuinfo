@@ -5,7 +5,8 @@ import mycuinfo.parser as parser
 from departments_list import departments
 
 def mcui():
-    crawler.main(departments)
+    rest = departments[departments.index('PSCI')+1:]
+    crawler.main(rest)
     parser.main()
     
 if __name__ == "__main__":
