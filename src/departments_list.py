@@ -17,6 +17,6 @@ total_departments = ["ACCT", "AIRR", "ANTH", "APPM", "APRD", "ARAB", "ARCH", "AR
 
 test_departments = ["CSCI", "MATH","LING"]
 
-empty = ["BAKR", "BMEN", "BPOL"]
+empty = ["BAKR", "BMEN", "BPOL", "FINN", "GRTE", "GSAP", "INDO", "MSBC", "NORW", "OPMG"]
 
 departments = [i for i in total_departments if i not in empty]

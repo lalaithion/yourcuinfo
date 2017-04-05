@@ -11,10 +11,10 @@ import os
 import errno
 
 url = "https://portal.prod.cu.edu/psp/epprod/UCB2/ENTP/h/?tab=DEFAULT" # mycuinfo url
-login_timer = 10 # time for login to complete
-expand_timer = 5 # time for dropdown arrows to open
+login_timer = 20 # time for login to complete
+expand_timer = 10 # time for dropdown arrows to open
 
-def find_elem(driver_func, name, max_timer = 25):
+def find_elem(driver_func, name, max_timer = 40):
     timer = 0
     while True:
         try:
@@ -202,4 +202,4 @@ def redo(depts):
             print("!!! Scrape finished with Errors !!!")
 
 if __name__ == "__main__":
-    main(["CHEM"])
+    main()
