@@ -1,39 +1,50 @@
-// Helper function that creates the child rows.
-function format ( d, selected, filters ) {
-    header = `<div style="padding-left:25px">${d[3]}</div>
+/* Helper function that creates the child rows.
+ *
+ * Parameters:
+ *   course (string): course name
+ *   description (string): course description
+ *   children (array[array[_]]): containins information for child rows:
+ *     children[i][0] = Type (lecture, recitation, etc)
+ *     children[i][1] = Date/time
+ *     children[i][2] = Available seats
+ *     children[i][3] = Waitlist
+ *     children[i][4] = Instructor
+ *     children[i][5] = Units
+ *     children[i][6] = Room
+ *   selected ( { "class ID": { title: string, start: string, end: string, color: string, id: string } } ): list of selected classes
+ *   filters ( { "filter name": function filter(id, data) } ): List of filters
+ */
+function format ( course, description, children, selected, filters ) {
+    header = `<div style="padding-left:25px">${description}</div>
     <table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">
-    <thead>
-      <th>Type</th>
-      <th>Time</th>
-      <th>Seats</th>
-      <th>Waitlist</th>
-      <th>Instructor</th>
-      <th>Room</th>
-      <th>Selected</th>
-    </thead>`;
+    <thead><th>Type</th><th>Time</th><th>Seats</th><th>Waitlist</th><th>Instructor</th><th>Room</th><th></th></thead>`;
 
-    children = d.slice(6).reduce( function(acc, n, i) {
-      id = `${d[0]}-${i}`;
-      for (i = 0; i < filters.length; i++) {
-        if (!filters[i](id, n)) return acc;
-      }
-      return acc +
-      `<tr class="${selected[id]!==undefined ? "child selected" : "child" }" id="${id}">
-        <td>${n[0]}</td>
-        <td>${n[1]}</td>
-        <td>${n[2]}</td>
-        <td>${n[3]}</td>
-        <td>${n[4]}</td>
-        <td>${n[6]}</td>
-        <td><input type="checkbox" onclick="$(this).parent.click" ${selected[id]!==undefined ? "checked=1" : "" }  ></td>
-      </tr>`
-    }, '');
+    body = children.map(
+      function(n, i) {
+        id = `${course}-${i}`;
+        // Filter results
+        for (i = 0; i < filters.length; i++) { if (!filters[i](id, n)) return; }
+        return `<tr class="${selected[id] !== undefined ? "child selected" : "child" }" id="${id}">
+          <td>${n[0]}</td>
+          <td>${n[1]}</td>
+          <td>${n[2]}</td>
+          <td>${n[3]}</td>
+          <td>${n[4]}</td>
+          <td>${n[6]}</td>
+          <td><input type="checkbox" onclick="$(this).parent.click" ${selected[id] !== undefined ? "checked=1" : "" }  ></td>
+        </tr>`
+      }).join('');
 
     footer = `</table>`;
-    return header + children + footer;
+    return header + body + footer;
 }
 
-// Turns a myCUinfo-style date/time ("TuTh 2:00-2:50") into a fullCalendar-style date/time ("2014-06-09T14:50"). If you have to dig through it I am very sorry.
+/*
+ * Turns a myCUinfo-style date/time ("TuTh 2:00-2:50") into a fullCalendar-style date/time ("2014-06-09T14:50"). If you have to dig through it I am very sorry.
+ *
+ * Parameters:
+ *   classDays (string): myCUinfo-style date/time ("TuTh 2:00-2:50" or similar)
+ */
 function formatDays(classDays) {
   days = [ { day: "Mo", date: "09" }, { day: "Tu", date: "10" }, { day: "We", date: "11" }, { day: "Th", date: "12" }, { day: "Fr", date: "13" } ];
   var dates = days.reduce(function(acc, val) {
@@ -97,7 +108,7 @@ $(document).ready(function() {
     defaultView: 'agendaWeek',
     minTime: '08:00:00',
     maxTime: '20:00:00',
-    height: 656,
+    height: "auto",
     allDaySlot: false,
     editable: false,
     events: []
@@ -118,6 +129,7 @@ $(document).ready(function() {
       null,
       { "visible": false }
     ],
+    // Used to avoid annoying scrolling bug
     "preDrawCallback": function (settings) {
       scrollPos = $('.dataTables_scrollBody')[0].scrollTop;
     },
@@ -145,16 +157,19 @@ $(document).ready(function() {
 
   // Callback when parent row is opened or child row is selected.
   $('#table tbody').on('click', 'tr', function (e) {
+    // DOM row handle
     var tr = $(this).closest('tr');
+    // Datatable row handle
     var row = table.row( tr );
     if(tr[0].className == "") return;
     if(tr[0].className.indexOf("child") != -1) {
+      // This row is a child - add it to the calendar
       id = tr[0].id;
       dt = formatDays(tr[0].children[1].innerHTML);
       if (selected[id] == undefined) {
         selected[id] = dt[0].map(function (date) {
           var event = {
-            title: `${id.substr(0,9)}`,
+            title: id.substr(0,9),
             start: `${date}T${dt[1]}`,
             end: `${date}T${dt[2]}`,
             color: getColor( tr[0].children[0].innerHTML ),
@@ -172,18 +187,19 @@ $(document).ready(function() {
       this.cells[6].childNodes[0].checked = selected[id] !== undefined ? 1 : undefined;
     }
     else {
+      tr.toggleClass('shown');
       if ( row.child.isShown() ) {
         // This row is already open - close it
         row.child.hide();
-        tr.removeClass('shown');
       }
       else {
         // Open this row
-        row.child( format(row.data(), selected, childFilters) ).show();
+        var rowData = row.data();
+        var course = rowData[0], description = rowData[3], children = rowData.slice(6);
+        row.child( format(course, description, children, selected, childFilters) ).show();
         row.child().hover(function(){
           $(this).css("background-color", "white");
         });
-        tr.addClass('shown');
       }
     }
   });

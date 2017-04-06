@@ -30,15 +30,21 @@ body {
   margin: 0px 10px 10px 10px;
   border-radius: 15px;
   padding: 10px 10px 10px 10px;
-  /*background: #E6DAC0;*/
   background: #EEE;
+}
+
+#code-search {
+  width: 20%;
+}
+
+#name-search {
+  width: 60%;
 }
 
 #table-wrap {
   margin: 10px 10px 0px 10px;
   border-radius: 15px;
   padding: 0px 10px 10px 10px;
-  /*background: #E6DAC0;*/
   background: #EEE;
 }
 
