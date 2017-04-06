@@ -195,7 +195,7 @@ $(document).ready(function() {
     }
   });
   $('#name-search').on( 'keyup change', function () {
-    col = table.columns(3)
+    col = table.columns([1,3])
     if ( col.search() !== this.value ) {
         col.search(this.value).draw();
     }
@@ -203,7 +203,7 @@ $(document).ready(function() {
 
   var filters = {
     "full": {
-      parent: function( settings, data, dataIndex ) {
+      parent: function(settings, data, dataIndex ) {
         return data[2] == "open";
       },
       child: function( id, data ) {
@@ -212,7 +212,7 @@ $(document).ready(function() {
       active: false
     },
     "selected": {
-      parent: function( settings, data, dataIndex ) {
+      parent: function(settings, data, dataIndex ) {
         for (entry in selected) {
           if (entry.substring(0,9) == data[0]) {
             return true;
@@ -225,6 +225,23 @@ $(document).ready(function() {
           if (entry == id) {
             return true;
           }
+        }
+        return false;
+      },
+      active: false
+    },
+    "teacher": {
+      parent: function(settings, data, dataIndex) {
+        for (var i = 6; i < data.length; i++) {
+          if (data[i][4].indexOf($('#prof-search').val()) != -1) {
+            return true;
+          }
+        }
+        return true;
+      },
+      child: function( id, data ) {
+        if (data[4].indexOf($('#prof-search').val()) != -1) {
+          return true;
         }
         return false;
       },
@@ -243,6 +260,11 @@ $(document).ready(function() {
     }
     table.draw();
   }
+
+  $('#prof-search').on( 'keyup change', function () {
+    filters["teacher"].active = true;
+    createFilters();
+  });
 
   $('#display-full').change(function(target) {
     filters["full"].active = target.currentTarget.checked;
