@@ -14,6 +14,14 @@
  *   selected ( { "class ID": { title: string, start: string, end: string, color: string, id: string } } ): list of selected classes
  *   filters ( { "filter name": function filter(id, data) } ): List of filters
  */
+function sendEmail()
+{
+  console.log("hai")
+  $.post( "elra.cs.colorado.edu:9000", function( data ) { console.log('wat') } );
+  console.log('done')
+}
+
+
 function format ( course, description, children, selected, filters ) {
     header = `<div style="padding-left:25px">${description}</div>
     <table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">
@@ -30,7 +38,7 @@ function format ( course, description, children, selected, filters ) {
           <td>${n[2]}</td>
           <td>${n[3]}</td>
           <td>${n[4]}</td>
-          <td>${n[6]}</td>
+          <td>${n[5]}</td>
           <td><input type="checkbox" onclick="$(this).parent.click" ${selected[id] !== undefined ? "checked=1" : "" }  ></td>
         </tr>`
       }).join('');
@@ -127,6 +135,7 @@ $(document).ready(function() {
       null,
       null,
       null,
+      null,
       { "visible": false }
     ],
     // Used to avoid annoying scrolling bug
@@ -195,7 +204,7 @@ $(document).ready(function() {
       else {
         // Open this row
         var rowData = row.data();
-        var course = rowData[0], description = rowData[3], children = rowData.slice(6);
+        var course = rowData[0], description = rowData[4], children = rowData.slice(7);
         row.child( format(course, description, children, selected, childFilters) ).show();
         row.child().hover(function(){
           $(this).css("background-color", "white");
@@ -211,7 +220,7 @@ $(document).ready(function() {
     }
   });
   $('#name-search').on( 'keyup change', function () {
-    col = table.columns(3)
+    col = table.columns(4)
     if ( col.search() !== this.value ) {
         col.search(this.value).draw();
     }
@@ -220,10 +229,10 @@ $(document).ready(function() {
   var filters = {
     "full": {
       parent: function( settings, data, dataIndex ) {
-        return data[2] == "open";
+        return data[3] == "open";
       },
       child: function( id, data ) {
-        return data[2] > 0;
+        return data[3] > 0;
       },
       active: false
     },

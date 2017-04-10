@@ -17,6 +17,7 @@ def main():
             sectionList = [];
             minWaitlist = {}
             maxSeats = {}
+            credits = None
             for section_type in department[course]["sections"].keys():
                 for section in department[course]["sections"][section_type]:
                     typ = section["type"]
@@ -24,13 +25,16 @@ def main():
                     room = section["room"]
                     seats = int(section["seats"])
                     waitlist = int(section["waitlist"])
-                    units = section["units"]
                     instructor = section["instructor"]
+                    if credits == None:
+                        credits = section["units"]
+                    elif credits != section["units"]:
+                        credits = "varies"
                     # print(section_type.type)
                     # print(minWaitlist.get(section_type, float("inf")), waitlist)
                     minWaitlist[section_type] = min(minWaitlist.get(section_type, float("inf")), waitlist)
                     maxSeats[section_type] = max(maxSeats.get(section_type, 0), seats)
-                    sectionList.append('["{0}","{1}",{2},{3},"{4}","{5}","{6}"]'.format(typ, time, seats, waitlist, instructor, units, room))
+                    sectionList.append('["{0}","{1}",{2},{3},"{4}","{5}"]'.format(typ, time, seats, waitlist, instructor, room))
             if len(minWaitlist) > 0:
                 dept, num = course.split(' ')
                 code = course;
@@ -42,7 +46,7 @@ def main():
                 seats = min(maxSeats.values())
                 status = "open" if seats else "waitlisted"
                 sections = ','.join(sectionList)
-                classes.append('["{0}","{1}","{2}","{3}",{4},{5},{6}]'.format(code, name, status, description, seats, waitlist, sections))
+                classes.append('["{0}","{1}","{2}","{3}","{4}",{5},{6},{7}]'.format(code, name, credits, status, description, seats, waitlist, sections))
     classList = ',\n'.join(classes)
     outfile.write('{{"data":[\n{0}\n]}}'.format(classList))
 
