@@ -11,7 +11,6 @@ def main():
     classes = []
     for department in data:
         for course in department.keys():
-            print(course)
             # sections = []
             # outfile.write('["{0}", "{1}", {2}, "{3}"').format(code, name, units, status);
             sectionList = [];
