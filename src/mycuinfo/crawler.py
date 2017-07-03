@@ -6,28 +6,40 @@ from selenium.webdriver.common.keys import Keys
 
 import getpass
 import time
-from time import strftime, gmtime
 import os
 import errno
+import threading
 
 url = "https://portal.prod.cu.edu/psp/epprod/UCB2/ENTP/h/?tab=DEFAULT" # mycuinfo url
 login_timer = 20 # time for login to complete
 expand_timer = 10 # time for dropdown arrows to open
+print_debug = False
 
-def find_elem(driver_func, name, max_timer = 40):
-    timer = 0
-    while True:
+def retry(f, *pargs, max_seconds=30, **kwargs):
+    for i in range(max_seconds):
         try:
-            item = driver_func(name)
-            return item
-        except Exception as err:
-            if timer <= max_timer:
-                time.sleep(1)
-                timer += 1
-                continue
-            else:
-                raise err
-    
+            return f(*pargs, **kwargs)
+        except Exception:
+            sleep(1)
+    return f(*pargs, **kwargs)
+
+def wait_until_fails(f, *pargs, max_seconds=15, **kwargs):
+    try:
+        for i in range(max_seconds):
+            f(*pargs, **kwargs)
+            sleep(1)
+    except Exception:
+        return True
+    return False
+
+def debug(m):
+    if print_debug:
+        print(m)
+
+def wait_for_loading_icon():
+    debug('Waiting for loading icon')
+    if not wait_until_fails(deiver.find_elements_by_class_name, 'ui-icon-loading'):
+        raise Exception("Loading icon did not vanish")
 
 def login(ukeys, pkeys):
     driver = webdriver.Chrome()
@@ -41,57 +53,61 @@ def login(ukeys, pkeys):
     passwd.send_keys(Keys.RETURN)
     return driver
 
+
 def runSearch(driver, current, second_time=False):
-    find_elem(driver.find_element_by_link_text, 'Search for Classes').click()
+    debug('Clicking "search for classes"')
+    search = retry(driver.find_element_by_link_text, 'Search for Classes').click()
 
-    time.sleep(1)
+    debug('Switching to main frame')
+    retry(driver.switch_to_frame, "ptifrmtgtframe")
 
-    find_elem(driver.switch_to_frame, "ptifrmtgtframe")
-
-    time.sleep(1)
-
+    debug('Selecting campus')
     Select(
-        find_elem(driver.find_element_by_id, "CLASS_SRCH_WRK2_INSTITUTION$31$")
+        retry(driver.find_element_by_id, "CLASS_SRCH_WRK2_INSTITUTION$31$")
     ).select_by_value("CUBLD")
-    
-    time.sleep(1)
-    
-    Select(
-        find_elem(driver.find_element_by_id, "CLASS_SRCH_WRK2_STRM$35$")
-    ).select_by_visible_text('Fall 2017 UC Boulder')
-    
-    time.sleep(1)
-    
-    Select(
-        find_elem(driver.find_element_by_id, "SSR_CLSRCH_WRK_CAMPUS$0")
-    ).select_by_visible_text('Boulder Main Campus')
-    
-    time.sleep(1)
 
+    wait_for_loading_icon()
+
+    debug('Selecting semester')
+    Select(
+        retry(driver.find_element_by_id, "CLASS_SRCH_WRK2_STRM$35$")
+    ).select_by_visible_text('Fall 2017 UC Boulder')
+
+    wait_for_loading_icon()
+
+    debug('Selecting campus')
+    Select(
+        retry(driver.find_element_by_id, "SSR_CLSRCH_WRK_CAMPUS$0")
+    ).select_by_visible_text('Boulder Main Campus')
+
+    wait_for_loading_icon()
+
+    debug('Entering department')
     find_elem(driver.find_element_by_id,"SSR_CLSRCH_WRK_SUBJECT$1").send_keys(current)
-    
+
     # Chem has too many classes! AAAAAH
     if current == "CHEM":
+        debug('Splitting CHEM into two groups')
         if second_time:
             Select(
-                find_elem(driver.find_element_by_id, "SSR_CLSRCH_WRK_SSR_EXACT_MATCH1$2")
+                retry(driver.find_element_by_id, "SSR_CLSRCH_WRK_SSR_EXACT_MATCH1$2")
             ).select_by_visible_text("greater than or equal to")
         else:
             Select(
-                find_elem(driver.find_element_by_id, "SSR_CLSRCH_WRK_SSR_EXACT_MATCH1$2")
+                retry(driver.find_element_by_id, "SSR_CLSRCH_WRK_SSR_EXACT_MATCH1$2")
             ).select_by_visible_text("less than or equal to")
-        
-        time.sleep(1)
-        
-        find_elem(driver.find_element_by_id, "SSR_CLSRCH_WRK_CATALOG_NBR$2").send_keys("3000")
-    
-    time.sleep(1)
-    
-    find_elem(driver.find_element_by_id,"CLASS_SRCH_WRK2_SSR_PB_CLASS_SRCH").click()
+
+        wait_for_loading_icon()
+
+        retry(driver.find_element_by_id, "SSR_CLSRCH_WRK_CATALOG_NBR$2").send_keys("3000")
+
+    wait_for_loading_icon()
+
+    debug('Submitting')
+    retry(driver.find_elements_by_class_name, "gh-footer-item")[1].click()
 
 
 def department(filepath, current, log, login_data, second_time=False):
-    
     print(current)
     try:
         driver = login(login_data["uname"], login_data["pswd"])
@@ -100,7 +116,7 @@ def department(filepath, current, log, login_data, second_time=False):
         driver.close()
         raise err
 
-    time.sleep(login_timer)
+    # time.sleep(login_timer)
 
     try:
         runSearch(driver, current, second_time)
@@ -110,13 +126,13 @@ def department(filepath, current, log, login_data, second_time=False):
         raise err
 
     time.sleep(1)
-    
+
     try:
         driver.find_element_by_id("win0divDERIVED_CLSMSG_ERROR_TEXT")
         return
     except:
         pass
-    
+
 
     try:
         find_elem(driver.find_element_by_id, "CU_CLS_RSL_WRK_CU_SSR_EXPAND_ALL").click()
@@ -143,44 +159,16 @@ def department(filepath, current, log, login_data, second_time=False):
     if current == "CHEM" and not second_time:
         department(filepath, current, log, login_data, True)
 
-def main(depts):
-    ukeys = input("User: ").strip('\n')
-    pkeys = getpass.getpass()
-    login = {"uname": ukeys, "pswd": pkeys}
-    
-    filepath = "../mycuinfo_html/"
-
-    date = strftime("%Y-%m-%d", gmtime())
-    log = open(filepath + "scrape.log", 'w+')
-    log.write("{0}\n{1}: Beggining new data harvest\n".format(date, strftime("%H:%M", gmtime())))
-
-    error = False
-    for current in depts:
-        try:
-            department(filepath, current, log, login)
-        except Exception as err:
-            raise err
-            error = True
-            continue
-
-    log.write("{0}: Finished data harvest\n".format(strftime("%H:%M", gmtime())))
-    log.close()
-
-    if not error:
-        print("Scrape finished with no Errors")
-    else:
-        print("!!! Scrape finished with Errors !!!")
-
 def redo(depts):
         ukeys = input("User: ").strip('\n')
         pkeys = getpass.getpass()
         login = {"uname": ukeys, "pswd": pkeys}
-        
+
         filepath = "../mycuinfo_html/"
 
-        date = strftime("%Y-%m-%d", gmtime())
+        date = time.strftime("%Y-%m-%d", time.gmtime())
         log = open(filepath + "scrape.log", 'w+')
-        log.write("{0}\n{1}: Beggining new data harvest\n".format(date, strftime("%H:%M", gmtime())))
+        log.write("{0}\n{1}: Beggining new data harvest\n".format(date, time.strftime("%H:%M", time.gmtime())))
 
         error = False
         for current in depts:
@@ -193,13 +181,43 @@ def redo(depts):
                 error = True
                 continue
 
-        log.write("{0}: Finished data harvest\n".format(strftime("%H:%M", gmtime())))
+        log.write("{0}: Finished data harvest\n".format(time.strftime("%H:%M", time.gmtime())))
         log.close()
 
         if error:
             print("Scrape finished with Errors")
         else:
             print("!!! Scrape finished with Errors !!!")
+
+def main(depts, n_threads=15, logpath="../../docs/logs/mycuinfo.log", filepath="../../docs/raw_html/mycuinfo/"):
+    ukeys = input("User: ").strip('\n')
+    pkeys = getpass.getpass()
+    login = {"uname": ukeys, "pswd": pkeys}
+
+    start_date = time.strftime("%Y-%m-%d", time.gmtime())
+    log = open(logpath, 'w')
+    log.write("{0}\n{1}: Beggining new data harvest\n".format(start_date, time.strftime("%H:%M", time.gmtime())))
+
+    error = False
+    for current in depts:
+        try:
+            department(filepath, current, log, login)
+        except Exception as err:
+            raise err
+            error = True
+            continue
+
+    log.write("{0}: Finished data harvest\n".format(time.strftime("%H:%M", time.gmtime())))
+    log.close()
+
+    if not error:
+        print("Scrape finished with no Errors")
+    else:
+        print("!!! Scrape finished with Errors !!!")
+
+class ThreadedWebInstance(object):
+    def run():
+        pass
 
 if __name__ == "__main__":
     main()

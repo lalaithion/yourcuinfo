@@ -89,6 +89,7 @@ class MyHTMLParser(HTMLParser):
             if attr == "id":
                 if "win0divSSR_CLSRSLT_WRK_GROUPBOX2GP$" in value:
                     self.current = "title"
+                    # print("On TITLE: %s" % value)
                 if "MTG_CLASS_NBR$" in value:
                     self.current = "number"
                 if "MTG_CLASSNAME$" in value:
@@ -110,6 +111,10 @@ class MyHTMLParser(HTMLParser):
                 if "CU_CLS_RSL_WRK_AVAILABLE_SEATS$" in value:
                     self.current = "seats"
                 if "CU_CLS_RSL_WRK_WAIT_TOT$" in value:
+                    # print("ON WAIT TOT: %s" % value)
+                    self.current = "waitlist"
+                if "CU_CLS_RSL_WRK_CU_SSR_WAITLIST$" in value:
+                    # print("On WAITLIST: %s" % value)
                     self.current = "waitlist"
 
     def handle_endtag(self, tag):
@@ -131,6 +136,7 @@ class MyHTMLParser(HTMLParser):
                 print("Available Seats: " + self.fields["seats"])
                 print("Wait List Total: " + self.fields["waitlist"])
                 print()
+            print("Adding %s" % self.fields['title'])
             self.courses[-1].add_section(self.fields)
             self.fields = {}
             self.current = None
@@ -156,7 +162,7 @@ def jsonify(filename):
         parser.feed(f.read())
         return parser.json()
 
-def jsonify_dir(dirpath):
+def jsonify_dir(dirpath, log):
     class_info = []
     for f in listdir(dirpath):
         filepath = join(dirpath, f)
@@ -170,25 +176,24 @@ def jsonify_dir(dirpath):
                     class_info.append(info)
                 except Exception as err:
                     errors = True
-                    log.write("Error during parsing of {0}:\n  {1}\n".format(filepath, err))
+                    log.write("Error during parsing of %s:\n  %s: %s\n" % (filepath, type(err), err))
 
         else:
             print("Reading dir:", filepath)
             class_info.extend(jsonify_dir(filepath))
     return class_info
 
-def main():
-    log = open("parse.log", 'a+')
+def main(logpath="../../docs/logs/mycuinfo-parse.log", inpath="../../docs/raw_html/mycuinfo/", outpath='../../docs/json/classes.json'):
+    log = open(logpath, 'w')
     date = strftime("%Y-%m-%d", gmtime())
     log.write("{0}\n{1}: Beginning parse:\n".format(date, strftime("%H:%M", gmtime())))
     errors = False
 
-    root = "../../mycuinfo_html/"
-    classes = jsonify_dir(root)
-    with open('../../json/classes.json', 'w') as outfile:
+    classes = jsonify_dir(inpath, log)
+    with open(outpath, 'w') as outfile:
         json.dump(classes, outfile, indent=4, separators=(',', ': '))
 
-    log.write("{0}: Parse finished\n".format(strftime("%H:%M", gmtime())))
+    log.write("%s: Parse finished\n" % strftime("%H:%M", gmtime()))
     log.close()
     print("Parse finished with no errors" if not errors else "Parse finished with errors")
 
