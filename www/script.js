@@ -191,7 +191,7 @@ $(document).ready(function() {
         $('#calendar').fullCalendar('removeEvents');
         drawCal(selected);
       }
-      setCookie("selected", JSON.stringify(selected), 30);
+      setCookie("selected", JSON.stringify(selected), 256);
       $(this).toggleClass('selected');
       this.cells[6].childNodes[0].checked = selected[id] !== undefined ? 1 : undefined;
     }
