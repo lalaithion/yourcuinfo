@@ -1,114 +1,142 @@
-/* Helper function that creates the child rows.
- *
- * Parameters:
- *   course (string): course name
- *   description (string): course description
- *   children (array[array[_]]): containins information for child rows:
- *     children[i][0] = Type (lecture, recitation, etc)
- *     children[i][1] = Date/time
- *     children[i][2] = Available seats
- *     children[i][3] = Waitlist
- *     children[i][4] = Instructor
- *     children[i][5] = Units
- *     children[i][6] = Room
- *   selected ( { "class ID": { title: string, start: string, end: string, color: string, id: string } } ): list of selected classes
- *   filters ( { "filter name": function filter(id, data) } ): List of filters
- */
-function sendEmail()
-{
-  console.log("hai")
-  $.post( "elra.cs.colorado.edu:9000", function( data ) { console.log('wat') } );
-  console.log('done')
-}
-
-
-function format ( course, description, children, selected, filters ) {
-    header = `<div style="padding-left:25px">${description}</div>
-    <table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">
-    <thead><th>Type</th><th>Time</th><th>Seats</th><th>Waitlist</th><th>Instructor</th><th>Room</th><th></th></thead>`;
-
-    body = children.map(
-      function(n, i) {
-        id = `${course}-${i}`;
-        // Filter results
-        for (i = 0; i < filters.length; i++) { if (!filters[i](id, n)) return; }
-        return `<tr class="${selected[id] !== undefined ? "child selected" : "child" }" id="${id}">
-          <td>${n[0]}</td>
-          <td>${n[1]}</td>
-          <td>${n[2]}</td>
-          <td>${n[3]}</td>
-          <td>${n[4]}</td>
-          <td>${n[5]}</td>
-          <td><input type="checkbox" onclick="$(this).parent.click" ${selected[id] !== undefined ? "checked=1" : "" }  ></td>
-        </tr>`
-      }).join('');
-
-    footer = `</table>`;
-    return header + body + footer;
-}
-
-/*
- * Turns a myCUinfo-style date/time ("TuTh 2:00-2:50") into a fullCalendar-style date/time ("2014-06-09T14:50"). If you have to dig through it I am very sorry.
- *
- * Parameters:
- *   classDays (string): myCUinfo-style date/time ("TuTh 2:00-2:50" or similar)
- */
-function formatDays(classDays) {
-  days = [ { day: "Mo", date: "09" }, { day: "Tu", date: "10" }, { day: "We", date: "11" }, { day: "Th", date: "12" }, { day: "Fr", date: "13" } ];
-  var dates = days.reduce(function(acc, val) {
-    return (classDays.indexOf(val.day) == -1) ? acc : acc.concat(`2014-06-${val.date}`);
-  }, []);
-  times = classDays.match(/(\d{1,2}):(\d{2})(.M) - (\d{1,2}):(\d{2})(.M)/);
-  startHour = String(Number(times[1]) + ((times[3] == "PM" && times[1] != "12") ? 12 : 0));
-  endHour = String(Number(times[4]) + ((times[6] == "PM" && times[4] != "12") ? 12 : 0));
-  start = `${(startHour.length > 1)?'':'0'}${startHour}:${times[2]}`;
-  end = `${(endHour.length > 1)?'':'0'}${endHour}:${times[5]}`;
-  return [dates, start, end];
-}
-
-// Helper function to color-code calendar entries.
-function getColor(type) {
-  switch(type) {
-    case "lecture":
-        return "#774444";
-    case "recitation":
-        return "#447744";
-    default:
-        return "grey";
-  }
-}
-
-// https://www.w3schools.com/js/js_cookies.asp
-function setCookie(cname, cvalue, exdays) {
-  var d = new Date();
-  d.setTime(d.getTime() + (exdays*24*60*60*1000));
-  var expires = "expires="+ d.toUTCString();
-  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-}
-
-function getCookie(cname) {
-    var name = cname + "=";
-    var decodedCookie = decodeURIComponent(document.cookie);
-    var ca = decodedCookie.split(';');
-    for(var i = 0; i <ca.length; i++) {
-        var c = ca[i];
-        while (c.charAt(0) == ' ') {
-            c = c.substring(1);
-        }
-        if (c.indexOf(name) == 0) {
-            return c.substring(name.length, c.length);
-        }
-    }
-    return "";
-}
-
 $(document).ready(function() {
+  stateData = {
+    selected = [];
+  };
+
+  function unpackData(rowData) {
+    return {
+      code: rowData[0],
+      title: rowData[1],
+      units: rowData[2],
+      currentStatus: rowData[3],
+      description: rowData[4],
+      openSeats: rowData[5],
+      waitlist: rowData[6],
+      sections: rowData.slice(7),
+    };
+  }
+
+  var childTemplate = document.getElementById('child-template');
+  var sectionTemplate = document.getElementById('section-template');
+  function createChild(parent_row) {
+    var data = unpackData(table.row(parent_row).data())
+    var newChild = childTemplate.cloneNode(true); // true for deep clone
+    var newChildTable = newChild.querySelector("tbody");
+    newChild.insertBefore(document.createTextNode(data.description),
+         newChild.firstChild);
+    newChild.style.display = null;
+    data.sections.forEach(function(section, i) {
+      sectionRow = newChildTable.querySelector("tr").cloneNode(true);
+      sectionRow.style.display = null;
+      sectionRow.id = data.code + '-' + i;
+      for(j in section) {
+        sectionRow.children[j].innerHTML = section[j];
+      }
+      newChildTable.append(sectionRow);
+
+      if(!stateData[sectionRow.id]) {
+        stateData[sectionRow.id] = { 
+          parentRow: parent_row,
+          selected: false,
+        }
+      }
+      else if (stateData[sectionRow.id].selected) {
+        sectionRow.querySelector("input").checked = true;
+        sectionRow.className += " selected";
+      }
+    });
+    return newChild;
+  }
+
+  /*
+   * Turns a myCUinfo-style date/time ("TuTh 2:00-2:50") into a 
+   * fullCalendar-style date/time ("2014-06-09T14:50").
+   * If you have to dig through it I am very sorry.
+   *
+   * Parameters:
+   *   classDays (string): myCUinfo-style date/time ("TuTh 2:00-2:50" or similar)
+   */
+  function formatDays(classDays) {
+    days = [ { day: "Mo", date: "09" }, { day: "Tu", date: "10" }, { day: "We", date: "11" }, { day: "Th", date: "12" }, { day: "Fr", date: "13" } ];
+    var dates = days.reduce(function(acc, val) {
+      return (classDays.indexOf(val.day) == -1) ? acc : acc.concat(`2014-06-${val.date}`);
+    }, []);
+    times = classDays.match(/(\d{1,2}):(\d{2})(.M) - (\d{1,2}):(\d{2})(.M)/);
+    startHour = String(Number(times[1]) + ((times[3] == "PM" && times[1] != "12") ? 12 : 0));
+    endHour = String(Number(times[4]) + ((times[6] == "PM" && times[4] != "12") ? 12 : 0));
+    start = `${(startHour.length > 1)?'':'0'}${startHour}:${times[2]}`;
+    end = `${(endHour.length > 1)?'':'0'}${endHour}:${times[5]}`;
+    return [dates, start, end];
+  }
+
+  // Helper function to color-code calendar entries.
+  function getColor(type) {
+    switch(type) {
+      case "lecture":
+          return "#774444";
+      case "recitation":
+          return "#447744";
+      default:
+          return "grey";
+    }
+  }
+
+  // https://www.w3schools.com/js/js_cookies.asp
+  function setCookie(cname, cvalue, exdays) {
+    var d = new Date();
+    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+    var expires = "expires="+ d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+  }
+
+  function getCookie(cname) {
+      var name = cname + "=";
+      var decodedCookie = decodeURIComponent(document.cookie);
+      var ca = decodedCookie.split(';');
+      for(var i = 0; i <ca.length; i++) {
+          var c = ca[i];
+          while (c.charAt(0) == ' ') {
+              c = c.substring(1);
+          }
+          if (c.indexOf(name) == 0) {
+              return c.substring(name.length, c.length);
+          }
+      }
+      return "";
+  }
+
+  // Instantiate table.;
+  var scrollPos = 0;
+  var table = $('#table').DataTable({
+    ajax: "docs/class_data.json",
+    scrollY: "500px",
+    scrollCollapse: true,
+    paging: false,
+    deferRender: true,
+    processing: true,
+    sDom: 't',
+    columns: [
+      null,
+      null,
+      null,
+      null,
+      { "visible": false }
+    ],
+    // Used to avoid annoying scrolling bug
+    preDrawCallback: function (settings) {
+      scrollPos = $('.dataTables_scrollBody')[0].scrollTop;
+    },
+    drawCallback: function (settings) {
+      $('.dataTables_scrollBody')[0].scrollTop = scrollPos;
+    },
+  });
+
   // Instantiate calendar.
   $('#calendar').fullCalendar({
     header: {
       left: '',
       center: '',
-      right: ''
+      right: '',
     },
     columnFormat: 'ddd',
     hiddenDays: [0, 6],
@@ -119,32 +147,11 @@ $(document).ready(function() {
     height: "auto",
     allDaySlot: false,
     editable: false,
-    events: []
-  });
-
-  // Instantiate table.;
-  var scrollPos = 0;
-  var table = $('#table').DataTable({
-    "ajax": "class_data.json",
-    "scrollY": "500px",
-    "scrollCollapse": true,
-    "paging": false,
-    "deferRender": true,
-    'sDom': 't',
-    "columns": [
-      null,
-      null,
-      null,
-      null,
-      { "visible": false }
-    ],
-    // Used to avoid annoying scrolling bug
-    "preDrawCallback": function (settings) {
-      scrollPos = $('.dataTables_scrollBody')[0].scrollTop;
+    events: [],
+    eventClick: function(calEvent, jsEvent, view) {
+      offset = stateData[calEvent.id].parentRow.offsetTop;
+      $('.dataTables_scrollBody').animate({ scrollTop: offset }, 500);
     },
-    "drawCallback": function (settings) {
-      $('.dataTables_scrollBody')[0].scrollTop = scrollPos;
-    }
   });
 
   // Used to store which courses have been selected and added to the calendar.
@@ -164,52 +171,60 @@ $(document).ready(function() {
 
   drawCal(selected)
 
-  // Callback when parent row is opened or child row is selected.
-  $('#table tbody').on('click', 'tr', function (e) {
-    // DOM row handle
-    var tr = $(this).closest('tr');
+  function toggleSelected(dom_row) {
+    child_row = $(dom_row);
+    id = child_row.attr('id');
+    dt = formatDays(child_row.children()[1].innerHTML);
+    if(!stateData[id].selected) {
+      stateData[id].selected = true;
+      dt[0].forEach(function(date) {
+        var newEvent = {
+          title: id.substr(0,9),
+          start: `${date}T${dt[1]}`,
+          end: `${date}T${dt[2]}`,
+          color: getColor(child_row.children()[0].innerHTML),
+          id: id,
+        }
+        $('#calendar').fullCalendar('renderEvent', newEvent, true)
+      })
+    } else {
+      stateData[id].selected = null;
+      $('#calendar').fullCalendar('removeEvents', id);
+    }
+    setCookie("selected", JSON.stringify(selected), 30);
+    child_row.toggleClass('selected');
+    dom_row.querySelector('input').checked = stateData[id].selected;
+  }
+
+  function showChildRows(parent_row) {
+    row = $(parent_row);
+    row.toggleClass('shown');
     // Datatable row handle
-    var row = table.row( tr );
-    if(tr[0].className == "") return;
-    if(tr[0].className.indexOf("child") != -1) {
-      // This row is a child - add it to the calendar
-      id = tr[0].id;
-      dt = formatDays(tr[0].children[1].innerHTML);
-      if (selected[id] == undefined) {
-        selected[id] = dt[0].map(function (date) {
-          var event = {
-            title: id.substr(0,9),
-            start: `${date}T${dt[1]}`,
-            end: `${date}T${dt[2]}`,
-            color: getColor( tr[0].children[0].innerHTML ),
-          }
-          event.id = $('#calendar').fullCalendar('renderEvent', event, true)[0]._id;
-          return event;
-        })
-      } else {
-        delete selected[id];
-        $('#calendar').fullCalendar('removeEvents');
-        drawCal(selected);
-      }
-      setCookie("selected", JSON.stringify(selected), 30);
-      $(this).toggleClass('selected');
-      this.cells[6].childNodes[0].checked = selected[id] !== undefined ? 1 : undefined;
+    var row_handle = table.row(row);
+    if ( row_handle.child.isShown() ) {
+      // This row is already open - close it
+      row_handle.child.hide();
     }
     else {
-      tr.toggleClass('shown');
-      if ( row.child.isShown() ) {
-        // This row is already open - close it
-        row.child.hide();
-      }
-      else {
-        // Open this row
-        var rowData = row.data();
-        var course = rowData[0], description = rowData[4], children = rowData.slice(7);
-        row.child( format(course, description, children, selected, childFilters) ).show();
-        row.child().hover(function(){
-          $(this).css("background-color", "white");
-        });
-      }
+      // Open this row
+      row_handle.child(createChild(parent_row), 'child-body').show();
+      row_handle.child().hover(function(){
+        $(this).css("background-color", "white");
+      });
+    }
+  }
+
+  // Callback when parent row is opened or child row is selected.
+  $('#table tbody').on('click', 'tr', function (e) {
+    var row = $(this);
+    if(row.hasClass("child-body")) {
+      return;
+    }
+    else if(row.hasClass("child-row")) {
+      toggleSelected(this);
+    }
+    else {
+      showChildRows(this);
     }
   });
 
@@ -219,6 +234,7 @@ $(document).ready(function() {
         col.search(this.value).draw();
     }
   });
+
   $('#name-search').on( 'keyup change', function () {
     col = table.columns(4)
     if ( col.search() !== this.value ) {
