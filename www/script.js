@@ -1,6 +1,6 @@
 $(document).ready(function() {
   stateData = {
-    selected = [];
+    selected: [],
   };
 
   function unpackData(rowData) {
@@ -171,22 +171,27 @@ $(document).ready(function() {
 
   drawCal(selected)
 
+  function createCalendarEvents(days, starttime, endtime, color, id) {
+    days.forEach(function(day) {
+      var newEvent = {
+        title: id.substr(0,9),
+        start: `${day}T${starttime}`,
+        end: `${day}T${endtime}`,
+        color: color,
+        id: id,
+      }
+      $('#calendar').fullCalendar('renderEvent', newEvent, true)
+    });
+  }
+
   function toggleSelected(dom_row) {
     child_row = $(dom_row);
     id = child_row.attr('id');
     dt = formatDays(child_row.children()[1].innerHTML);
     if(!stateData[id].selected) {
       stateData[id].selected = true;
-      dt[0].forEach(function(date) {
-        var newEvent = {
-          title: id.substr(0,9),
-          start: `${date}T${dt[1]}`,
-          end: `${date}T${dt[2]}`,
-          color: getColor(child_row.children()[0].innerHTML),
-          id: id,
-        }
-        $('#calendar').fullCalendar('renderEvent', newEvent, true)
-      })
+      $('#calendar').fullCalendar('removeEvents', id);
+      createCalendarEvents(dt[0], dt[1], dt[2], getColor(child_row.children()[0].innerHTML), id);
     } else {
       stateData[id].selected = null;
       $('#calendar').fullCalendar('removeEvents', id);
@@ -214,6 +219,25 @@ $(document).ready(function() {
     }
   }
 
+  $('#table tbody').on('mouseenter', 'tr', function(row) {
+    row = $(row.currentTarget);
+    if(row.hasClass("child-row")) {
+      id = row.attr('id');
+      dt = formatDays(row.children()[1].innerHTML);
+      if(!stateData[id].selected) {
+        createCalendarEvents(dt[0], dt[1], dt[2], '#AAA', id);
+      }
+    }
+  });
+  $('#table tbody').on('mouseleave', 'tr', function(row) {
+    row = $(row.currentTarget);
+    if(row.hasClass("child-row")) {
+      id = row.attr('id');
+      if(!stateData[id].selected) {
+        $('#calendar').fullCalendar('removeEvents', id);
+      }
+    }
+  });
   // Callback when parent row is opened or child row is selected.
   $('#table tbody').on('click', 'tr', function (e) {
     var row = $(this);
