@@ -35,8 +35,7 @@ $(document).ready(function() {
     },
     description: {
       parentRow: function(settings, data, dataIndex) {
-          console.log("Hi!")
-        searchTerm = serchTerms.description;
+        searchTerm = searchTerms.description;
         return data[1].search(searchTerm) >= 0 ||
                data[4].search(searchTerm) >= 0;
       },
@@ -372,7 +371,7 @@ $(document).ready(function() {
 
   $('#name-search').on('keyup change', function () {
     searchTerms.description = new RegExp(this.value, 'i');
-    filterList.instructor.description = this.value != '';
+    filterList.description.active = this.value != '';
     createFilters();
   });
 
