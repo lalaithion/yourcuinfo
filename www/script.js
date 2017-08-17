@@ -1,7 +1,7 @@
 $(document).ready(function() {
-  stateData = {
-    selected: [],
-  };
+  expandedRows = {};
+  selectedSections = {};
+  searchTerms = {};
 
   function unpackData(rowData) {
     return {
@@ -16,6 +16,117 @@ $(document).ready(function() {
     };
   }
 
+  function timeIsBefore(x, y) {
+    xsplit = x.split(":");
+    ysplit = y.split(":");
+    return (xsplit[0] < ysplit[0]) || 
+           ((xsplit[0] == ysplit[0]) && (xsplit[1] <= ysplit[1]))
+  }
+
+  var filterList = {
+    full: {
+      parentRow: function(settings, data, dataIndex) {
+        return data[3] == "open";
+      },
+      child: function(id, data) {
+        return data[3] > 0;
+      },
+      active: false
+    },
+    description: {
+      parentRow: function(settings, data, dataIndex) {
+          console.log("Hi!")
+        searchTerm = serchTerms.description;
+        return data[1].search(searchTerm) >= 0 ||
+               data[4].search(searchTerm) >= 0;
+      },
+      child: function() {
+        return true;
+      },
+      active: false
+    },
+    instructor: {
+      // TODO(Alex) figure out why data is only the first 5 indices.
+      parentRow: function(settings, data, dataIndex) {
+        data = table.row(dataIndex).data()
+        for(section of data.slice(7)) {
+          if(section[4].search(searchTerms.instructor) >= 0) {
+            return true;
+          }
+        }
+        return false;
+      },
+      child: function(childName, data) {
+        return data[4].search(searchTerms.instructor) >= 0;
+      },
+      active: false
+    },
+    selected: {
+      parentRow: function(settings, data, dataIndex) {
+        for (id in selectedSections) {
+          if(id.substring(0,9) == data[0]) {
+            return true;
+          }
+        }
+        return false;
+      },
+      child: function(childName, data) {
+        for(id in selectedSections) {
+          if(id == childName) {
+            return true;
+          }
+        }
+        return false;
+      },
+      active: false
+    },
+    conflicting: {
+      parentRow: function(settings, data, dataIndex) {
+        data = table.row(dataIndex).data()
+        sections = unpackData(data).sections;
+        for(id in selectedSections) {
+          for(section of sections) {
+            if(section[1] == "TBA") {
+              return true;
+            }
+            selectedTime = selectedSections[id].classTime;
+            rowTime = formatDays(section[1]);
+            for(rowDay of rowTime.days) {
+              for(selectedDay of selectedTime.days) {
+                if(rowDay != selectedDay ||
+                   (timeIsBefore(rowTime.end, selectedTime.start) ||
+                   timeIsBefore(selectedTime.end, rowTime.start))) {
+                   return true;
+                }
+              }
+            }
+          }
+        }
+        return false;
+      },
+      child: function(rowID, data) {
+        for(id in selectedSections) {
+          if(id == rowID) {
+            return true;
+          }
+          selectedTime = selectedSections[id].classTime;
+          rowTime = formatDays(data[1]);
+          for(rowDay of rowTime.days) {
+            for(selectedDay of selectedTime.days) {
+              if(rowDay == selectedDay &&
+                 !(timeIsBefore(rowTime.end, selectedTime.start) ||
+                 timeIsBefore(selectedTime.end, rowTime.start))) {
+                 return false;
+              }
+            }
+          }
+        }
+        return true;
+      },
+      active: false
+    },
+  };
+
   var childTemplate = document.getElementById('child-template');
   var sectionTemplate = document.getElementById('section-template');
   function createChild(parent_row) {
@@ -26,21 +137,23 @@ $(document).ready(function() {
          newChild.firstChild);
     newChild.style.display = null;
     data.sections.forEach(function(section, i) {
+      var id = data.code + '-' + i;
+      for(filterName in filterList) {
+        filter = filterList[filterName];
+        if(filter.active && !filter.child(id, section)) {
+          return;
+        }
+      }
       sectionRow = newChildTable.querySelector("tr").cloneNode(true);
       sectionRow.style.display = null;
-      sectionRow.id = data.code + '-' + i;
+      sectionRow.id = id;
       for(j in section) {
         sectionRow.children[j].innerHTML = section[j];
       }
       newChildTable.append(sectionRow);
 
-      if(!stateData[sectionRow.id]) {
-        stateData[sectionRow.id] = { 
-          parentRow: parent_row,
-          selected: false,
-        }
-      }
-      else if (stateData[sectionRow.id].selected) {
+      // Child was selected earlier - restore state
+      if (selectedSections[sectionRow.id]) {
         sectionRow.querySelector("input").checked = true;
         sectionRow.className += " selected";
       }
@@ -66,7 +179,7 @@ $(document).ready(function() {
     endHour = String(Number(times[4]) + ((times[6] == "PM" && times[4] != "12") ? 12 : 0));
     start = `${(startHour.length > 1)?'':'0'}${startHour}:${times[2]}`;
     end = `${(endHour.length > 1)?'':'0'}${endHour}:${times[5]}`;
-    return [dates, start, end];
+    return {days: dates, start: start, end: end};
   }
 
   // Helper function to color-code calendar entries.
@@ -109,6 +222,7 @@ $(document).ready(function() {
   var scrollPos = 0;
   var table = $('#table').DataTable({
     ajax: "docs/class_data.json",
+    processing: true,
     scrollY: "500px",
     scrollCollapse: true,
     paging: false,
@@ -149,34 +263,26 @@ $(document).ready(function() {
     editable: false,
     events: [],
     eventClick: function(calEvent, jsEvent, view) {
-      offset = stateData[calEvent.id].parentRow.offsetTop;
+      offset = expandedRows[calEvent.id.substring(0,9)].offsetTop;
       $('.dataTables_scrollBody').animate({ scrollTop: offset }, 500);
     },
   });
 
   // Used to store which courses have been selected and added to the calendar.
-  var childFilters = [];
-  var scookie = getCookie("selected");
-  var selected = scookie ? JSON.parse(scookie) : {};
-
-  drawCal = function(selected) {
-    for (course in selected) {
-      selected[course] = selected[course].map( function(instance) {
-        var newID = $('#calendar').fullCalendar('renderEvent', instance, true)._id;
-        instance.id = newID;
-        return instance;
-      });
-    }
+  selectedSections = JSON.parse(getCookie("selected") || "{}");
+  for(id in selectedSections) {
+    // TODO(alex) Rows selected here aren't added to expandedRows, and
+    // the calendar events throw an error when clicked!
+    data = selectedSections[id];
+    createCalendarEvents(data.classTime, data.color, id);
   }
 
-  drawCal(selected)
-
-  function createCalendarEvents(days, starttime, endtime, color, id) {
-    days.forEach(function(day) {
+  function createCalendarEvents(classTime, color, id) {
+    classTime.days.forEach(function(day) {
       var newEvent = {
         title: id.substr(0,9),
-        start: `${day}T${starttime}`,
-        end: `${day}T${endtime}`,
+        start: `${day}T${classTime.start}`,
+        end: `${day}T${classTime.end}`,
         color: color,
         id: id,
       }
@@ -188,17 +294,18 @@ $(document).ready(function() {
     child_row = $(dom_row);
     id = child_row.attr('id');
     dt = formatDays(child_row.children()[1].innerHTML);
-    if(!stateData[id].selected) {
-      stateData[id].selected = true;
+    if(!selectedSections[id]) {
+      color = getColor(child_row.children()[0].innerHTML)
+      selectedSections[id] = {classTime: dt, color: color};
       $('#calendar').fullCalendar('removeEvents', id);
-      createCalendarEvents(dt[0], dt[1], dt[2], getColor(child_row.children()[0].innerHTML), id);
+      createCalendarEvents(dt, color, id);
     } else {
-      stateData[id].selected = null;
+      delete selectedSections[id];
       $('#calendar').fullCalendar('removeEvents', id);
     }
-    setCookie("selected", JSON.stringify(selected), 30);
+    setCookie("selected", JSON.stringify(selectedSections), 365);
     child_row.toggleClass('selected');
-    dom_row.querySelector('input').checked = stateData[id].selected;
+    dom_row.querySelector('input').checked = selectedSections[id];
   }
 
   function showChildRows(parent_row) {
@@ -206,16 +313,20 @@ $(document).ready(function() {
     row.toggleClass('shown');
     // Datatable row handle
     var row_handle = table.row(row);
-    if ( row_handle.child.isShown() ) {
+    if (row_handle.child.isShown()) {
       // This row is already open - close it
+      delete expandedRows[row_handle.data()[0]];
       row_handle.child.hide();
     }
     else {
       // Open this row
+      expandedRows[row_handle.data()[0]] = parent_row;
       row_handle.child(createChild(parent_row), 'child-body').show();
-      row_handle.child().hover(function(){
+      // TODO(Alex): There should be a better way to do this that
+      // also fixes hovering over the table header without a color change.
+      /*row_handle.child().hover(function(){
         $(this).css("background-color", "white");
-      });
+      });*/
     }
   }
 
@@ -224,8 +335,8 @@ $(document).ready(function() {
     if(row.hasClass("child-row")) {
       id = row.attr('id');
       dt = formatDays(row.children()[1].innerHTML);
-      if(!stateData[id].selected) {
-        createCalendarEvents(dt[0], dt[1], dt[2], '#AAA', id);
+      if(!selectedSections[id]) {
+        createCalendarEvents(dt, '#AAA', id);
       }
     }
   });
@@ -233,7 +344,7 @@ $(document).ready(function() {
     row = $(row.currentTarget);
     if(row.hasClass("child-row")) {
       id = row.attr('id');
-      if(!stateData[id].selected) {
+      if(!selectedSections[id]) {
         $('#calendar').fullCalendar('removeEvents', id);
       }
     }
@@ -252,70 +363,55 @@ $(document).ready(function() {
     }
   });
 
-  $('#code-search').on( 'keyup change', function () {
+  $('#code-search').on('keyup change', function () {
     col = table.columns(0);
-    if ( col.search() !== this.value ) {
-        col.search(this.value).draw();
+    if (col.search() !== this.value) {
+      col.search(this.value).draw();
     }
   });
 
-  $('#name-search').on( 'keyup change', function () {
-    col = table.columns(4)
-    if ( col.search() !== this.value ) {
-        col.search(this.value).draw();
-    }
+  $('#name-search').on('keyup change', function () {
+    searchTerms.description = new RegExp(this.value, 'i');
+    filterList.instructor.description = this.value != '';
+    createFilters();
   });
 
-  var filters = {
-    "full": {
-      parent: function( settings, data, dataIndex ) {
-        return data[3] == "open";
-      },
-      child: function( id, data ) {
-        return data[3] > 0;
-      },
-      active: false
-    },
-    "selected": {
-      parent: function( settings, data, dataIndex ) {
-        for (entry in selected) {
-          if (entry.substring(0,9) == data[0]) {
-            return true;
-          }
-        }
-        return false;
-      },
-      child: function( id, data ) {
-        for (entry in selected) {
-          if (entry == id) {
-            return true;
-          }
-        }
-        return false;
-      },
-      active: false
-    }
-  };
+  $('#instructor-search').on('keyup change', function () {
+    searchTerms.instructor = new RegExp(this.value, 'i');
+    filterList.instructor.active = this.value != '';
+    createFilters();
+  });
 
-  function createFilters() {
-    $.fn.dataTable.ext.search = [];
-    childFilters = [];
-    for (entry in filters) {
-      if (filters[entry].active) {
-        $.fn.dataTable.ext.search.push(filters[entry].parent)
-        childFilters.push(filters[entry].child)
-      }
+  function refreshTable() {
+    for(id in expandedRows) {
+      row = expandedRows[id];
+      table.row(row).child(createChild(row));
     }
     table.draw();
   }
 
+  function createFilters() {
+    $.fn.dataTable.ext.search = [];
+    for (entry in filterList) {
+      if (filterList[entry].active) {
+        $.fn.dataTable.ext.search.push(filterList[entry].parentRow)
+      }
+    }
+    refreshTable();
+  }
+
   $('#display-full').change(function(target) {
-    filters["full"].active = target.currentTarget.checked;
+    filterList["full"].active = target.currentTarget.checked;
     createFilters();
   });
 
   $('#display-selected').change(function(target) {
-    filters["selected"].active = target.currentTarget.checked;
+    filterList["selected"].active = target.currentTarget.checked;
+    createFilters();
+  });
+
+  $('#display-conflicting').change(function(target) {
+    filterList["conflicting"].active = target.currentTarget.checked;
     createFilters();
   });
 });
