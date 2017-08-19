@@ -2,12 +2,12 @@ import json, sys
 
 def main():
     newline = False
-    with open('../json/classes.json') as data_file:
+    with open('../../docs/json/classes.json') as data_file:
         data = json.load(data_file)
-    with open('../json/catalog.json') as data_file:
+    with open('../../docs/json/catalog.json') as data_file:
         courses = json.load(data_file)
 
-    outfile = open('../class_data.json', 'w+')
+    outfile = open('../../docs/class_data.json', 'w+')
     classes = []
     for department in data:
         for course in department.keys():
@@ -23,7 +23,10 @@ def main():
                     time = section["time"]
                     room = section["room"]
                     seats = int(section["seats"])
-                    waitlist = int(section["waitlist"])
+                    if section["waitlist"] == "NA":
+                        waitlist = 0
+                    else:
+                        waitlist = int(section["waitlist"])
                     instructor = section["instructor"]
                     if credits == None:
                         credits = section["units"]
