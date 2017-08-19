@@ -9,19 +9,6 @@ from time import strftime, gmtime
 from os import listdir
 from os.path import isfile, join
 
-logFormatter = logging.Formatter('%(asctime)s %(message)s', '%H:%M:%S')
-root_logger = logging.getLogger()
-root_logger.setLevel(logging.DEBUG)
-
-handlers = [
-    # logging.FileHandler('../../docs/logs/mycuinfo.log'),
-    logging.StreamHandler(),
-]
-
-for handler in handlers:
-    handler.setFormatter(logFormatter)
-    root_logger.addHandler(handler)
-
 class Section():
     def __init__(self,data):
         self.data = data
