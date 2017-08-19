@@ -11,6 +11,7 @@ import errno
 import threading
 import queue
 import logging
+import traceback
 
 logFormatter = logging.Formatter('%(asctime)s %(message)s', '%H:%M:%S')
 root_logger = logging.getLogger()
@@ -59,8 +60,89 @@ def login(ukeys, pkeys):
     passwd.send_keys(Keys.RETURN)
     return driver
 
-
 def runSearch(driver, current, second_time=False):
+    logging.debug('Entering department')
+    dept_element = retry(driver.find_element_by_id, 'SSR_CLSRCH_WRK_SUBJECT$1')
+    dept_element.clear()
+    dept_element.send_keys(current)
+
+    # Chem has too many classes! AAAAAH
+    retry(driver.find_element_by_id, 'SSR_CLSRCH_WRK_CATALOG_NBR$2').clear()
+    if current == 'CHEM':
+        logging.debug('Splitting CHEM into two groups')
+        if second_time:
+            Select(
+                retry(driver.find_element_by_id, 'SSR_CLSRCH_WRK_SSR_EXACT_MATCH1$2')
+            ).select_by_visible_text('greater than or equal to')
+        else:
+            Select(
+                retry(driver.find_element_by_id, 'SSR_CLSRCH_WRK_SSR_EXACT_MATCH1$2')
+            ).select_by_visible_text('less than or equal to')
+
+        wait_for_loading_icon(driver)
+        retry(driver.find_element_by_id, 'SSR_CLSRCH_WRK_CATALOG_NBR$2').send_keys('3000')
+
+    wait_for_loading_icon(driver)
+
+    logging.debug('Submitting')
+    search = retry(driver.find_element_by_link_text, 'Search')
+    retry(search.click)
+
+def scrape_department(driver, filepath, current, second_time=False):
+    try:
+        runSearch(driver, current, second_time)
+    except Exception as err:
+        logging.info('Error getting to classes %s:\n  %s\n' % (current, err))
+        logging.info(traceback.format_exc())
+        driver.close()
+        raise err
+
+    time.sleep(1)
+
+    try:
+        driver.find_element_by_id('win0divDERIVED_CLSMSG_ERROR_TEXT')
+        logging.warning('Got error message for %s; aborting!' % current)
+        return
+    except:
+        pass
+
+
+    try:
+        retry(driver.find_element_by_id, 'CU_CLS_RSL_WRK_CU_SSR_EXPAND_ALL').click()
+    except Exception as err:
+        logging.info('Error exapnding classes %s:\n  %s\n' % (current, err))
+        driver.close()
+        raise err
+
+    time.sleep(expand_timer)
+
+    try:
+        if second_time:
+            current = current + '2'
+        with open(filepath + current + '.html', 'w') as f:
+            f.write(driver.page_source)
+            f.close()
+    except Exception as err:
+        logging.info('Error saving %s to file:\n  %s\n' % (current, err))
+        driver.close()
+        raise err
+
+    logging.debug('Submitting')
+    search = retry(driver.find_element_by_link_text, 'Modify Search', max_seconds=5)
+    retry(search.click)
+
+    if current == 'CHEM' and not second_time:
+        scrape_department(driver, filepath, current, True)
+
+def initDriver(login_data):
+    try:
+        driver = login(login_data['uname'], login_data['pswd'])
+    except Exception as err:
+        logging.info('Error logging in as %s' % (login_data['uname'], err))
+        logging.info(traceback.format_exc())
+        driver.close()
+        raise
+
     logging.debug('Clicking "search for classes"')
     search = retry(driver.find_element_by_link_text, 'Search for Classes')
     retry(search.click)
@@ -89,80 +171,9 @@ def runSearch(driver, current, second_time=False):
 
     wait_for_loading_icon(driver)
 
-    logging.debug('Entering department')
-    driver.find_element_by_id('SSR_CLSRCH_WRK_SUBJECT$1').send_keys(current)
+    return driver
 
-    # Chem has too many classes! AAAAAH
-    if current == 'CHEM':
-        logging.debug('Splitting CHEM into two groups')
-        if second_time:
-            Select(
-                retry(driver.find_element_by_id, 'SSR_CLSRCH_WRK_SSR_EXACT_MATCH1$2')
-            ).select_by_visible_text('greater than or equal to')
-        else:
-            Select(
-                retry(driver.find_element_by_id, 'SSR_CLSRCH_WRK_SSR_EXACT_MATCH1$2')
-            ).select_by_visible_text('less than or equal to')
-
-        wait_for_loading_icon(driver)
-
-        retry(driver.find_element_by_id, 'SSR_CLSRCH_WRK_CATALOG_NBR$2').send_keys('3000')
-
-    wait_for_loading_icon(driver)
-
-    logging.debug('Submitting')
-    retry(driver.find_elements_by_class_name, 'gh-footer-item')[1].click()
-
-def scrape_department(filepath, current, login_data, second_time=False):
-    try:
-        driver = login(login_data['uname'], login_data['pswd'])
-    except Exception as err:
-        logging.info('Error logging in as %d' % (login_data['uname'], err))
-        driver.close()
-        raise err
-
-    try:
-        runSearch(driver, current, second_time)
-    except Exception as err:
-        logging.info('Error getting to classes {0}:\n  {1}\n'.format(current, err))
-        driver.close()
-        raise err
-
-    time.sleep(1)
-
-    try:
-        driver.find_element_by_id('win0divDERIVED_CLSMSG_ERROR_TEXT')
-        return
-    except:
-        pass
-
-
-    try:
-        retry(driver.find_element_by_id, 'CU_CLS_RSL_WRK_CU_SSR_EXPAND_ALL').click()
-    except Exception as err:
-        logging.info('Error exapnding classes {0}:\n  {1}\n'.format(current, err))
-        driver.close()
-        raise err
-
-    time.sleep(expand_timer)
-
-    try:
-        if second_time:
-            current = current + '2'
-        with open(filepath + current + '.html', 'w') as f:
-            f.write(driver.page_source)
-            f.close()
-    except Exception as err:
-        logging.info('Error saving {0} to file:\n  {1}\n'.format(current, err))
-        driver.close()
-        raise err
-
-    driver.close()
-
-    if current == 'CHEM' and not second_time:
-        scrape_department(filepath, current, login_data, True)
-
-def main(depts, n_threads=10, filepath='../../docs/raw_html/mycuinfo/'):
+def main(depts, n_threads=1, filepath='../../docs/raw_html/mycuinfo/'):
     logging.info('Beggining new data harvest')
     ukeys = input('User: ').strip('\n')
     pkeys = getpass.getpass()
@@ -189,16 +200,18 @@ class QueuedThread(threading.Thread):
         self.login = login
         self.filepath = filepath
         self.results = []
+        self.driver = initDriver(self.login)
 
     def run(self):
         while not self.queue.empty():
             try:
                 dept = self.queue.get_nowait()
-                self.results.append(scrape_department(self.filepath, dept, self.login))
+                self.results.append(scrape_department(self.driver, self.filepath, dept))
                 self.queue.task_done()
             except queue.Empty:
                 continue
 
 if __name__ == '__main__':
-    from departments_list import departments
-    main(departments)
+    #from departments_list import departments
+    #main(departments)
+    main(['CSCI', 'CHEM', 'MATH'])
