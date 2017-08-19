@@ -212,6 +212,5 @@ class QueuedThread(threading.Thread):
                 continue
 
 if __name__ == '__main__':
-    #from departments_list import departments
-    #main(departments)
-    main(['CSCI', 'CHEM', 'MATH'])
+    from departments_list import departments
+    main(departments)
