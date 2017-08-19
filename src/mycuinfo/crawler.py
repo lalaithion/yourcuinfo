@@ -13,23 +13,10 @@ import queue
 import logging
 import traceback
 
-logFormatter = logging.Formatter('%(asctime)s %(message)s', '%H:%M:%S')
-root_logger = logging.getLogger()
-root_logger.setLevel(logging.INFO)
+# URL of myCUinfo
+url = 'https://portal.prod.cu.edu/psp/epprod/UCB2/ENTP/h/?tab=DEFAULT'
 
-handlers = [
-    logging.FileHandler('../../docs/logs/mycuinfo.log'),
-    logging.StreamHandler(),
-]
-
-for handler in handlers:
-    handler.setFormatter(logFormatter)
-    root_logger.addHandler(handler)
-
-url = 'https://portal.prod.cu.edu/psp/epprod/UCB2/ENTP/h/?tab=DEFAULT' # mycuinfo url
-login_timer = 20 # time for login to complete
-expand_timer = 10 # time for dropdown arrows to open
-
+# Retry action even if exception occurs
 def retry(f, *pargs, max_seconds=30, **kwargs):
     for i in range(max_seconds):
         try:
@@ -38,6 +25,7 @@ def retry(f, *pargs, max_seconds=30, **kwargs):
             time.sleep(1)
     return f(*pargs, **kwargs)
 
+# Wait for loading icon to vanish
 def wait_for_loading_icon(driver, max_seconds=5):
     SLEEP_INTERVAL = 0.5
     loading_icon = driver.find_elements_by_class_name('ui-icon-loading')[0]
@@ -47,6 +35,7 @@ def wait_for_loading_icon(driver, max_seconds=5):
         time.sleep(SLEEP_INTERVAL)
     raise Exception('Loading icon failed to disappear!')
 
+# Log into myCUinfo
 def login(ukeys, pkeys):
     driver = webdriver.Chrome()
     driver.get(url)
@@ -60,6 +49,7 @@ def login(ukeys, pkeys):
     passwd.send_keys(Keys.RETURN)
     return driver
 
+# Enter department info and search.
 def runSearch(driver, current, second_time=False):
     logging.debug('Entering department')
     dept_element = retry(driver.find_element_by_id, 'SSR_CLSRCH_WRK_SUBJECT$1')
@@ -70,17 +60,16 @@ def runSearch(driver, current, second_time=False):
     retry(driver.find_element_by_id, 'SSR_CLSRCH_WRK_CATALOG_NBR$2').clear()
     if current == 'CHEM':
         logging.debug('Splitting CHEM into two groups')
-        if second_time:
-            Select(
-                retry(driver.find_element_by_id, 'SSR_CLSRCH_WRK_SSR_EXACT_MATCH1$2')
-            ).select_by_visible_text('greater than or equal to')
-        else:
-            Select(
-                retry(driver.find_element_by_id, 'SSR_CLSRCH_WRK_SSR_EXACT_MATCH1$2')
-            ).select_by_visible_text('less than or equal to')
+
+        course_code_text = second_time ? 'greater' : 'less' + ' than or equal to'
+        Select(
+            retry(driver.find_element_by_id, 'SSR_CLSRCH_WRK_SSR_EXACT_MATCH1$2')
+        ).select_by_visible_text(course_code_text)
 
         wait_for_loading_icon(driver)
-        retry(driver.find_element_by_id, 'SSR_CLSRCH_WRK_CATALOG_NBR$2').send_keys('3000')
+
+        number = retry(driver.find_element_by_id, 'SSR_CLSRCH_WRK_CATALOG_NBR$2')
+        number.send_keys('3000')
 
     wait_for_loading_icon(driver)
 
@@ -88,12 +77,13 @@ def runSearch(driver, current, second_time=False):
     search = retry(driver.find_element_by_link_text, 'Search')
     retry(search.click)
 
+# Search for department, save, and return to the search screen.
 def scrape_department(driver, filepath, current, second_time=False):
     try:
         runSearch(driver, current, second_time)
     except Exception as err:
-        logging.info('Error getting to classes %s:\n  %s\n' % (current, err))
-        logging.info(traceback.format_exc())
+        logging.error('Error getting to classes %s:\n  %s\n' % (current, err))
+        logging.error(traceback.format_exc())
         driver.close()
         raise err
 
@@ -101,7 +91,7 @@ def scrape_department(driver, filepath, current, second_time=False):
 
     try:
         driver.find_element_by_id('win0divDERIVED_CLSMSG_ERROR_TEXT')
-        logging.warning('Got error message for %s; aborting!' % current)
+        logging.error('Got error message for %s; aborting!' % current)
         return
     except:
         pass
@@ -110,11 +100,11 @@ def scrape_department(driver, filepath, current, second_time=False):
     try:
         retry(driver.find_element_by_id, 'CU_CLS_RSL_WRK_CU_SSR_EXPAND_ALL').click()
     except Exception as err:
-        logging.info('Error exapnding classes %s:\n  %s\n' % (current, err))
+        logging.error('Error exapnding classes %s:\n  %s\n' % (current, err))
         driver.close()
         raise err
 
-    time.sleep(expand_timer)
+    wait_for_loading_icon(driver, max_seconds=600)
 
     try:
         if second_time:
@@ -123,7 +113,7 @@ def scrape_department(driver, filepath, current, second_time=False):
             f.write(driver.page_source)
             f.close()
     except Exception as err:
-        logging.info('Error saving %s to file:\n  %s\n' % (current, err))
+        logging.error('Error saving %s to file:\n  %s\n' % (current, err))
         driver.close()
         raise err
 
@@ -138,8 +128,8 @@ def initDriver(login_data):
     try:
         driver = login(login_data['uname'], login_data['pswd'])
     except Exception as err:
-        logging.info('Error logging in as %s' % (login_data['uname'], err))
-        logging.info(traceback.format_exc())
+        logging.error('Error logging in as %s' % (login_data['uname'], err))
+        logging.error(traceback.format_exc())
         driver.close()
         raise
 
@@ -173,7 +163,7 @@ def initDriver(login_data):
 
     return driver
 
-def main(depts, n_threads=1, filepath='../../docs/raw_html/mycuinfo/'):
+def crawl(depts, filepath, n_threads=15):
     logging.info('Beggining new data harvest')
     ukeys = input('User: ').strip('\n')
     pkeys = getpass.getpass()
@@ -210,7 +200,3 @@ class QueuedThread(threading.Thread):
                 self.queue.task_done()
             except queue.Empty:
                 continue
-
-if __name__ == '__main__':
-    from departments_list import departments
-    main(departments)
