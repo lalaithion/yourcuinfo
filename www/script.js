@@ -19,11 +19,32 @@ $(document).ready(function() {
     };
   }
 
-  function timeIsBefore(x, y) {
-    xsplit = x.split(":");
-    ysplit = y.split(":");
-    return (xsplit[0] < ysplit[0]) || 
-           ((xsplit[0] == ysplit[0]) && (xsplit[1] <= ysplit[1]))
+  function zeroPad(n, width) {
+    n = n.toString();
+    return n.length < width ? new Array(width - n.length + 1).join('0') + n : n;
+  }
+
+  // Days are bitmasks for ease of transmitting and comparison.
+  function dayToString(dayBitmask) {
+    days = { 1: 'Mo', 2: 'Tu', 4: 'We', 8: 'Th', 16: 'Fr'};
+    dayString = '';
+    for(i in days) {
+      if(dayBitmask & i) {
+        dayString += days[i];
+      }
+    }
+    return dayString;
+  }
+
+  function timeToString(time) {
+    hour = Math.floor(time / 60);
+    minute = time % 60;
+    suffix = 'AM';
+    if(hour > 12) {
+      hour = hour - 12;
+      suffix = 'PM';
+    }
+    return hour + ':' + zeroPad(minute,2) + suffix;
   }
 
   var filterList = {
@@ -52,14 +73,14 @@ $(document).ready(function() {
       parentRow: function(settings, data, dataIndex) {
         data = table.row(dataIndex).data()
         for(section of data.slice(7)) {
-          if(section[4].search(searchTerms.instructor) >= 0) {
+          if(section[6].search(searchTerms.instructor) >= 0) {
             return true;
           }
         }
         return false;
       },
       child: function(childName, data) {
-        return data[4].search(searchTerms.instructor) >= 0;
+        return data[6].search(searchTerms.instructor) >= 0;
       },
       active: false
     },
@@ -162,6 +183,7 @@ $(document).ready(function() {
          newChild.firstChild);
     newChild.style.display = null;
     data.sections.forEach(function(section, i) {
+        console.log(section)
       var id = data.code + '-' + i;
       for(filterName in filterList) {
         filter = filterList[filterName];
@@ -172,9 +194,14 @@ $(document).ready(function() {
       sectionRow = newChildTable.querySelector("tr").cloneNode(true);
       sectionRow.style.display = null;
       sectionRow.id = id;
-      for(j in section) {
-        sectionRow.children[j].innerHTML = section[j];
-      }
+      console.log(sectionRow)
+      sectionRow.children[0].innerHTML = section[0];
+      date = dayToString(section[1]) + ' ' + timeToString(section[2]) + '  - ' + timeToString(section[3])
+      sectionRow.children[1].innerHTML = date;
+      sectionRow.children[2].innerHTML = section[4];
+      sectionRow.children[3].innerHTML = section[5];
+      sectionRow.children[4].innerHTML = section[6];
+      sectionRow.children[5].innerHTML = section[7];
       newChildTable.append(sectionRow);
 
       // Child was selected earlier - restore state
@@ -243,7 +270,7 @@ $(document).ready(function() {
       return "";
   }
 
-  // Instantiate table.;
+  // Instantiate table.
   var scrollPos = 0;
   var table = $('#table').DataTable({
     ajax: "docs/class_data.json",
@@ -365,6 +392,7 @@ $(document).ready(function() {
       }
     }
   });
+
   $('#table tbody').on('mouseleave', 'tr', function(row) {
     row = $(row.currentTarget);
     if(row.hasClass("child-row")) {
@@ -374,6 +402,7 @@ $(document).ready(function() {
       }
     }
   });
+
   // Callback when parent row is opened or child row is selected.
   $('#table tbody').on('click', 'tr', function (e) {
     var row = $(this);
