@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 from selenium import webdriver
+from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.keys import Keys
 
@@ -13,10 +14,14 @@ import queue
 import logging
 import traceback
 
-# URL of myCUinfo
+# Disable selenium logging.
+from selenium.webdriver.remote.remote_connection import LOGGER
+LOGGER.setLevel(logging.WARNING)
+
+# URL of myCUinfo.
 url = 'https://portal.prod.cu.edu/psp/epprod/UCB2/ENTP/h/?tab=DEFAULT'
 
-# Retry action even if exception occurs
+# Retry action even if exception occurs.
 def retry(f, *pargs, max_seconds=30, **kwargs):
     for i in range(max_seconds):
         try:
@@ -25,7 +30,7 @@ def retry(f, *pargs, max_seconds=30, **kwargs):
             time.sleep(1)
     return f(*pargs, **kwargs)
 
-# Wait for loading icon to vanish
+# Wait for loading icon to vanish.
 def wait_for_loading_icon(driver, max_seconds=5):
     SLEEP_INTERVAL = 0.5
     loading_icon = driver.find_elements_by_class_name('ui-icon-loading')[0]
@@ -35,11 +40,11 @@ def wait_for_loading_icon(driver, max_seconds=5):
         time.sleep(SLEEP_INTERVAL)
     raise Exception('Loading icon failed to disappear!')
 
-# Log into myCUinfo
+# Log into myCUinfo.
 def login(ukeys, pkeys):
     driver = webdriver.Chrome()
     driver.get(url)
-    logging.debug('Logging in')
+    logging.info('Logging in')
     username = driver.find_element_by_id('username')
     username.clear()
     username.send_keys(ukeys)
@@ -51,7 +56,7 @@ def login(ukeys, pkeys):
 
 # Enter department info and search.
 def runSearch(driver, current, second_time=False):
-    logging.debug('Entering department')
+    logging.info('Entering department: %s' % current)
     dept_element = retry(driver.find_element_by_id, 'SSR_CLSRCH_WRK_SUBJECT$1')
     dept_element.clear()
     dept_element.send_keys(current)
@@ -59,9 +64,9 @@ def runSearch(driver, current, second_time=False):
     # Chem has too many classes! AAAAAH
     retry(driver.find_element_by_id, 'SSR_CLSRCH_WRK_CATALOG_NBR$2').clear()
     if current == 'CHEM':
-        logging.debug('Splitting CHEM into two groups')
+        logging.info('Splitting CHEM into two groups')
 
-        course_code_text = second_time ? 'greater' : 'less' + ' than or equal to'
+        course_code_text = ('greater' if second_time else 'less') + ' than or equal to'
         Select(
             retry(driver.find_element_by_id, 'SSR_CLSRCH_WRK_SSR_EXACT_MATCH1$2')
         ).select_by_visible_text(course_code_text)
@@ -73,7 +78,7 @@ def runSearch(driver, current, second_time=False):
 
     wait_for_loading_icon(driver)
 
-    logging.debug('Submitting')
+    logging.info('Searching...')
     search = retry(driver.find_element_by_link_text, 'Search')
     retry(search.click)
 
@@ -104,7 +109,12 @@ def scrape_department(driver, filepath, current, second_time=False):
         driver.close()
         raise err
 
-    wait_for_loading_icon(driver, max_seconds=600)
+    logging.info('Waiting for dropdowns to open.')
+    timeout = 600
+    for i in range(timeout):
+        time.sleep(1)
+        if not driver.find_elements_by_class_name('ui-icon-plus'):
+            break
 
     try:
         if second_time:
@@ -117,7 +127,7 @@ def scrape_department(driver, filepath, current, second_time=False):
         driver.close()
         raise err
 
-    logging.debug('Submitting')
+    logging.info('Going back to main search screen.')
     search = retry(driver.find_element_by_link_text, 'Modify Search', max_seconds=5)
     retry(search.click)
 
@@ -133,31 +143,34 @@ def initDriver(login_data):
         driver.close()
         raise
 
-    logging.debug('Clicking "search for classes"')
+    logging.info('Clicking "search for classes"')
     search = retry(driver.find_element_by_link_text, 'Search for Classes')
     retry(search.click)
 
-    logging.debug('Switching to main frame')
+    logging.info('Switching to main frame')
     retry(driver.switch_to_frame, 'ptifrmtgtframe')
-
-    logging.debug('Selecting institution')
+    
+    institution = 'CUBLD'
+    logging.info('Selecting institution: %s' % institution)
     Select(
         driver.find_element_by_id('CLASS_SRCH_WRK2_INSTITUTION$31$')
-    ).select_by_value('CUBLD')
+    ).select_by_value(institution)
 
     wait_for_loading_icon(driver)
 
-    logging.debug('Selecting semester')
+    semester = 'Fall 2017 UC Boulder'
+    logging.info('Selecting semester: %s' % semester)
     Select(
         driver.find_element_by_id('CLASS_SRCH_WRK2_STRM$35$')
-    ).select_by_visible_text('Fall 2017 UC Boulder')
+    ).select_by_visible_text(semester)
 
     wait_for_loading_icon(driver)
 
-    logging.debug('Selecting campus')
+    campus = 'Boulder Main Campus'
+    logging.info('Selecting campus: %s' % campus)
     Select(
         driver.find_element_by_id('SSR_CLSRCH_WRK_CAMPUS$0')
-    ).select_by_visible_text('Boulder Main Campus')
+    ).select_by_visible_text(campus)
 
     wait_for_loading_icon(driver)
 
