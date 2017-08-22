@@ -1,7 +1,10 @@
 $(document).ready(function() {
   expandedRows = {};
   selectedSections = {};
-  searchTerms = {};
+  searchTerms = {
+    // Bit flag meaning enable all days
+    days: 31,
+  };
 
   function unpackData(rowData) {
     return {
@@ -123,6 +126,29 @@ $(document).ready(function() {
         return true;
       },
       active: false
+    },
+    days: {
+      parentRow: function(settings, data, dataIndex) {
+        data = table.row(dataIndex).data()
+        sections = unpackData(data).sections;
+        for(section of sections) {
+          if(section[1] == "TBA") {
+            return true;
+          }
+          else {
+            var disabledDays = ~searchTerms.days;
+            if(!(data[1] & disabledDays)) {
+              return true;
+            }
+          }
+        }
+        return false;
+      },
+      child: function(rowID, data) {
+        var disabledDays = ~searchTerms.days;
+        return !(data[1] & disabledDays);
+      },
+      active: true
     },
   };
 
@@ -413,4 +439,15 @@ $(document).ready(function() {
     filterList["conflicting"].active = target.currentTarget.checked;
     createFilters();
   });
+
+  days = ['#mon', '#tue', '#wed', '#thu', '#fri'];
+  for(i in days) {
+    $(days[i]).change(function(target) {
+      mask = 1 << i;
+      if(Boolean(searchTerms.days & mask) != Boolean(checked)) {
+        steachTerms.days ^= mask;
+      }
+      refreshTable();
+    });
+  }
 });
