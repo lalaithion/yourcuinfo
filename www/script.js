@@ -1,9 +1,11 @@
 $(document).ready(function() {
-  expandedRows = {};
-  selectedSections = {};
-  searchTerms = {
-    // Bit flag meaning enable all days
-    days: 31,
+  state = {
+    expandedRows: {},
+    selectedSections: [],
+    searchTerms: {
+      // Bit flag meaning enable all days
+      days: 31,
+    },
   };
 
   function unpackData(rowData) {
@@ -59,7 +61,7 @@ $(document).ready(function() {
     },
     description: {
       parentRow: function(settings, data, dataIndex) {
-        searchTerm = searchTerms.description;
+        searchTerm = state.searchTerms.description;
         return data[1].search(searchTerm) >= 0 ||
                data[4].search(searchTerm) >= 0;
       },
@@ -73,20 +75,20 @@ $(document).ready(function() {
       parentRow: function(settings, data, dataIndex) {
         data = table.row(dataIndex).data()
         for(section of data.slice(7)) {
-          if(section[6].search(searchTerms.instructor) >= 0) {
+          if(section[6].search(state.searchTerms.instructor) >= 0) {
             return true;
           }
         }
         return false;
       },
       child: function(childName, data) {
-        return data[6].search(searchTerms.instructor) >= 0;
+        return data[6].search(state.searchTerms.instructor) >= 0;
       },
       active: false
     },
     selected: {
       parentRow: function(settings, data, dataIndex) {
-        for (id in selectedSections) {
+        for(id of state.selectedSections) {
           if(id.substring(0,9) == data[0]) {
             return true;
           }
@@ -94,7 +96,7 @@ $(document).ready(function() {
         return false;
       },
       child: function(childName, data) {
-        for(id in selectedSections) {
+        for(id of state.selectedSections) {
           if(id == childName) {
             return true;
           }
@@ -107,12 +109,12 @@ $(document).ready(function() {
       parentRow: function(settings, data, dataIndex) {
         data = table.row(dataIndex).data()
         sections = unpackData(data).sections;
-        for(id in selectedSections) {
+        for(id of state.selectedSections) {
           for(section of sections) {
             if(section[1] == "TBA") {
               return true;
             }
-            selectedTime = selectedSections[id].classTime;
+            selectedTime = state.selectedSections[id].classTime;
             rowTime = formatDays(section[1]);
             for(rowDay of rowTime.days) {
               for(selectedDay of selectedTime.days) {
@@ -128,11 +130,11 @@ $(document).ready(function() {
         return false;
       },
       child: function(rowID, data) {
-        for(id in selectedSections) {
+        for(id of state.selectedSections) {
           if(id == rowID) {
             return true;
           }
-          selectedTime = selectedSections[id].classTime;
+          selectedTime = state.selectedSections[id].classTime;
           rowTime = formatDays(data[1]);
           for(rowDay of rowTime.days) {
             for(selectedDay of selectedTime.days) {
@@ -157,8 +159,8 @@ $(document).ready(function() {
             return true;
           }
           else {
-            var disabledDays = ~searchTerms.days;
-            if(!(data[1] & disabledDays)) {
+            var disabledDays = ~state.searchTerms.days;
+            if(!(section[1] & disabledDays)) {
               return true;
             }
           }
@@ -166,7 +168,7 @@ $(document).ready(function() {
         return false;
       },
       child: function(rowID, data) {
-        var disabledDays = ~searchTerms.days;
+        var disabledDays = ~state.searchTerms.days & 0x1F;
         return !(data[1] & disabledDays);
       },
       active: true
@@ -182,9 +184,11 @@ $(document).ready(function() {
     newChild.insertBefore(document.createTextNode(data.description),
          newChild.firstChild);
     newChild.style.display = null;
+
+    state.expandedRows[data.code] = { parentRow: parent_row };
     data.sections.forEach(function(section, i) {
-        console.log(section)
       var id = data.code + '-' + i;
+      state.expandedRows[data.code][id] = section;
       for(filterName in filterList) {
         filter = filterList[filterName];
         if(filter.active && !filter.child(id, section)) {
@@ -194,7 +198,6 @@ $(document).ready(function() {
       sectionRow = newChildTable.querySelector("tr").cloneNode(true);
       sectionRow.style.display = null;
       sectionRow.id = id;
-      console.log(sectionRow)
       sectionRow.children[0].innerHTML = section[0];
       date = dayToString(section[1]) + ' ' + timeToString(section[2]) + '  - ' + timeToString(section[3])
       sectionRow.children[1].innerHTML = date;
@@ -205,7 +208,7 @@ $(document).ready(function() {
       newChildTable.append(sectionRow);
 
       // Child was selected earlier - restore state
-      if (selectedSections[sectionRow.id]) {
+      if(state.selectedSections.indexOf(sectionRow.id) >= 0) {
         sectionRow.querySelector("input").checked = true;
         sectionRow.className += " selected";
       }
@@ -315,64 +318,76 @@ $(document).ready(function() {
     editable: false,
     events: [],
     eventClick: function(calEvent, jsEvent, view) {
-      offset = expandedRows[calEvent.id.substring(0,9)].offsetTop;
+      console.log(state.expandedRows)
+      offset = state.expandedRows[calEvent.id.substring(0,9)].parentRow.offsetTop;
       $('.dataTables_scrollBody').animate({ scrollTop: offset }, 500);
     },
   });
 
   // Used to store which courses have been selected and added to the calendar.
-  selectedSections = JSON.parse(getCookie("selected") || "{}");
-  for(id in selectedSections) {
-    // TODO(alex) Rows selected here aren't added to expandedRows, and
-    // the calendar events throw an error when clicked!
-    data = selectedSections[id];
-    createCalendarEvents(data.classTime, data.color, id);
+  // state.selectedSections = JSON.parse(getCookie("selected") || "[]");
+  // TODO(alex) redo to work with new selectedSections format
+  /*
+  for(id in state.selectedSections) {
+    data = state.selectedSections[id];
+    createCalendarEvents(data.days, data.start, data.end, data.color, id);
   }
+  */
 
-  function createCalendarEvents(classTime, color, id) {
-    classTime.days.forEach(function(day) {
-      var newEvent = {
-        title: id.substr(0,9),
-        start: `${day}T${classTime.start}`,
-        end: `${day}T${classTime.end}`,
-        color: color,
-        id: id,
+  // fullCalendar-style date/time ("2014-06-09T14:50").
+  function createCalendarEvents(days, start, end, color, id) {
+    bitDays = {
+      1: '09',
+      2: '10',
+      4: '11',
+      8: '12',
+      16: '13',
+    };
+    for(bit in bitDays) {
+      if(bit & days) {
+        dayString = '2014-06-' + bitDays[bit];
+        startString = zeroPad(Math.floor(start / 60), 2) + ':' + zeroPad(start % 60, 2)
+        endString = zeroPad(Math.floor(end / 60), 2) + ':' + zeroPad(end % 60, 2)
+	var newEvent = {
+	  title: id.substr(0,9),
+	  start: dayString + 'T' + startString,
+	  end: dayString + 'T' + endString,
+	  color: color,
+	  id: id,
+	}
+	$('#calendar').fullCalendar('renderEvent', newEvent, true)
       }
-      $('#calendar').fullCalendar('renderEvent', newEvent, true)
-    });
+    };
   }
 
   function toggleSelected(dom_row) {
     child_row = $(dom_row);
     id = child_row.attr('id');
-    dt = formatDays(child_row.children()[1].innerHTML);
-    if(!selectedSections[id]) {
+    data = state.expandedRows[id.substr(0,9)][id];
+    // Delete any existing events
+    $('#calendar').fullCalendar('removeEvents', id);
+    sectionIndex = state.selectedSections.indexOf(id);
+    if(sectionIndex < 0) {
       color = getColor(child_row.children()[0].innerHTML)
-      selectedSections[id] = {classTime: dt, color: color};
-      $('#calendar').fullCalendar('removeEvents', id);
-      createCalendarEvents(dt, color, id);
+      state.selectedSections.push(id);
+      createCalendarEvents(data[1], data[2], data[3], color, id);
     } else {
-      delete selectedSections[id];
-      $('#calendar').fullCalendar('removeEvents', id);
+      state.selectedSections.splice(sectionIndex, 1);
     }
-    setCookie("selected", JSON.stringify(selectedSections), 365);
+    setCookie("selected", JSON.stringify(state.selectedSections), 365);
     child_row.toggleClass('selected');
-    dom_row.querySelector('input').checked = selectedSections[id];
+    dom_row.querySelector('input').checked = sectionIndex >= 0;
   }
 
-  function showChildRows(parent_row) {
+  function toggleDetailedDescription(parent_row) {
     row = $(parent_row);
     row.toggleClass('shown');
-    // Datatable row handle
     var row_handle = table.row(row);
     if (row_handle.child.isShown()) {
-      // This row is already open - close it
-      delete expandedRows[row_handle.data()[0]];
+      delete state.expandedRows[row_handle.data()[0]];
       row_handle.child.hide();
     }
     else {
-      // Open this row
-      expandedRows[row_handle.data()[0]] = parent_row;
       row_handle.child(createChild(parent_row), 'child-body').show();
       // TODO(Alex): There should be a better way to do this that
       // also fixes hovering over the table header without a color change.
@@ -382,12 +397,13 @@ $(document).ready(function() {
     }
   }
 
+  /* TODO(alex) Upgrade to work with new date format.
   $('#table tbody').on('mouseenter', 'tr', function(row) {
     row = $(row.currentTarget);
     if(row.hasClass("child-row")) {
       id = row.attr('id');
       dt = formatDays(row.children()[1].innerHTML);
-      if(!selectedSections[id]) {
+      if(!state.selectedSections[id]) {
         createCalendarEvents(dt, '#AAA', id);
       }
     }
@@ -395,13 +411,12 @@ $(document).ready(function() {
 
   $('#table tbody').on('mouseleave', 'tr', function(row) {
     row = $(row.currentTarget);
-    if(row.hasClass("child-row")) {
       id = row.attr('id');
-      if(!selectedSections[id]) {
+      if(!state.selectedSections[id]) {
         $('#calendar').fullCalendar('removeEvents', id);
       }
     }
-  });
+  });*/
 
   // Callback when parent row is opened or child row is selected.
   $('#table tbody').on('click', 'tr', function (e) {
@@ -410,10 +425,11 @@ $(document).ready(function() {
       return;
     }
     else if(row.hasClass("child-row")) {
+      // TODO(alex) Upgrade to work with new date format.
       toggleSelected(this);
     }
     else {
-      showChildRows(this);
+      toggleDetailedDescription(this);
     }
   });
 
@@ -425,20 +441,20 @@ $(document).ready(function() {
   });
 
   $('#name-search').on('keyup change', function () {
-    searchTerms.description = new RegExp(this.value, 'i');
+    state.searchTerms.description = new RegExp(this.value, 'i');
     filterList.description.active = this.value != '';
     createFilters();
   });
 
   $('#instructor-search').on('keyup change', function () {
-    searchTerms.instructor = new RegExp(this.value, 'i');
+    state.searchTerms.instructor = new RegExp(this.value, 'i');
     filterList.instructor.active = this.value != '';
     createFilters();
   });
 
   function refreshTable() {
-    for(id in expandedRows) {
-      row = expandedRows[id];
+    for(id in state.expandedRows) {
+      row = state.expandedRows[id].parentRow;
       table.row(row).child(createChild(row));
     }
     table.draw();
@@ -453,6 +469,7 @@ $(document).ready(function() {
     }
     refreshTable();
   }
+  createFilters();
 
   $('#display-full').change(function(target) {
     filterList["full"].active = target.currentTarget.checked;
@@ -471,12 +488,13 @@ $(document).ready(function() {
 
   days = ['#mon', '#tue', '#wed', '#thu', '#fri'];
   for(i in days) {
-    $(days[i]).change(function(target) {
-      mask = 1 << i;
-      if(Boolean(searchTerms.days & mask) != Boolean(checked)) {
-        steachTerms.days ^= mask;
-      }
-      refreshTable();
-    });
+    (function(i) {
+      $(days[i])[0].checked = true;
+      $(days[i]).change(function(target) {
+        mask = 1 << i;
+        state.searchTerms.days ^= mask;
+        refreshTable();
+      });
+    })(i);
   }
 });
