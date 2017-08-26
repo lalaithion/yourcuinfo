@@ -1,18 +1,19 @@
 body {
-  font-family: 'Montserrat', sans-serif;;
+    font-family: 'Montserrat', sans-serif;
+    ;
 }
 
 #header {
-  font-size: 45px;
-  /*color: #FFF;*/
-  /*background: #000;*/
-  height: 55px;
-  margin-bottom: 0px;
-  padding-bottom: 0px;
-  padding-top: 10px;
-  padding-right: 15px;
-  padding-left: 15px;
-  text-align: center;
+    font-size: 45px;
+    /*color: #FFF;*/
+    /*background: #000;*/
+    height: 55px;
+    margin-bottom: 0px;
+    padding-bottom: 0px;
+    padding-top: 10px;
+    padding-right: 15px;
+    padding-left: 15px;
+    text-align: center;
 }
 
 #disclaimer {
@@ -22,71 +23,71 @@ body {
 }
 
 #table-main {
-  float: left;
-  width: 50%;
+    float: left;
+    width: 50%;
 }
 
 #settings {
-  margin: 0px 10px 10px 10px;
-  border-radius: 15px;
-  padding: 10px 10px 10px 10px;
-  background: #EEE;
+    margin: 0px 10px 10px 10px;
+    border-radius: 15px;
+    padding: 10px 10px 10px 10px;
+    background: #EEE;
 }
 
 #code-search {
-  width: 20%;
+    width: 20%;
 }
 
 #name-search {
-  width: 60%;
+    width: 60%;
 }
 
 #table-wrap {
-  margin: 10px 10px 0px 10px;
-  border-radius: 15px;
-  padding: 0px 10px 10px 10px;
-  background: #EEE;
+    margin: 10px 10px 0px 10px;
+    border-radius: 15px;
+    padding: 0px 10px 10px 10px;
+    background: #EEE;
 }
 
 #calendar-main {
-  float: right;
-  width: 50%;
+    float: right;
+    width: 50%;
 }
 
 #calendar-wrap {
-  background: #EEE;
-  margin: 0px 10px 0px 10px;
-  padding: 5px 10px 10px 10px;
-  border-radius: 15px;
+    background: #EEE;
+    margin: 0px 10px 0px 10px;
+    padding: 5px 10px 10px 10px;
+    border-radius: 15px;
 }
 
 #calendar {
-  margin-top: -25px;
+    margin-top: -25px;
 }
 
 #class-search {
-  margin-top: 10px;
-  margin-right: 10px;
-  border-radius: 15px;
-  background: #EEE;
-  padding: 20px;
-  float: right;
-  width: 20%;
+    margin-top: 10px;
+    margin-right: 10px;
+    border-radius: 15px;
+    background: #EEE;
+    padding: 20px;
+    float: right;
+    width: 20%;
 }
 
 .search {
-  width: 50%;
+    width: 50%;
 }
 
 .child {
-  background: #f6f6f6;
+    background: #f6f6f6;
 }
 
 @media only screen and (max-width: 700px) {
-  #table-div {
-    width: 80%;
-  }
-  #calendar {
-    width: 80%;
-  }
+    #table-div {
+        width: 80%;
+    }
+    #calendar {
+        width: 80%;
+    }
 }
