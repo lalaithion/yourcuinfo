@@ -26,7 +26,7 @@ def retry(f, *pargs, max_seconds=30, **kwargs):
     for i in range(max_seconds):
         try:
             return f(*pargs, **kwargs)
-        except Exception:
+        except Exception as e:
             time.sleep(1)
     return f(*pargs, **kwargs)
 
@@ -44,7 +44,7 @@ def wait_for_loading_icon(driver, max_seconds=5):
 def login(ukeys, pkeys):
     driver = webdriver.Chrome()
     driver.get(url)
-    logging.info('Logging in')
+    logging.debug('Logging in')
     username = driver.find_element_by_id('username')
     username.clear()
     username.send_keys(ukeys)
@@ -56,7 +56,7 @@ def login(ukeys, pkeys):
 
 # Enter department info and search.
 def runSearch(driver, current, second_time=False):
-    logging.info('Entering department: %s' % current)
+    logging.debug('Entering department: %s' % current)
     dept_element = retry(driver.find_element_by_id, 'SSR_CLSRCH_WRK_SUBJECT$1')
     dept_element.clear()
     dept_element.send_keys(current)
@@ -64,7 +64,7 @@ def runSearch(driver, current, second_time=False):
     # Chem has too many classes! AAAAAH
     retry(driver.find_element_by_id, 'SSR_CLSRCH_WRK_CATALOG_NBR$2').clear()
     if current == 'CHEM':
-        logging.info('Splitting CHEM into two groups')
+        logging.debug('Splitting CHEM into two groups')
 
         course_code_text = ('greater' if second_time else 'less') + ' than or equal to'
         Select(
@@ -78,7 +78,7 @@ def runSearch(driver, current, second_time=False):
 
     wait_for_loading_icon(driver)
 
-    logging.info('Searching...')
+    logging.debug('Searching...')
     search = retry(driver.find_element_by_link_text, 'Search')
     retry(search.click)
 
@@ -88,19 +88,18 @@ def scrape_department(driver, filepath, current, second_time=False):
         runSearch(driver, current, second_time)
     except Exception as err:
         logging.error('Error getting to classes %s:\n  %s\n' % (current, err))
-        logging.error(traceback.format_exc())
         driver.close()
         raise err
 
     time.sleep(1)
+    wait_for_loading_icon(driver, max_seconds=30)
 
     try:
         driver.find_element_by_id('win0divDERIVED_CLSMSG_ERROR_TEXT')
-        logging.error('Got error message for %s; aborting!' % current)
+        logging.error('Got error message for %s, assumed empty.' % current)
         return
-    except:
+    except Exception as err:
         pass
-
 
     try:
         retry(driver.find_element_by_id, 'CU_CLS_RSL_WRK_CU_SSR_EXPAND_ALL').click()
@@ -109,7 +108,7 @@ def scrape_department(driver, filepath, current, second_time=False):
         driver.close()
         raise err
 
-    logging.info('Waiting for dropdowns to open.')
+    logging.debug('Waiting for dropdowns to open.')
     timeout = 600
     for i in range(timeout):
         time.sleep(1)
@@ -127,7 +126,7 @@ def scrape_department(driver, filepath, current, second_time=False):
         driver.close()
         raise err
 
-    logging.info('Going back to main search screen.')
+    logging.debug('Going back to main search screen.')
     search = retry(driver.find_element_by_link_text, 'Modify Search', max_seconds=5)
     retry(search.click)
 
@@ -135,23 +134,17 @@ def scrape_department(driver, filepath, current, second_time=False):
         scrape_department(driver, filepath, current, True)
 
 def initDriver(login_data):
-    try:
-        driver = login(login_data['uname'], login_data['pswd'])
-    except Exception as err:
-        logging.error('Error logging in as %s' % (login_data['uname'], err))
-        logging.error(traceback.format_exc())
-        driver.close()
-        raise
+    driver = login(login_data['uname'], login_data['pswd'])
 
-    logging.info('Clicking "search for classes"')
+    logging.debug('Clicking "search for classes"')
     search = retry(driver.find_element_by_link_text, 'Search for Classes')
     retry(search.click)
 
-    logging.info('Switching to main frame')
+    logging.debug('Switching to main frame')
     retry(driver.switch_to_frame, 'ptifrmtgtframe')
     
     institution = 'CUBLD'
-    logging.info('Selecting institution: %s' % institution)
+    logging.debug('Selecting institution: %s' % institution)
     Select(
         driver.find_element_by_id('CLASS_SRCH_WRK2_INSTITUTION$31$')
     ).select_by_value(institution)
@@ -159,7 +152,7 @@ def initDriver(login_data):
     wait_for_loading_icon(driver)
 
     semester = 'Fall 2017 UC Boulder'
-    logging.info('Selecting semester: %s' % semester)
+    logging.debug('Selecting semester: %s' % semester)
     Select(
         driver.find_element_by_id('CLASS_SRCH_WRK2_STRM$35$')
     ).select_by_visible_text(semester)
@@ -167,7 +160,7 @@ def initDriver(login_data):
     wait_for_loading_icon(driver)
 
     campus = 'Boulder Main Campus'
-    logging.info('Selecting campus: %s' % campus)
+    logging.debug('Selecting campus: %s' % campus)
     Select(
         driver.find_element_by_id('SSR_CLSRCH_WRK_CAMPUS$0')
     ).select_by_visible_text(campus)
@@ -176,7 +169,7 @@ def initDriver(login_data):
 
     return driver
 
-def crawl(depts, filepath, n_threads=15):
+def crawl(depts, filepath, n_threads):
     logging.info('Beggining new data harvest')
     ukeys = input('User: ').strip('\n')
     pkeys = getpass.getpass()
@@ -188,28 +181,49 @@ def crawl(depts, filepath, n_threads=15):
 
     threads = []
     for i in range(n_threads):
+        logging.info('Starting thread %d/%d.' % (i+1, n_threads))
         threads.append(QueuedThread(departments, filepath, login))
         threads[i].start()
 
     for i in range(n_threads):
         threads[i].join()
 
-    logging.info('Finished data harvest')
+    logging.info('Finished data harvest.')
 
 class QueuedThread(threading.Thread):
     def __init__(self, queue, filepath, login):
         super(QueuedThread, self).__init__()
-        self.queue = queue
+        self.dept_queue = queue
         self.login = login
         self.filepath = filepath
         self.results = []
-        self.driver = initDriver(self.login)
 
-    def run(self):
-        while not self.queue.empty():
+    def scrape(self, queue, exception_handler=None):
+        driver = initDriver(self.login)
+        while not queue.empty():
+            dept = None
             try:
-                dept = self.queue.get_nowait()
-                self.results.append(scrape_department(self.driver, self.filepath, dept))
-                self.queue.task_done()
+                dept = queue.get_nowait()
+                logging.info('Scraping department: %s.' % dept)
+                self.results.append(scrape_department(driver, self.filepath, dept))
+                queue.task_done()
             except queue.Empty:
                 continue
+            except Exception as e:
+                driver.close()
+                if exception_handler is not None:
+                    exception_handler(dept, e)
+                    driver = initDriver(self.login)
+                else:
+                    raise
+                
+    def run(self):
+        failed_queue = queue.Queue()
+        def exception_handler(dept, err):
+            logging.info('Error in department %s: %s.' % err)
+            failed_queue.put(dept)
+
+        self.scrape(self.dept_queue, exception_handler)
+        if not failed_queue.empty():
+            logging.info('Retrying failed classes.')
+            self.scrape(failed_queue)
