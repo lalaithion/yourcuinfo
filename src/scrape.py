@@ -8,7 +8,7 @@ root_logger = logging.getLogger()
 root_logger.setLevel(logging.INFO)
 
 handlers = [
-    logging.FileHandler('../docs/logs/mycuinfo.log'),
+    logging.FileHandler('../data/logs/mycuinfo.log'),
     logging.StreamHandler(),
 ]
 
@@ -22,10 +22,11 @@ def main():
     #parser.main()
 
     from mycuinfo import crawler, parser
-    html_path = "../docs/raw_html/mycuinfo/"
-    crawler.crawl(['ECON', 'FARR', 'PMUS', 'PORT'], html_path, n_threads=1)
+    html_path = "../data/raw_html/mycuinfo/"
+    json_path = "../data/json/"
     #crawler.crawl(departments, html_path, n_threads=5)
-    #parser.main(logpath="../docs/logs/mycuinfo-parse.log", inpath="../docs/raw_html/mycuinfo/", outpath="../docs/json/classes.json")
+    parser.parse(html_path, json_path)
+    #parser.main(logpath="../data/logs/mycuinfo-parse.log", inpath="../data/raw_html/mycuinfo/", outpath="../data/json/classes.json")
 
 
 if __name__ == "__main__":

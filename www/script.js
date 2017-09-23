@@ -1,4 +1,40 @@
 $(document).ready(function() {
+    var data = null;
+    // var loadingBackground = $('#loading-background');
+    // var loadingPercent = $('#loading-percent');
+
+    var xhr = new XMLHttpRequest();
+
+    // xhr.addEventListener("progress", function updateProgress (oEvent) {
+    //     if (oEvent.lengthComputable) {
+    //         var percentComplete = oEvent.loaded / oEvent.total;
+    //         loadingPercent.html = 'Loading: ' + percentComplete + '%';
+    //     } else {
+    //         loadingPercent.html = 'Loading...';
+    //     }
+    // });
+
+    xhr.onreadystatechange = function (oEvent) {
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                // loadingPercent.hide();
+                // loadingBackground.hide();
+            } else {
+                console.log("Error", xhr);
+            }
+        }
+    };
+
+    xhr.open('GET', '/data/detailed_data.json');
+  	xhr.onload = function () {
+          data = JSON.parse(this.responseText).data;
+          // loadingPercent.hide();
+          // loadingBackground.hide();
+          createFilters();
+  	};
+
+    xhr.send(null)
+
     state = {
         expandedRows: {},
         selectedSections: [],
@@ -8,17 +44,30 @@ $(document).ready(function() {
         },
     };
 
-    function unpackData(rowData) {
-        return {
-            code: rowData[0],
-            title: rowData[1],
-            units: rowData[2],
-            currentStatus: rowData[3],
-            description: rowData[4],
-            openSeats: rowData[5],
-            waitlist: rowData[6],
-            sections: rowData.slice(7),
+    function unpackData(detailedData) {
+        ret = {
+            desc: detailedData[0],
+            sections: [],
         };
+        for (section of detailedData[1]) {
+            ret.sections.push({
+                type: section[0],
+                days: section[1],
+                start: section[2],
+                end: section[3],
+                units: section[4],
+                seats: section[5],
+                waitlist: section[6],
+                instr: section[7],
+                room: section[8],
+                info: section[9],
+            });
+        }
+        return ret;
+    }
+
+    function getSectionData(id) {
+      return unpackData(data[id.substr(0,9)]).sections[id.substr(10)]
     }
 
     function zeroPad(n, width) {
@@ -28,14 +77,14 @@ $(document).ready(function() {
 
     // Days are bitmasks for ease of transmitting and comparison.
     function dayToString(dayBitmask) {
-        days = {
+        const days = {
             1: 'Mo',
             2: 'Tu',
             4: 'We',
             8: 'Th',
             16: 'Fr'
         };
-        dayString = '';
+        var dayString = '';
         for (i in days) {
             if (dayBitmask & i) {
                 dayString += days[i];
@@ -55,148 +104,41 @@ $(document).ready(function() {
         return hour + ':' + zeroPad(minute, 2) + suffix;
     }
 
-    var filterList = {
-        full: {
-            parentRow: function(settings, data, dataIndex) {
-                return data[3] == "open";
-            },
-            child: function(id, data) {
-                return data[3] > 0;
-            },
-            active: false
-        },
-        description: {
-            parentRow: function(settings, data, dataIndex) {
-                searchTerm = state.searchTerms.description;
-                return data[1].search(searchTerm) >= 0 ||
-                    data[4].search(searchTerm) >= 0;
-            },
-            child: function() {
-                return true;
-            },
-            active: false
-        },
-        instructor: {
-            // TODO(Alex) figure out why data is only the first 5 indices.
-            parentRow: function(settings, data, dataIndex) {
-                data = table.row(dataIndex).data()
-                for (section of data.slice(7)) {
-                    if (section[6].search(state.searchTerms.instructor) >= 0) {
-                        return true;
-                    }
-                }
-                return false;
-            },
-            child: function(childName, data) {
-                return data[6].search(state.searchTerms.instructor) >= 0;
-            },
-            active: false
-        },
-        selected: {
-            parentRow: function(settings, data, dataIndex) {
-                for (id of state.selectedSections) {
-                    if (id.substring(0, 9) == data[0]) {
-                        return true;
-                    }
-                }
-                return false;
-            },
-            child: function(childName, data) {
-                for (id of state.selectedSections) {
-                    if (id == childName) {
-                        return true;
-                    }
-                }
-                return false;
-            },
-            active: false
-        },
-        conflicting: {
-            parentRow: function(settings, data, dataIndex) {
-                data = table.row(dataIndex).data()
-                sections = unpackData(data).sections;
-                for (id of state.selectedSections) {
-                    for (section of sections) {
-                        if (section[1] == "TBA") {
-                            return true;
-                        }
-                        selectedTime = state.selectedSections[id].classTime;
-                        rowTime = formatDays(section[1]);
-                        for (rowDay of rowTime.days) {
-                            for (selectedDay of selectedTime.days) {
-                                if (rowDay != selectedDay ||
-                                    (timeIsBefore(rowTime.end, selectedTime.start) ||
-                                        timeIsBefore(selectedTime.end, rowTime.start))) {
-                                    return true;
-                                }
-                            }
-                        }
-                    }
-                }
-                return false;
-            },
-            child: function(rowID, data) {
-                for (id of state.selectedSections) {
-                    if (id == rowID) {
-                        return true;
-                    }
-                    selectedTime = state.selectedSections[id].classTime;
-                    rowTime = formatDays(data[1]);
-                    for (rowDay of rowTime.days) {
-                        for (selectedDay of selectedTime.days) {
-                            if (rowDay == selectedDay &&
-                                !(timeIsBefore(rowTime.end, selectedTime.start) ||
-                                    timeIsBefore(selectedTime.end, rowTime.start))) {
-                                return false;
-                            }
-                        }
-                    }
-                }
-                return true;
-            },
-            active: false
-        },
-        days: {
-            parentRow: function(settings, data, dataIndex) {
-                data = table.row(dataIndex).data()
-                sections = unpackData(data).sections;
-                for (section of sections) {
-                    if (section[1] == "TBA") {
-                        return true;
-                    } else {
-                        var disabledDays = ~state.searchTerms.days;
-                        if (!(section[1] & disabledDays)) {
-                            return true;
-                        }
-                    }
-                }
-                return false;
-            },
-            child: function(rowID, data) {
-                var disabledDays = ~state.searchTerms.days & 0x1F;
-                return !(data[1] & disabledDays);
-            },
-            active: true
-        },
-    };
-
     var childTemplate = document.getElementById('child-template');
     var sectionTemplate = document.getElementById('section-template');
 
-    function createChild(parent_row) {
-        var data = unpackData(table.row(parent_row).data())
+    function createChild(code, parent_row) {
+        const types = {
+            0: 'Lecture',
+            1: 'Recitation',
+            2: 'Lab',
+            3: 'Semenar',
+            4: 'PRA',
+            5: 'Studio',
+            6: 'DIS',
+            7: 'IND',
+            8: 'INT',
+            9: 'Other',
+            10: 'MLS',
+            11: 'FLD',
+            12: 'RSC',
+            13: 'CLN',
+            14: 'WKS',
+        }
+
+        var childData = unpackData(data[code]);
         var newChild = childTemplate.cloneNode(true); // true for deep clone
         var newChildTable = newChild.querySelector("tbody");
-        newChild.insertBefore(document.createTextNode(data.description),
+        newChild.insertBefore(document.createTextNode(childData.desc),
             newChild.firstChild);
         newChild.style.display = null;
 
-        state.expandedRows[data.code] = {
+        state.expandedRows[code] = {
             parentRow: parent_row
         };
-        data.sections.forEach(function(section, i) {
-            var id = data.code + '-' + i;
-            state.expandedRows[data.code][id] = section;
+        childData.sections.forEach(function(section, i) {
+            var id = code + '-' + i;
+            state.expandedRows[code][id] = section;
             for (filterName in filterList) {
                 filter = filterList[filterName];
                 if (filter.active && !filter.child(id, section)) {
@@ -206,13 +148,15 @@ $(document).ready(function() {
             sectionRow = newChildTable.querySelector("tr").cloneNode(true);
             sectionRow.style.display = null;
             sectionRow.id = id;
-            sectionRow.children[0].innerHTML = section[0];
-            date = dayToString(section[1]) + ' ' + timeToString(section[2]) + '  - ' + timeToString(section[3])
+            sectionRow.children[0].innerHTML = types[section.type];
+            date = dayToString(section.days) + ' ' +
+                   timeToString(section.start) + ' - ' +
+                   timeToString(section.end)
             sectionRow.children[1].innerHTML = date;
-            sectionRow.children[2].innerHTML = section[4];
-            sectionRow.children[3].innerHTML = section[5];
-            sectionRow.children[4].innerHTML = section[6];
-            sectionRow.children[5].innerHTML = section[7];
+            sectionRow.children[2].innerHTML = section.seats;
+            sectionRow.children[3].innerHTML = section.waitlist;
+            sectionRow.children[4].innerHTML = section.instr;
+            sectionRow.children[5].innerHTML = section.room;
             newChildTable.append(sectionRow);
 
             // Child was selected earlier - restore state
@@ -267,9 +211,9 @@ $(document).ready(function() {
     // Helper function to color-code calendar entries.
     function getColor(type) {
         switch (type) {
-            case "lecture":
+            case "Lecture":
                 return "#774444";
-            case "recitation":
+            case "Recitation":
                 return "#447744";
             default:
                 return "grey";
@@ -300,10 +244,16 @@ $(document).ready(function() {
         return "";
     }
 
+    statusCodes = {
+        0: 'Open',
+        1: 'Waitlisted',
+        2: 'Closed',
+    };
+
     // Instantiate table.
     var scrollPos = 0;
     var table = $('#table').DataTable({
-        ajax: "docs/class_data.json",
+        ajax: 'data/simple_data.json',
         processing: true,
         scrollY: "500px",
         scrollCollapse: true,
@@ -311,14 +261,16 @@ $(document).ready(function() {
         deferRender: true,
         processing: true,
         sDom: 't',
-        columns: [
-            null,
-            null,
-            null,
-            null,
+        columnDefs: [
             {
-                "visible": false
-            }
+                // The `data` parameter refers to the data for the cell (defined by the
+                // `data` option, which defaults to the column being worked with, in
+                // this case `data: 0`.
+                "render": function ( data, type, row ) {
+                    return statusCodes[data];
+                },
+                "targets": [3]
+            },
         ],
         // Used to avoid annoying scrolling bug
         preDrawCallback: function(settings) {
@@ -347,7 +299,6 @@ $(document).ready(function() {
         editable: false,
         events: [],
         eventClick: function(calEvent, jsEvent, view) {
-            console.log(state.expandedRows)
             offset = state.expandedRows[calEvent.id.substring(0, 9)].parentRow.offsetTop;
             $('.dataTables_scrollBody').animate({
                 scrollTop: offset
@@ -391,34 +342,35 @@ $(document).ready(function() {
         };
     }
 
-    function toggleSelected(dom_row) {
-        child_row = $(dom_row);
-        id = child_row.attr('id');
-        data = state.expandedRows[id.substr(0, 9)][id];
+    function toggleSelected(domRow) {
+        var childRow = $(domRow);
+        var id = childRow.attr('id');
+        var rowData = getSectionData(id);
         // Delete any existing events
         $('#calendar').fullCalendar('removeEvents', id);
         sectionIndex = state.selectedSections.indexOf(id);
         if (sectionIndex < 0) {
-            color = getColor(child_row.children()[0].innerHTML)
+            color = getColor(childRow.children()[0].innerHTML)
             state.selectedSections.push(id);
-            createCalendarEvents(data[1], data[2], data[3], color, id);
+            createCalendarEvents(rowData.days, rowData.start, rowData.end, color, id);
         } else {
             state.selectedSections.splice(sectionIndex, 1);
         }
         setCookie("selected", JSON.stringify(state.selectedSections), 365);
-        child_row.toggleClass('selected');
-        dom_row.querySelector('input').checked = sectionIndex >= 0;
+        childRow.toggleClass('selected');
+        domRow.querySelector('input').checked = sectionIndex < 0;
     }
 
     function toggleDetailedDescription(parent_row) {
-        row = $(parent_row);
+        var row = $(parent_row);
         row.toggleClass('shown');
         var row_handle = table.row(row);
+        var code = row_handle.data()[0];
         if (row_handle.child.isShown()) {
-            delete state.expandedRows[row_handle.data()[0]];
+            delete state.expandedRows[code];
             row_handle.child.hide();
         } else {
-            row_handle.child(createChild(parent_row), 'child-body').show();
+            row_handle.child(createChild(code, parent_row), 'child-body').show();
             // TODO(Alex): There should be a better way to do this that
             // also fixes hovering over the table header without a color change.
             /*row_handle.child().hover(function(){
@@ -427,26 +379,24 @@ $(document).ready(function() {
         }
     }
 
-    /* TODO(alex) Upgrade to work with new date format.
     $('#table tbody').on('mouseenter', 'tr', function(row) {
-      row = $(row.currentTarget);
+      var row = $(row.currentTarget);
       if(row.hasClass("child-row")) {
-        id = row.attr('id');
-        dt = formatDays(row.children()[1].innerHTML);
-        if(!state.selectedSections[id]) {
-          createCalendarEvents(dt, '#AAA', id);
+        var id = row.attr('id');
+        var sData = getSectionData(id);
+        if(id && state.selectedSections.indexOf(id) < 0) {
+          createCalendarEvents(sData.days, sData.start, sData.end, '#AAA', id);
         }
       }
     });
 
     $('#table tbody').on('mouseleave', 'tr', function(row) {
-      row = $(row.currentTarget);
-        id = row.attr('id');
-        if(!state.selectedSections[id]) {
-          $('#calendar').fullCalendar('removeEvents', id);
-        }
+      var row = $(row.currentTarget);
+      var id = row.attr('id');
+      if(id && state.selectedSections.indexOf(id) < 0) {
+        $('#calendar').fullCalendar('removeEvents', id);
       }
-    });*/
+    });
 
     // Callback when parent row is opened or child row is selected.
     $('#table tbody').on('click', 'tr', function(e) {
@@ -454,12 +404,115 @@ $(document).ready(function() {
         if (row.hasClass("child-body")) {
             return;
         } else if (row.hasClass("child-row")) {
-            // TODO(alex) Upgrade to work with new date format.
             toggleSelected(this);
         } else {
+          console.log(row)
             toggleDetailedDescription(this);
         }
     });
+
+    var filterList = {
+        full: {
+            parentRow: function(settings, data, dataIndex) {
+                return data[3] == "Open";
+            },
+            child: function(id, data) {
+                return data.seats > 0;
+            },
+            active: false
+        },
+        description: {
+            parentRow: function(settings, rowData, dataIndex) {
+                var searchTerm = state.searchTerms.description;
+                return rowData[1].search(searchTerm) >= 0 ||
+                    data[rowData[0]][0].search(searchTerm) >= 0;
+            },
+            child: function() {
+                return true;
+            },
+            active: false
+        },
+        instructor: {
+            parentRow: function(settings, rowData, dataIndex) {
+                sections = data[rowData[0]][1]
+                for (section of sections) {
+                    if (section[7].search(state.searchTerms.instructor) >= 0) {
+                        return true;
+                    }
+                }
+                return false;
+            },
+            child: function(childName, data) {
+                return data.instr.search(state.searchTerms.instructor) >= 0;
+            },
+            active: false
+        },
+        selected: {
+            parentRow: function(settings, data, dataIndex) {
+                for (id of state.selectedSections) {
+                    if (id.substring(0, 9) == data[0]) {
+                        return true;
+                    }
+                }
+                return false;
+            },
+            child: function(childName, data) {
+                return state.selectedSections.indexOf(childName) != -1;
+            },
+            active: false
+        },
+        conflicting: {
+            parentRow: function(settings, rowData, dataIndex) {
+                code = table.row(dataIndex).data()[0];
+                sections = unpackData(data[code]).sections;
+                for (id of state.selectedSections) {
+                    s = getSectionData(id);
+                    for (section of sections) {
+                        daysInCommon = s.days & section.days;
+                        notSameTime = (s.end < section.start) || (section.end < s.start);
+                        if (!daysInCommon || notSameTime) {
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+                return true;
+            },
+            child: function(rowID, rowData) {
+                if (state.selectedSections.indexOf(rowID) >= 0) {
+                  return true;
+                }
+                for (id of state.selectedSections) {
+                    s = getSectionData(id);
+                    daysInCommon = s.days & rowData.days;
+                    notSameTime = (s.end < rowData.start) || (rowData.end < s.start);
+                    if(daysInCommon && !notSameTime) {
+                          return false;
+                    }
+                }
+                return true;
+            },
+            active: false
+        },
+        days: {
+            parentRow: function(settings, rowData, dataIndex) {
+                code = table.row(dataIndex).data()[0];
+                sections = unpackData(data[code]).sections;
+                for (section of sections) {
+                    var disabledDays = ~state.searchTerms.days;
+                    if (!(section.days & disabledDays)) {
+                        return true;
+                    }
+                }
+                return false;
+            },
+            child: function(rowID, data) {
+                var disabledDays = ~state.searchTerms.days & 0x1F;
+                return !(data.days & disabledDays);
+            },
+            active: true
+        },
+    };
 
     $('#code-search').on('keyup change', function() {
         col = table.columns(0);
@@ -483,7 +536,7 @@ $(document).ready(function() {
     function refreshTable() {
         for (id in state.expandedRows) {
             row = state.expandedRows[id].parentRow;
-            table.row(row).child(createChild(row));
+            table.row(row).child(createChild(id, row), 'child-body');
         }
         table.draw();
     }
@@ -497,7 +550,6 @@ $(document).ready(function() {
         }
         refreshTable();
     }
-    createFilters();
 
     $('#display-full').change(function(target) {
         filterList["full"].active = target.currentTarget.checked;

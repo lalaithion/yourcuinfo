@@ -11,7 +11,7 @@ import os
 import errno
 
 date = strftime("%Y-%m-%d", gmtime())
-store = '../docs/raw_html/catalog/'
+store = '../data/raw_html/catalog/'
 url = 'http://www.colorado.edu/catalog/2016-17/courses?subject='
 
 def newDir(path):

@@ -12,71 +12,29 @@ from os.path import isfile, join
 class Section():
     def __init__(self,data):
         self.data = data
+
     def __getattr__(self,name):
         return self.data[name]
-    def __repr__(self):
-        rep = "Section:" + self.type + "," + self.time + ")"
-        return rep
+
     def json(self):
         return self.data
 
 
 class Course():
     def __init__(self,title):
-        readable_title = "".join(filter(lambda x: x in printable, title))
-        self.identifier = readable_title[:9] #CSCI 3155
-        self.name = readable_title[12:] #Principles of Programming Languages
+        self.identifier = title[:9] #CSCI 3155
+        self.name = title[12:] #Principles of Programming Languages
         # some of these will be empty lists for many classes
-        self.sections = {
-            "lectures":[],
-            "recitations":[],
-            "labs":[],
-            "seminars":[],
-            "labs":[],
-            "pra":[],
-            "other":[],
-            "studios":[]
-        }
-    def add_section(self,data):
-        if data["section"][-3:] == "LEC":
-            data["type"] = "lecture"
-            self.sections["lectures"].append(Section(data))
-        elif data["section"][-3:] == "REC":
-            data["type"] = "recitation"
-            self.sections["recitations"].append(Section(data))
-        elif data["section"][-3:] == "LAB":
-            data["type"] = "lab"
-            self.sections["labs"].append(Section(data))
-        elif data["section"][-3:] == "SEM":
-            data["type"] = "seminar"
-            self.sections["seminars"].append(Section(data))
-        elif data["section"][-3:] == "PRA":
-            data["type"] = "pra"
-            self.sections["pra"].append(Section(data))
-        elif data["section"][-3:] == "STU":
-            data["type"] = "studio"
-            self.sections["studios"].append(Section(data))
-        else:
-            data["type"] = "other"
-            self.sections["other"].append(Section(data))
+        self.sections = []
 
-    def __repr__(self):
-        rep = "Course("
-        rep += self.identifier + " - " + self.name
-        num_sec = (self.sections["lectures"] + self.sections["recitations"] + self.sections["labs"]
-                  + self.sections["seminars"] + self.sections["pra"] + self.sections["other"] + self.sections["studios"])
-        rep += ", sections:" + str(num_sec)
-        rep += ")"
-        return rep
+    def add_section(self,data):
+        self.sections.append(Section(data))
 
     def json(self):
-        json = {
-            "name":self.name,
-            "sections":{
-                k: [i.json() for i in v] for k,v in self.sections.items()
-            }
+        return {
+            "name": self.name,
+            "sections": [s.json() for s in self.sections],
         }
-        return json
 
 class MyCUInfoHTMLParser(HTMLParser):
     def __init__(self):
@@ -94,7 +52,7 @@ class MyCUInfoHTMLParser(HTMLParser):
                 if re.search("MTG_CLASS_NBR", value):
                     self.current_state = "number"
                 if re.search("MTG_CLASSNAME", value):
-                    self.current_state = "section"
+                    self.current_state = "code"
                 if re.search("MTG_DAYTIME", value):
                     self.current_state = "time"
                 if re.search("MTG_ROOM", value):
@@ -111,47 +69,33 @@ class MyCUInfoHTMLParser(HTMLParser):
                     self.current_state = "consent"
                 if re.search("CU_CLS_RSL_WRK_AVAILABLE_SEATS", value):
                     self.current_state = "seats"
-                if re.search("^CU_CLS_RSL_WRK_WAIT_TOT", value):
+                if re.match("CU_CLS_RSL_WRK_WAIT_TOT", value):
                     self.current_state = "waitlist"
-                if re.search("^CU_CLS_RSL_WRK_CU_SSR_WAITLIST", value):
+                if re.match("CU_CLS_RSL_WRK_CU_SSR_WAITLIST", value):
                     self.current_state = "waitlist"
                 if re.search("DERIVED_CLSRCH_DESCRLONG", value):
                     self.current_state = "description"
 
     def handle_endtag(self, tag):
-        # the waitlist is the last tag in the class
-        if self.current_state == "waitlist":
-            # logging.debug("Title: " + self.fields["title"])
-            # logging.debug("Class: " + self.fields["number"])
-            # logging.debug("Section: " + self.fields["section"])
-            # logging.debug("Time: " + self.fields["time"])
-            # logging.debug("Room: " + self.fields["room"])
-            # logging.debug("Instructor: " + self.fields["instructor"])
-            # logging.debug("Dates: " + self.fields["dates"])
-            # #logging.debug("Status: " + self.fields["status"])
-            # logging.debug("Units: " + self.fields["units"])
-            # logging.debug("Enrollment Restriction: " + self.fields["restriction"])
-            # logging.debug("Instructor Consent Required: " + self.fields["consent"])
-            # logging.debug("Available Seats: " + self.fields["seats"])
-            # logging.debug("Wait List Total: " + self.fields["waitlist"])
-            # logging.debug("Description: " + self.fields["description"])
-            # logging.debug("Adding %s" % self.fields['title'])
+        pass
+
+    def handle_data(self, data):
+        # Filter out non-printable characters (note: find out why there are non-printable characters!?)
+        printable_data = "".join(filter(lambda x: x in printable, data))
+        if self.current_state == "title":
+            self.courses.append(Course(printable_data))
+            self.current_state = None
+        elif self.current_state == "waitlist":
+            self.fields["waitlist"] = printable_data
             self.courses[-1].add_section(self.fields)
             self.fields = {}
             self.current_state = None
-        if self.current_state in self.fields:
+        elif self.current_state is not None:
+            self.fields[self.current_state] = printable_data
             self.current_state = None
 
-    def handle_data(self, data):
-        if self.current_state == "title":
-            self.courses.append(Course(printable_data))
-        elif self.current_state is not None:
-            # Filter out non-printable characters (note: find out why there are non-printable characters!?)
-            printable_data = "".join(filter(lambda x: x in printable, data))
-            self.fields[self.current_state] = printable_data
-
     def json(self):
-        return {i.identifier:i.json() for i in self.courses}
+        return {i.identifier: i.json() for i in self.courses}
 
 
 def jsonify(filename):
@@ -163,37 +107,32 @@ def jsonify(filename):
         return parser.json()
 
 def jsonify_dir(dirpath):
-    class_info = []
+    class_info = {}
     for f in listdir(dirpath):
         filepath = join(dirpath, f)
-        if isfile(filepath):
-            if filepath.endswith(".html"):
-                try:
-                    info = jsonify(filepath)
-                    if not info:
-                        raise Exception("Unable to parse file")
-                    class_info.append(info)
-                except Exception as err:
-                    raise
-                    errors = True
-                    logging.info("Error during parsing of %s:\n  %s: %s\n" % (filepath, type(err), err))
+        if isfile(filepath) and filepath.endswith(".html"):
+            try:
+                info = jsonify(filepath)
+                if not info:
+                    raise Exception("Unable to parse file")
+                for k, v in info.items():
+                    if k in class_info:
+                        raise Exception("Two instances of %s found!" % k)
+                    class_info[k] = v
+            except Exception as err:
+                raise
+                errors = True
+                logging.info("Error during parsing of %s:\n  %s: %s\n" % (filepath, type(err), err))
 
-        else:
-            print("Reading dir:", filepath)
-            class_info.extend(jsonify_dir(filepath))
     return class_info
 
-def main(inpath="../../docs/raw_html/mycuinfo/", outpath='../../docs/json/classes.json'):
-    date = strftime("%Y-%m-%d", gmtime())
-    logging.info("Beginning parse")
-    errors = False
+def parse(inpath, outpath):
+    logging.info("Beginning parse.")
 
     classes = jsonify_dir(inpath)
-    with open(outpath, 'w') as outfile:
+    filepath = outpath + 'mycuinfo.json'
+    with open(filepath, 'w') as outfile:
+        logging.info('Writing to %s' % filepath)
         json.dump(classes, outfile, indent=4, separators=(',', ': '))
 
-    logging.info("Parse finished")
-    print("Parse finished with no errors" if not errors else "Parse finished with errors")
-
-if __name__ == "__main__":
-    main()
+    logging.info("Parse finished.")
