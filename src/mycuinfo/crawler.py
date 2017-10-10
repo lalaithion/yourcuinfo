@@ -137,7 +137,7 @@ def initDriver(login_data):
     driver = login(login_data['uname'], login_data['pswd'])
 
     logging.debug('Clicking "search for classes"')
-    search = retry(driver.find_element_by_link_text, 'Search for Classes')
+    search = retry(driver.find_element_by_link_text, 'Search For Classes (standard)')
     retry(search.click)
 
     logging.debug('Switching to main frame')
@@ -151,7 +151,7 @@ def initDriver(login_data):
 
     wait_for_loading_icon(driver)
 
-    semester = 'Fall 2017 UC Boulder'
+    semester = 'Spring 2018 UC Boulder'
     logging.debug('Selecting semester: %s' % semester)
     Select(
         driver.find_element_by_id('CLASS_SRCH_WRK2_STRM$35$')
