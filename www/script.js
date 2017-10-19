@@ -84,27 +84,48 @@ $(document).ready(function() {
     }
 
     /*
+     * Converts from integer type enum to string representation.
+     */
+    function typeToString(type) {
+        types = {
+            0: 'Lecture',
+            1: 'Recitation',
+            2: 'Lab',
+            3: 'Semenar',
+            4: 'PRA',
+            5: 'Studio',
+            6: 'DIS',
+            7: 'IND',
+            8: 'INT',
+            9: 'Other',
+            10: 'MLS',
+            11: 'FLD',
+            12: 'RSC',
+            13: 'CLN',
+            14: 'WKS',
+        }
+        return types[type];
+    }
+
+    /*
+     * Returns color based on section type.
+     */
+    function getColor(type) {
+        switch (type) {
+            case 0:
+                return "#774444";
+            case 1:
+                return "#447744";
+            default:
+                return "grey";
+        }
+    }
+
+    /*
      * Creates a child node with detailed information.
      */
     const childTemplate = document.getElementById('child-template');
     const sectionTemplate = document.getElementById('section-template');
-    const types = {
-        0: 'Lecture',
-        1: 'Recitation',
-        2: 'Lab',
-        3: 'Semenar',
-        4: 'PRA',
-        5: 'Studio',
-        6: 'DIS',
-        7: 'IND',
-        8: 'INT',
-        9: 'Other',
-        10: 'MLS',
-        11: 'FLD',
-        12: 'RSC',
-        13: 'CLN',
-        14: 'WKS',
-    }
     function createChild(code, parent_row) {
         var childData = data[code].data;
         var newChild = childTemplate.cloneNode(true); // true for deep clone
@@ -128,7 +149,7 @@ $(document).ready(function() {
             row = newChildTable.querySelector("tr").cloneNode(true);
             row.style.display = null;
             row.id = id;
-            row.children[0].innerHTML = types[sec.type];
+            row.children[0].innerHTML = typeToString(sec.type);
             date = dayToString(sec.days)
             time = time2Str(sec.start) + ' - ' + time2Str(sec.end)
             row.children[1].innerHTML = date + ' ' + time;
@@ -190,7 +211,7 @@ $(document).ready(function() {
             var expires = "expires=" + d.toUTCString();
             document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
         }
-        cookie = ''//JSON.stringify(state);
+        cookie = JSON.stringify(state.selectedSections);
         setCookie('state', cookie, 256);
     }
 
@@ -214,10 +235,15 @@ $(document).ready(function() {
             return "";
         }
         cookie = getCookie('state');
-        //console.log("Cookie:", cookie)
         if (cookie) {
-            state = JSON.parse(cookie);
+            state.selectedSections = JSON.parse(cookie);
+            for (id of state.selectedSections) {
+                var rowData = getSectionData(id);
+                var color = getColor(rowData.type);
+                createCalendarEvents(rowData.days, rowData.start, rowData.end, color, id);
+            }
         }
+
     }
 
     /*
@@ -267,6 +293,9 @@ $(document).ready(function() {
         drawCallback: function(settings) {
             $('.dataTables_scrollBody')[0].scrollTop = scrollPos;
         },
+        initComplete: function(settings, json) {
+            restoreState();
+        }
     });
 
     /* 
@@ -328,17 +357,6 @@ $(document).ready(function() {
      * Toggles child row on click.
      */
     function toggleSelected(domRow) {
-        function getColor(type) {
-            switch (type) {
-                case "Lecture":
-                    return "#774444";
-                case "Recitation":
-                    return "#447744";
-                default:
-                    return "grey";
-            }
-        }
-
         var childRow = $(domRow);
         var id = childRow.attr('id');
         var rowData = getSectionData(id);
@@ -346,7 +364,7 @@ $(document).ready(function() {
         $('#calendar').fullCalendar('removeEvents', id);
         sectionIndex = state.selectedSections.indexOf(id);
         if (sectionIndex < 0) {
-            color = getColor(childRow.children()[0].innerHTML)
+            color = getColor(rowData.type)
             state.selectedSections.push(id);
             createCalendarEvents(rowData.days, rowData.start, rowData.end, color, id);
         } else {
@@ -542,7 +560,6 @@ $(document).ready(function() {
     };
 
     $('#code-search').on('keyup change', function() {
-    console.log(data)
         col = table.columns(0);
         if (col.search() !== this.value) {
             col.search(this.value).draw();
@@ -610,5 +627,4 @@ $(document).ready(function() {
     }
 
     createFilters();
-    restoreState();
 });
