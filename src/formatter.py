@@ -128,8 +128,10 @@ def stringifyData(courses, catalog):
     courseData = []
     sectionData = []
     for c in courses:
-        courseData.append('["%s %s","%s","%s",%d]' %
-                (c.dept, c.num, c.name, c.credits, c.status))
+        description = catalog.get(c.dept, {}).get(c.num, {}).get("body", None)
+        if description != None:
+            description = description.replace("\"", "\\\"")
+
         sections = []
         for s in c.sections:
             sections.append('[%d,%d,%d,%d,"%s",%d,%d,"%s","%s"%s]' %
@@ -137,14 +139,10 @@ def stringifyData(courses, catalog):
                 s.seats, s.wait, s.instr, s.room,
                 ',"%s"' % s.info if s.info else ''))
 
-        description = catalog.get(c.dept, {}).get(c.num, {}).get("body", None)
-        if description != None:
-            description = description.replace("\"", "\\\"")
-        sectionData.append('"%s %s":["%s",[%s]]' %
-                (c.dept, c.num, description, ','.join(sections)))
+        courseData.append('["%s %s","%s","%s",%d,["%s",%s]]' %
+                (c.dept, c.num, c.name, c.credits, c.status, description, ','.join(sections)))
 
-    return ('{"data":[%s]}' % ','.join(courseData),
-            '{"data":{%s}}' % ','.join(sectionData))
+    return '{"data":[%s]}' % ','.join(courseData)
 
 def main():
     newline = False
@@ -153,12 +151,10 @@ def main():
     with open('../data/json/catalog.json') as data_file:
         catalog = json.load(data_file)
 
-    courseData, sectionData = stringifyData(courses, catalog)
+    data = stringifyData(courses, catalog)
 
-    with open('../data/simple_data.json', 'w+') as courseDataOut:
-        courseDataOut.write(courseData)
-    with open('../data/detailed_data.json', 'w+') as sectionDataOut:
-        sectionDataOut.write(sectionData)
+    with open('../data/class_data.json', 'w+') as out:
+        out.write(data)
 
 
 if __name__ == "__main__":

@@ -1,39 +1,5 @@
 $(document).ready(function() {
-    var data = null;
-    // var loadingBackground = $('#loading-background');
-    // var loadingPercent = $('#loading-percent');
-
-    var xhr = new XMLHttpRequest();
-
-    // xhr.addEventListener("progress", function updateProgress (oEvent) {
-    //     if (oEvent.lengthComputable) {
-    //         var percentComplete = oEvent.loaded / oEvent.total;
-    //         loadingPercent.html = 'Loading: ' + percentComplete + '%';
-    //     } else {
-    //         loadingPercent.html = 'Loading...';
-    //     }
-    // });
-
-    xhr.onreadystatechange = function (oEvent) {
-        if (xhr.readyState === 4) {
-            if (xhr.status === 200) {
-                // loadingPercent.hide();
-                // loadingBackground.hide();
-            } else {
-                console.log("Error", xhr);
-            }
-        }
-    };
-
-    xhr.open('GET', '/data/detailed_data.json');
-  	xhr.onload = function () {
-          data = JSON.parse(this.responseText).data;
-          // loadingPercent.hide();
-          // loadingBackground.hide();
-          createFilters();
-  	};
-
-    xhr.send(null)
+    data = {}
 
     state = {
         expandedRows: {},
@@ -44,13 +10,12 @@ $(document).ready(function() {
         },
     };
 
-    function unpackData(detailedData) {
-        ret = {
-            desc: detailedData[0],
-            sections: [],
-        };
-        for (section of detailedData[1]) {
-            ret.sections.push({
+    /*
+     * Unpacks data from server into easy-to-use dictionary.
+     */
+    function unpackData(course) {
+        function unpackSection(section) {
+            return {
                 type: section[0],
                 days: section[1],
                 start: section[2],
@@ -61,21 +26,32 @@ $(document).ready(function() {
                 instr: section[7],
                 room: section[8],
                 info: section[9],
-            });
+            };
         }
-        return ret;
+        return {
+            description: course[0],
+            sections: course.slice(1).map((s) => unpackSection(s)),
+        };
     }
 
+    /*
+     * Retreives data for a section based on section id (e.g. CSCI 1300-3).
+     */
     function getSectionData(id) {
-      return unpackData(data[id.substr(0,9)]).sections[id.substr(10)]
+        return data[id.slice(0,9)].data.sections[id.slice(10)]
     }
 
+    /*
+     * Pads number with leading zeroes.
+     */
     function zeroPad(n, width) {
         n = n.toString();
         return n.length < width ? new Array(width - n.length + 1).join('0') + n : n;
     }
 
-    // Days are bitmasks for ease of transmitting and comparison.
+    /*
+     * Converts from easy-to-compare bitmasks to human-readable strings.
+     */
     function dayToString(dayBitmask) {
         const days = {
             1: 'Mo',
@@ -93,7 +69,10 @@ $(document).ready(function() {
         return dayString;
     }
 
-    function timeToString(time) {
+    /*
+     * Converts from easy-to-compare minute counts to human-readable strings.
+     */
+    function time2Str(time) {
         hour = Math.floor(time / 60);
         minute = time % 60;
         suffix = 'AM';
@@ -104,67 +83,68 @@ $(document).ready(function() {
         return hour + ':' + zeroPad(minute, 2) + suffix;
     }
 
-    var childTemplate = document.getElementById('child-template');
-    var sectionTemplate = document.getElementById('section-template');
-
+    /*
+     * Creates a child node with detailed information.
+     */
+    const childTemplate = document.getElementById('child-template');
+    const sectionTemplate = document.getElementById('section-template');
+    const types = {
+        0: 'Lecture',
+        1: 'Recitation',
+        2: 'Lab',
+        3: 'Semenar',
+        4: 'PRA',
+        5: 'Studio',
+        6: 'DIS',
+        7: 'IND',
+        8: 'INT',
+        9: 'Other',
+        10: 'MLS',
+        11: 'FLD',
+        12: 'RSC',
+        13: 'CLN',
+        14: 'WKS',
+    }
     function createChild(code, parent_row) {
-        const types = {
-            0: 'Lecture',
-            1: 'Recitation',
-            2: 'Lab',
-            3: 'Semenar',
-            4: 'PRA',
-            5: 'Studio',
-            6: 'DIS',
-            7: 'IND',
-            8: 'INT',
-            9: 'Other',
-            10: 'MLS',
-            11: 'FLD',
-            12: 'RSC',
-            13: 'CLN',
-            14: 'WKS',
-        }
-
-        var childData = unpackData(data[code]);
+        var childData = data[code].data;
         var newChild = childTemplate.cloneNode(true); // true for deep clone
         var newChildTable = newChild.querySelector("tbody");
-        newChild.insertBefore(document.createTextNode(childData.desc),
+        newChild.insertBefore(document.createTextNode(childData.description),
             newChild.firstChild);
         newChild.style.display = null;
 
         state.expandedRows[code] = {
             parentRow: parent_row
         };
-        childData.sections.forEach(function(section, i) {
+        childData.sections.forEach(function(sec, i) {
             var id = code + '-' + i;
-            state.expandedRows[code][id] = section;
+            state.expandedRows[code][id] = sec;
             for (filterName in filterList) {
                 filter = filterList[filterName];
-                if (filter.active && !filter.child(id, section)) {
+                if (filter.active && !filter.child(id, sec)) {
                     return;
                 }
             }
-            sectionRow = newChildTable.querySelector("tr").cloneNode(true);
-            sectionRow.style.display = null;
-            sectionRow.id = id;
-            sectionRow.children[0].innerHTML = types[section.type];
-            date = dayToString(section.days) + ' ' +
-                   timeToString(section.start) + ' - ' +
-                   timeToString(section.end)
-            sectionRow.children[1].innerHTML = date;
-            sectionRow.children[2].innerHTML = section.seats;
-            sectionRow.children[3].innerHTML = section.waitlist;
-            sectionRow.children[4].innerHTML = section.instr;
-            sectionRow.children[5].innerHTML = section.room;
-            newChildTable.append(sectionRow);
+            row = newChildTable.querySelector("tr").cloneNode(true);
+            row.style.display = null;
+            row.id = id;
+            row.children[0].innerHTML = types[sec.type];
+            date = dayToString(sec.days)
+            time = time2Str(sec.start) + ' - ' + time2Str(sec.end)
+            row.children[1].innerHTML = date + ' ' + time;
+            row.children[2].innerHTML = sec.seats;
+            row.children[3].innerHTML = sec.waitlist;
+            row.children[4].innerHTML = sec.instr;
+            row.children[5].innerHTML = sec.room;
+            newChildTable.append(row);
 
             // Child was selected earlier - restore state
-            if (state.selectedSections.indexOf(sectionRow.id) >= 0) {
-                sectionRow.querySelector("input").checked = true;
-                sectionRow.className += " selected";
+            if (state.selectedSections.indexOf(row.id) >= 0) {
+                row.querySelector("input").checked = true;
+                row.className += " selected";
             }
         });
+        saveState();
         return newChild;
     }
 
@@ -177,23 +157,14 @@ $(document).ready(function() {
      *   classDays (string): myCUinfo-style date/time ("TuTh 2:00-2:50" or similar)
      */
     function formatDays(classDays) {
-        days = [{
-            day: "Mo",
-            date: "09"
-        }, {
-            day: "Tu",
-            date: "10"
-        }, {
-            day: "We",
-            date: "11"
-        }, {
-            day: "Th",
-            date: "12"
-        }, {
-            day: "Fr",
-            date: "13"
-        }];
-        var dates = days.reduce(function(acc, val) {
+        days = [
+            {day: "Mo", date: "09"},
+            {day: "Tu", date: "10"},
+            {day: "We", date: "11"},
+            {day: "Th", date: "12"},
+            {day: "Fr", date: "13"},
+        ];
+        dates = days.reduce(function(acc, val) {
             return (classDays.indexOf(val.day) == -1) ? acc : acc.concat(`2014-06-${val.date}`);
         }, []);
         times = classDays.match(/(\d{1,2}):(\d{2})(.M) - (\d{1,2}):(\d{2})(.M)/);
@@ -208,52 +179,53 @@ $(document).ready(function() {
         };
     }
 
-    // Helper function to color-code calendar entries.
-    function getColor(type) {
-        switch (type) {
-            case "Lecture":
-                return "#774444";
-            case "Recitation":
-                return "#447744";
-            default:
-                return "grey";
+    /*
+     * Saves the current state variable as a cookie.
+     */
+    function saveState() {
+        // https://www.w3schools.com/js/js_cookies.asp
+        function setCookie(cname, cvalue, exdays) {
+            var d = new Date();
+            d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+            var expires = "expires=" + d.toUTCString();
+            document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+        }
+        cookie = ''//JSON.stringify(state);
+        setCookie('state', cookie, 256);
+    }
+
+    /*
+     * Restores the state variable from the saved cookie.
+     */
+    function restoreState() {
+        function getCookie(cname) {
+            var name = cname + "=";
+            var decodedCookie = decodeURIComponent(document.cookie);
+            var ca = decodedCookie.split(';');
+            for (var i = 0; i < ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') {
+                    c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                    return c.substring(name.length, c.length);
+                }
+            }
+            return "";
+        }
+        cookie = getCookie('state');
+        //console.log("Cookie:", cookie)
+        if (cookie) {
+            state = JSON.parse(cookie);
         }
     }
 
-    // https://www.w3schools.com/js/js_cookies.asp
-    function setCookie(cname, cvalue, exdays) {
-        var d = new Date();
-        d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-        var expires = "expires=" + d.toUTCString();
-        document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-    }
-
-    function getCookie(cname) {
-        var name = cname + "=";
-        var decodedCookie = decodeURIComponent(document.cookie);
-        var ca = decodedCookie.split(';');
-        for (var i = 0; i < ca.length; i++) {
-            var c = ca[i];
-            while (c.charAt(0) == ' ') {
-                c = c.substring(1);
-            }
-            if (c.indexOf(name) == 0) {
-                return c.substring(name.length, c.length);
-            }
-        }
-        return "";
-    }
-
-    statusCodes = {
-        0: 'Open',
-        1: 'Waitlisted',
-        2: 'Closed',
-    };
-
-    // Instantiate table.
+    /*
+     * Instantiate table.
+     */
     var scrollPos = 0;
     var table = $('#table').DataTable({
-        ajax: 'data/simple_data.json',
+        ajax: 'data/class_data.json',
         processing: true,
         scrollY: "500px",
         scrollCollapse: true,
@@ -261,15 +233,31 @@ $(document).ready(function() {
         deferRender: true,
         processing: true,
         sDom: 't',
-        columnDefs: [
+        columns: [
+            null,
+            null,
+            null,
             {
-                // The `data` parameter refers to the data for the cell (defined by the
-                // `data` option, which defaults to the column being worked with, in
-                // this case `data: 0`.
-                "render": function ( data, type, row ) {
-                    return statusCodes[data];
+                "render": function (code)  {
+                    switch(code) {
+                        case 0: return 'Open';
+                        case 1: return 'Waitlisted';
+                        case 2: return 'Closed';
+                    };
                 },
-                "targets": [3]
+            },
+            {
+                "render": function (packedData, type, row, meta) {
+                    rowNum = meta.row;
+                    rowName = row[0];
+                    data[rowName] = {
+                        data: unpackData(packedData),
+                        row: rowNum,
+                    }
+                    // Result not used
+                    return 0
+                },
+                "visible": false,
             },
         ],
         // Used to avoid annoying scrolling bug
@@ -281,7 +269,9 @@ $(document).ready(function() {
         },
     });
 
-    // Instantiate calendar.
+    /* 
+     * Instantiate calendar.
+     */
     $('#calendar').fullCalendar({
         header: {
             left: '',
@@ -306,17 +296,9 @@ $(document).ready(function() {
         },
     });
 
-    // Used to store which courses have been selected and added to the calendar.
-    // state.selectedSections = JSON.parse(getCookie("selected") || "[]");
-    // TODO(alex) redo to work with new selectedSections format
     /*
-    for(id in state.selectedSections) {
-      data = state.selectedSections[id];
-      createCalendarEvents(data.days, data.start, data.end, data.color, id);
-    }
-    */
-
-    // fullCalendar-style date/time ("2014-06-09T14:50").
+     * Creates calendar events when given a day bitstring and start / end times.
+     */
     function createCalendarEvents(days, start, end, color, id) {
         bitDays = {
             1: '09',
@@ -342,7 +324,21 @@ $(document).ready(function() {
         };
     }
 
+    /*
+     * Toggles child row on click.
+     */
     function toggleSelected(domRow) {
+        function getColor(type) {
+            switch (type) {
+                case "Lecture":
+                    return "#774444";
+                case "Recitation":
+                    return "#447744";
+                default:
+                    return "grey";
+            }
+        }
+
         var childRow = $(domRow);
         var id = childRow.attr('id');
         var rowData = getSectionData(id);
@@ -356,11 +352,14 @@ $(document).ready(function() {
         } else {
             state.selectedSections.splice(sectionIndex, 1);
         }
-        setCookie("selected", JSON.stringify(state.selectedSections), 365);
+        saveState();
         childRow.toggleClass('selected');
         domRow.querySelector('input').checked = sectionIndex < 0;
     }
 
+    /*
+     * Toggles parent row on click.
+     */
     function toggleDetailedDescription(parent_row) {
         var row = $(parent_row);
         row.toggleClass('shown');
@@ -369,6 +368,7 @@ $(document).ready(function() {
         if (row_handle.child.isShown()) {
             delete state.expandedRows[code];
             row_handle.child.hide();
+            saveState();
         } else {
             row_handle.child(createChild(code, parent_row), 'child-body').show();
             // TODO(Alex): There should be a better way to do this that
@@ -379,6 +379,9 @@ $(document).ready(function() {
         }
     }
 
+    /*
+     * Creates calendar events on mouseover.
+     */
     $('#table tbody').on('mouseenter', 'tr', function(row) {
       var row = $(row.currentTarget);
       if(row.hasClass("child-row")) {
@@ -398,7 +401,9 @@ $(document).ready(function() {
       }
     });
 
-    // Callback when parent row is opened or child row is selected.
+    /*
+     * Toggles rows on click.
+     */
     $('#table tbody').on('click', 'tr', function(e) {
         var row = $(this);
         if (row.hasClass("child-body")) {
@@ -406,11 +411,35 @@ $(document).ready(function() {
         } else if (row.hasClass("child-row")) {
             toggleSelected(this);
         } else {
-          console.log(row)
             toggleDetailedDescription(this);
         }
-    });
+    });    
 
+    /*
+    function toggleParentFilter(name, f) {
+        toggleParentFilter.filters = toggleParentFilters.filters || {};
+
+        if (toggleParentFilter.filters[name]) {
+            del toggleParentFilter.filters[name];
+        }
+        else {
+            toggleParentFilter.filters[name] = f;
+        }
+
+        $.fn.dataTable.ext.search = Object.values(toggleParentFilter.filters);
+    }
+
+    function toggleChildFilter(name, f) {
+        
+    }
+
+    function filterFullClasses(_, d) {
+        return d[3] == "Open";
+    }
+
+    function filterByDescription(_, d) {
+        return 
+    }*/
     var filterList = {
         full: {
             parentRow: function(settings, data, dataIndex) {
@@ -425,7 +454,7 @@ $(document).ready(function() {
             parentRow: function(settings, rowData, dataIndex) {
                 var searchTerm = state.searchTerms.description;
                 return rowData[1].search(searchTerm) >= 0 ||
-                    data[rowData[0]][0].search(searchTerm) >= 0;
+                    data[rowData[0]].data.description.search(searchTerm) >= 0;
             },
             child: function() {
                 return true;
@@ -434,9 +463,9 @@ $(document).ready(function() {
         },
         instructor: {
             parentRow: function(settings, rowData, dataIndex) {
-                sections = data[rowData[0]][1]
+                sections = data[rowData[0]].data.sections;
                 for (section of sections) {
-                    if (section[7].search(state.searchTerms.instructor) >= 0) {
+                    if (section.instr.search(state.searchTerms.instructor) >= 0) {
                         return true;
                     }
                 }
@@ -463,8 +492,7 @@ $(document).ready(function() {
         },
         conflicting: {
             parentRow: function(settings, rowData, dataIndex) {
-                code = table.row(dataIndex).data()[0];
-                sections = unpackData(data[code]).sections;
+                sections = data[rowData[0]].data.sections;
                 for (id of state.selectedSections) {
                     s = getSectionData(id);
                     for (section of sections) {
@@ -496,8 +524,7 @@ $(document).ready(function() {
         },
         days: {
             parentRow: function(settings, rowData, dataIndex) {
-                code = table.row(dataIndex).data()[0];
-                sections = unpackData(data[code]).sections;
+                sections = data[rowData[0]].data.sections;
                 for (section of sections) {
                     var disabledDays = ~state.searchTerms.days;
                     if (!(section.days & disabledDays)) {
@@ -515,6 +542,7 @@ $(document).ready(function() {
     };
 
     $('#code-search').on('keyup change', function() {
+    console.log(data)
         col = table.columns(0);
         if (col.search() !== this.value) {
             col.search(this.value).draw();
@@ -524,12 +552,14 @@ $(document).ready(function() {
     $('#name-search').on('keyup change', function() {
         state.searchTerms.description = new RegExp(this.value, 'i');
         filterList.description.active = this.value != '';
+        saveState();
         createFilters();
     });
 
     $('#instructor-search').on('keyup change', function() {
         state.searchTerms.instructor = new RegExp(this.value, 'i');
         filterList.instructor.active = this.value != '';
+        saveState();
         createFilters();
     });
 
@@ -573,8 +603,12 @@ $(document).ready(function() {
             $(days[i]).change(function(target) {
                 mask = 1 << i;
                 state.searchTerms.days ^= mask;
+                saveState();
                 refreshTable();
             });
         })(i);
     }
+
+    createFilters();
+    restoreState();
 });
