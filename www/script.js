@@ -251,7 +251,13 @@ $(document).ready(function() {
      */
     var scrollPos = 0;
     var table = $('#table').DataTable({
-        ajax: 'data/class_data.json',
+        ajax: {
+          url: 'data/class_data.json',
+          dataSrc: function ( json ) {
+              document.getElementById('updated').innerHTML = 'Last updated ' + json.updated
+              return json.data;
+          }
+        },
         processing: true,
         scrollY: "500px",
         scrollCollapse: true,
@@ -298,7 +304,7 @@ $(document).ready(function() {
         }
     });
 
-    /* 
+    /*
      * Instantiate calendar.
      */
     $('#calendar').fullCalendar({
@@ -431,7 +437,7 @@ $(document).ready(function() {
         } else {
             toggleDetailedDescription(this);
         }
-    });    
+    });
 
     /*
     function toggleParentFilter(name, f) {
@@ -448,7 +454,7 @@ $(document).ready(function() {
     }
 
     function toggleChildFilter(name, f) {
-        
+
     }
 
     function filterFullClasses(_, d) {
@@ -456,7 +462,7 @@ $(document).ready(function() {
     }
 
     function filterByDescription(_, d) {
-        return 
+        return
     }*/
     var filterList = {
         full: {
