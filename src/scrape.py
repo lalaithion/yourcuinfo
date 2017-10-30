@@ -24,7 +24,7 @@ def main():
     from mycuinfo import crawler, parser
     html_path = "../data/raw_html/mycuinfo/"
     json_path = "../data/json/"
-    #crawler.crawl(departments, html_path, n_threads=5)
+    crawler.crawl(departments, html_path, n_threads=5)
     parser.parse(html_path, json_path)
     #parser.main(logpath="../data/logs/mycuinfo-parse.log", inpath="../data/raw_html/mycuinfo/", outpath="../data/json/classes.json")
 
