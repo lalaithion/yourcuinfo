@@ -13,6 +13,7 @@ import threading
 import queue
 import logging
 import traceback
+import json
 
 # Disable selenium logging.
 from selenium.webdriver.remote.remote_connection import LOGGER
@@ -42,7 +43,9 @@ def wait_for_loading_icon(driver, max_seconds=5):
 
 # Log into myCUinfo.
 def login(ukeys, pkeys):
-    driver = webdriver.Chrome()
+    options = webdriver.ChromeOptions()
+    options.add_argument('headless')
+    driver =  webdriver.Chrome(chrome_options=options)
     driver.get(url)
     logging.debug('Logging in')
     username = driver.find_element_by_id('username')
@@ -115,6 +118,8 @@ def scrape_department(driver, filepath, current, second_time=False):
         if not driver.find_elements_by_class_name('ui-icon-plus'):
             break
 
+    time.sleep(10) # Just in case
+
     try:
         if second_time:
             current = current + '2'
@@ -142,7 +147,7 @@ def initDriver(login_data):
 
     logging.debug('Switching to main frame')
     retry(driver.switch_to_frame, 'ptifrmtgtframe')
-    
+
     institution = 'CUBLD'
     logging.debug('Selecting institution: %s' % institution)
     Select(
@@ -169,11 +174,15 @@ def initDriver(login_data):
 
     return driver
 
-def crawl(depts, filepath, n_threads):
+def crawl(depts, filepath, n_threads, loginfile=None):
     logging.info('Beggining new data harvest')
-    ukeys = input('User: ').strip('\n')
-    pkeys = getpass.getpass()
-    login = {'uname': ukeys, 'pswd': pkeys}
+    if loginfile is None:
+        ukeys = input('User: ').strip('\n')
+        pkeys = getpass.getpass()
+        login = {'uname': ukeys, 'pswd': pkeys}
+    else:
+        with open(loginfile) as f:
+            login = json.loads(f.read())
 
     departments = queue.Queue()
     for dept in depts:
@@ -216,7 +225,7 @@ class QueuedThread(threading.Thread):
                     driver = initDriver(self.login)
                 else:
                     raise
-                
+
     def run(self):
         failed_queue = queue.Queue()
         def exception_handler(dept, err):

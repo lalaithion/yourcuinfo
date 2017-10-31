@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 from departments_list import departments
-import logging
+import logging, sys
 
 logFormatter = logging.Formatter('%(asctime)s (%(threadName)s): %(message)s', '%H:%M:%S')
 root_logger = logging.getLogger()
@@ -24,9 +24,12 @@ def main():
     from mycuinfo import crawler, parser
     html_path = "../data/raw_html/mycuinfo/"
     json_path = "../data/json/"
-    #crawler.crawl(departments, html_path, n_threads=5)
+    if len(sys.argv) is 2:
+        loginfile = sys.argv[1]
+    else:
+        loginfile = None
+    crawler.crawl(departments, html_path, n_threads=5, loginfile=loginfile)
     parser.parse(html_path, json_path)
-    #parser.main(logpath="../data/logs/mycuinfo-parse.log", inpath="../data/raw_html/mycuinfo/", outpath="../data/json/classes.json")
 
 
 if __name__ == "__main__":
