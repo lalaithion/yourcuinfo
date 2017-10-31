@@ -325,7 +325,9 @@ $(document).ready(function() {
         editable: false,
         events: [],
         eventClick: function(calEvent, jsEvent, view) {
-            offset = state.expandedRows[calEvent.id.substring(0, 9)].parentRow.offsetTop;
+            offset = table.row( function ( _, data ) {
+                return data[0] == calEvent.id.substring(0, 9);
+            }).node().offsetTop
             $('.dataTables_scrollBody').animate({
                 scrollTop: offset
             }, 500);
