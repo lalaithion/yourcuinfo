@@ -200,22 +200,22 @@ def crawl(depts, filepath, n_threads, loginfile=None):
     logging.info('Finished data harvest.')
 
 class QueuedThread(threading.Thread):
-    def __init__(self, queue, filepath, login):
+    def __init__(self, q, filepath, login):
         super(QueuedThread, self).__init__()
-        self.dept_queue = queue
+        self.dept_queue = q
         self.login = login
         self.filepath = filepath
         self.results = []
 
-    def scrape(self, queue, exception_handler=None):
+    def scrape(self, q, exception_handler=None):
         driver = initDriver(self.login)
-        while not queue.empty():
+        while not q.empty():
             dept = None
             try:
-                dept = queue.get_nowait()
+                dept = q.get_nowait()
                 logging.info('Scraping department: %s.' % dept)
                 self.results.append(scrape_department(driver, self.filepath, dept))
-                queue.task_done()
+                q.task_done()
             except queue.Empty:
                 continue
             except Exception as e:
@@ -229,7 +229,7 @@ class QueuedThread(threading.Thread):
     def run(self):
         failed_queue = queue.Queue()
         def exception_handler(dept, err):
-            logging.info('Error in department %s: %s.' % err)
+            logging.info('Error in department %s: %s.' % (dept, err))
             failed_queue.put(dept)
 
         self.scrape(self.dept_queue, exception_handler)
