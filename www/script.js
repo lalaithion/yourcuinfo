@@ -149,14 +149,15 @@ $(document).ready(function() {
             row = newChildTable.querySelector("tr").cloneNode(true);
             row.style.display = null;
             row.id = id;
-            row.children[0].innerHTML = typeToString(sec.type);
+            row.children[1].innerHTML = typeToString(sec.type);
             date = dayToString(sec.days)
             time = time2Str(sec.start) + ' - ' + time2Str(sec.end)
-            row.children[1].innerHTML = date + ' ' + time;
-            row.children[2].innerHTML = sec.seats;
-            row.children[3].innerHTML = sec.waitlist;
-            row.children[4].innerHTML = sec.instr;
-            row.children[5].innerHTML = sec.room;
+            row.children[2].innerHTML = date + ' ' + time;
+            row.children[3].innerHTML = sec.seats;
+            row.children[4].innerHTML = sec.waitlist;
+            row.children[5].innerHTML = sec.instr;
+            row.children[6].innerHTML = sec.room;
+            row.children[7].innerHTML = sec.info ? sec.info : 'N/A';
             newChildTable.append(row);
 
             // Child was selected earlier - restore state
