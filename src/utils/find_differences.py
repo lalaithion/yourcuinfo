@@ -33,7 +33,7 @@ def main():
                     removed.append(ident)
                 else:
                     for k, v in section.items():
-                        newv = newsection[k]
+                        newv = newsection.get(k)
                         if v != newv:
                             changed[ident].append('%s: %s > %s' % (k, v, newv))
     for name, data in newdata.items():
@@ -47,7 +47,8 @@ def main():
                     added.append('%s - %s' % (name, section['number']))
 
     if len(added) is len(removed) is len(changed) is 0:
-        return 1
+        print('No changes.')
+        return 0
     print('\n   '.join(['Added:'] + added))
     print('\n   '.join(['Removed:'] + removed))
     print('\n   '.join(['Changed:'] + [
