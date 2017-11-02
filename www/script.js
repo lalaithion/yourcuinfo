@@ -119,13 +119,21 @@ $(document).ready(function() {
         return hash;
     }
     
+    scales = {
+        buff: chroma.scale(['4f5355', 'cfb36a']).mode('lab'),
+        redyell: chroma.scale(['6B0C00', 'D4D454']),
+        earth: chroma.scale(['6B0C00', 'BAA86D', '4E6C33']),
+        earth2: chroma.scale(['6B0C00', '378B76']).mode('hsl'),
+        purple: chroma.scale(['6B0C00', '2C1773']).mode('hsl').padding(-0.05),
+    }
+    
     function getColor(course_code) {
         hash = hashCode(course_code);
         percent = Math.abs((hash % 1000) / 1000); // percent is between 0 and 1
         // create a color scale
-        scale = chroma.cubehelix().rotations(3).gamma(1.2).lightness([0.55,0.15]).scale();
+        scale = scales.buff;
         // get the color from it
-        color = scale(percent).hex()
+        color = scale(percent).hex();
         return color;
     }
 
