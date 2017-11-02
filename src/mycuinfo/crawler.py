@@ -13,6 +13,7 @@ import threading
 import queue
 import logging
 import traceback
+import json
 
 # Disable selenium logging.
 from selenium.webdriver.remote.remote_connection import LOGGER
@@ -42,7 +43,9 @@ def wait_for_loading_icon(driver, max_seconds=5):
 
 # Log into myCUinfo.
 def login(ukeys, pkeys):
-    driver = webdriver.Chrome()
+    options = webdriver.ChromeOptions()
+    options.add_argument('headless')
+    driver =  webdriver.Chrome(chrome_options=options)
     driver.get(url)
     logging.debug('Logging in')
     username = driver.find_element_by_id('username')
@@ -71,7 +74,7 @@ def runSearch(driver, current, second_time=False):
             retry(driver.find_element_by_id, 'SSR_CLSRCH_WRK_SSR_EXACT_MATCH1$2')
         ).select_by_visible_text(course_code_text)
 
-        wait_for_loading_icon(driver)
+        wait_for_loading_icon(driver)x
 
         number = retry(driver.find_element_by_id, 'SSR_CLSRCH_WRK_CATALOG_NBR$2')
         number.send_keys('3000')
@@ -115,6 +118,8 @@ def scrape_department(driver, filepath, current, second_time=False):
         if not driver.find_elements_by_class_name('ui-icon-plus'):
             break
 
+    time.sleep(10) # Just in case
+
     try:
         if second_time:
             current = current + '2'
@@ -142,7 +147,7 @@ def initDriver(login_data):
 
     logging.debug('Switching to main frame')
     retry(driver.switch_to_frame, 'ptifrmtgtframe')
-    
+
     institution = 'CUBLD'
     logging.debug('Selecting institution: %s' % institution)
     Select(
@@ -169,11 +174,15 @@ def initDriver(login_data):
 
     return driver
 
-def crawl(depts, filepath, n_threads):
+def crawl(depts, filepath, n_threads, loginfile=None):
     logging.info('Beggining new data harvest')
-    ukeys = input('User: ').strip('\n')
-    pkeys = getpass.getpass()
-    login = {'uname': ukeys, 'pswd': pkeys}
+    if loginfile is None:
+        ukeys = input('User: ').strip('\n')
+        pkeys = getpass.getpass()
+        login = {'uname': ukeys, 'pswd': pkeys}
+    else:
+        with open(loginfile) as f:
+            login = json.loads(f.read())
 
     departments = queue.Queue()
     for dept in depts:
@@ -191,22 +200,21 @@ def crawl(depts, filepath, n_threads):
     logging.info('Finished data harvest.')
 
 class QueuedThread(threading.Thread):
-    def __init__(self, queue, filepath, login):
+    def __init__(self, q, filepath, login):
         super(QueuedThread, self).__init__()
-        self.dept_queue = queue
+        self.dept_queue = q
         self.login = login
         self.filepath = filepath
         self.results = []
 
-    def scrape(self, queue, exception_handler=None):
+    def scrape(self, q, exception_handler=None):
         driver = initDriver(self.login)
-        while not queue.empty():
+        while not q.empty():
             dept = None
             try:
-                dept = queue.get_nowait()
+                dept = q.get_nowait()
                 logging.info('Scraping department: %s.' % dept)
                 self.results.append(scrape_department(driver, self.filepath, dept))
-                queue.task_done()
             except queue.Empty:
                 continue
             except Exception as e:
@@ -216,11 +224,13 @@ class QueuedThread(threading.Thread):
                     driver = initDriver(self.login)
                 else:
                     raise
-                
+            finally:
+                q.task_done()
+
     def run(self):
         failed_queue = queue.Queue()
         def exception_handler(dept, err):
-            logging.info('Error in department %s: %s.' % err)
+            logging.info('Error in department %s: %s.' % (dept, err))
             failed_queue.put(dept)
 
         self.scrape(self.dept_queue, exception_handler)

@@ -83,6 +83,66 @@ body {
     background: #f6f6f6;
 }
 
+/* Tooltips from https://www.w3schools.com/css/css_tooltip.asp */
+.tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+}
+
+.tooltip .tooltiptext {
+    pointer-events: none;
+    visibility: hidden;
+    width: 120px;
+    background-color: #333;
+    color: white;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    margin-left: -60px;
+    position: absolute;
+    z-index: 1;
+    left: 50%;
+}
+
+.tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    border-width: 5px;
+    border-style: solid;
+    left: 50%;
+    margin-left: -5px;
+}
+
+.tooltip .tooltiptext-top {
+    bottom: 100%;
+    margin-bottom: 10px;
+}
+
+.tooltip .tooltiptext-top::after {
+    top: 100%;
+    border-color: #333 transparent transparent transparent;
+}
+
+.tooltip .tooltiptext-bot {
+    top: 100%;
+    margin-top: 10px;
+}
+
+.tooltip .tooltiptext-bot::after {
+    bottom: 100%;
+    border-color: transparent transparent #333 transparent;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+}
+
+.fc-time-grid-container {
+    overflow-y: visible;
+    overflow-x: visible;
+}
+
 @media only screen and (max-width: 700px) {
     #table-div {
         width: 80%;

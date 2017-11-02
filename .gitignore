@@ -2,4 +2,5 @@
 *.pyc
 *.html
 *.log
+login.*
 !index.html

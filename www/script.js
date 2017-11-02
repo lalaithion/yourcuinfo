@@ -39,7 +39,14 @@ $(document).ready(function() {
      * Retreives data for a section based on section id (e.g. CSCI 1300-3).
      */
     function getSectionData(id) {
-        return data[id.slice(0,9)].data.sections[id.slice(10)]
+        return data[id.slice(0,9)].data.sections[id.slice(10)];
+    }
+
+    /*
+     * Retreives class name for a section based on section id (e.g. CSCI 1300-3).
+     */
+    function getClassName(id) {
+        return data[id.slice(0,9)].name;
     }
 
     /*
@@ -107,27 +114,6 @@ $(document).ready(function() {
         }
         return types[type];
     }
-    
-    function hashCode(str) {
-        var hash = 5381, i, chr;
-        if (str.length === 0) return hash;
-        for (i = 0; i < str.length; i++) {
-            chr   = str.charCodeAt(i);
-            hash  = ((hash << 5) - hash) + chr;
-            hash  = hash % 104729
-        }
-        return hash;
-    }
-    
-    function getColor(course_code) {
-        hash = hashCode(course_code);
-        percent = Math.abs((hash % 1000) / 1000); // percent is between 0 and 1
-        // create a color scale
-        scale = chroma.cubehelix().rotations(3).gamma(1.2).lightness([0.55,0.15]).scale();
-        // get the color from it
-        color = scale(percent).hex()
-        return color;
-    }
 
     /*
      * Creates a child node with detailed information.
@@ -157,14 +143,15 @@ $(document).ready(function() {
             row = newChildTable.querySelector("tr").cloneNode(true);
             row.style.display = null;
             row.id = id;
-            row.children[0].innerHTML = typeToString(sec.type);
+            row.children[1].innerHTML = typeToString(sec.type);
             date = dayToString(sec.days)
             time = time2Str(sec.start) + ' - ' + time2Str(sec.end)
-            row.children[1].innerHTML = date + ' ' + time;
-            row.children[2].innerHTML = sec.seats;
-            row.children[3].innerHTML = sec.waitlist;
-            row.children[4].innerHTML = sec.instr;
-            row.children[5].innerHTML = sec.room;
+            row.children[2].innerHTML = date + ' ' + time;
+            row.children[3].innerHTML = sec.seats;
+            row.children[4].innerHTML = sec.waitlist;
+            row.children[5].innerHTML = sec.instr;
+            row.children[6].innerHTML = sec.room;
+            row.children[7].innerHTML = sec.info ? sec.info : 'N/A';
             newChildTable.append(row);
 
             // Child was selected earlier - restore state
@@ -246,9 +233,7 @@ $(document).ready(function() {
         if (cookie) {
             state.selectedSections = JSON.parse(cookie);
             for (id of state.selectedSections) {
-                var rowData = getSectionData(id);
-                var color = getColor(rowData.coursecode);
-                createCalendarEvents(rowData.days, rowData.start, rowData.end, color, id);
+                createCalendarEvents(id, false);
             }
         }
 
@@ -259,7 +244,13 @@ $(document).ready(function() {
      */
     var scrollPos = 0;
     var table = $('#table').DataTable({
-        ajax: 'data/class_data.json',
+        ajax: {
+          url: 'data/class_data.json',
+          dataSrc: function ( json ) {
+              document.getElementById('updated').innerHTML = 'Last updated ' + json.updated
+              return json.data;
+          }
+        },
         processing: true,
         scrollY: "500px",
         scrollCollapse: true,
@@ -281,11 +272,13 @@ $(document).ready(function() {
                 },
             },
             {
-                "render": function (packedData, type, row, meta) {
+                "render": function (packedData, _, row, meta) {
+                    rowCode = row[0];
+                    rowName = row[1];
                     rowNum = meta.row;
-                    rowName = row[0];
-                    data[rowName] = {
-                        data: unpackData(packedData, rowName),
+                    data[rowCode] = {
+                        data: unpackData(packedData),
+                        name: rowName,
                         row: rowNum,
                     }
                     // Result not used
@@ -324,19 +317,57 @@ $(document).ready(function() {
         height: "auto",
         allDaySlot: false,
         editable: false,
+        eventTextColor: "white",
         events: [],
         eventClick: function(calEvent, jsEvent, view) {
-            offset = state.expandedRows[calEvent.id.substring(0, 9)].parentRow.offsetTop;
+            offset = table.row( function ( _, data ) {
+                return data[0] == calEvent.id.substring(0, 9);
+            }).node().offsetTop
             $('.dataTables_scrollBody').animate({
                 scrollTop: offset
             }, 500);
         },
+        eventMouseover: function(calEvent, jsEvent) {
+            calEvent.oldz = $(this).css('z-index');
+            $(this).css('z-index', 10000);
+        },
+        eventMouseout: function(calEvent, jsEvent) {
+            $(this).css('z-index', calEvent.oldz || 1);
+        },
+        eventRender: function(event, element, view) {
+            tooltipClass = event.startHr > 9 ? "tooltiptext-top" : "tooltiptext-bot";
+            element.addClass('tooltip');
+            element.append('<span class="tooltiptext ' + tooltipClass + '">' + event.tooltip + '</span>');
+            element.css('overflow', 'visible');
+        }
     });
 
     /*
      * Creates calendar events when given a day bitstring and start / end times.
      */
-    function createCalendarEvents(days, start, end, color, id) {
+    function createCalendarEvents(id, ghost) {
+        function getColor(course_code) {
+            function hashCode(str) {
+                var hash = 5381, i, chr;
+                if (str.length === 0) return hash;
+                for (i = 0; i < str.length; i++) {
+                    chr = str.charCodeAt(i);
+                    hash = ((hash << 5) - hash) + chr;
+                    hash = hash % 104729
+                }
+                return hash;
+            }
+            hash = hashCode(course_code);
+            percent = Math.abs((hash % 1000) / 1000); // percent is between 0 and 1
+            // create a color scale
+            scale = chroma.bezier(["#324", "#556"]).scale()
+            // scale = chroma.cubehelix().rotations(3).gamma(1.1).lightness([0.2,0.3]).scale();
+            // get the color from it
+            color = scale(percent).hex()
+            return color;
+        }
+        sec = getSectionData(id);
+        tooltip = getClassName(id) + '<br\><i>(' + sec.room + ')</i>';
         bitDays = {
             1: '09',
             2: '10',
@@ -345,15 +376,17 @@ $(document).ready(function() {
             16: '13',
         };
         for (bit in bitDays) {
-            if (bit & days) {
+            if (bit & sec.days) {
                 dayString = '2014-06-' + bitDays[bit];
-                startString = zeroPad(Math.floor(start / 60), 2) + ':' + zeroPad(start % 60, 2)
-                endString = zeroPad(Math.floor(end / 60), 2) + ':' + zeroPad(end % 60, 2)
+                startString = zeroPad(Math.floor(sec.start / 60), 2) + ':' + zeroPad(sec.start % 60, 2)
+                endString = zeroPad(Math.floor(sec.end / 60), 2) + ':' + zeroPad(sec.end % 60, 2)
                 var newEvent = {
                     title: id.substr(0, 9),
                     start: dayString + 'T' + startString,
                     end: dayString + 'T' + endString,
-                    color: color,
+                    color: ghost ? "#AAA" : getColor(id),
+                    startHr: sec.start / 60,
+                    tooltip: tooltip,
                     id: id,
                 }
                 $('#calendar').fullCalendar('renderEvent', newEvent, true)
@@ -367,14 +400,12 @@ $(document).ready(function() {
     function toggleSelected(domRow) {
         var childRow = $(domRow);
         var id = childRow.attr('id');
-        var rowData = getSectionData(id);
         // Delete any existing events
         $('#calendar').fullCalendar('removeEvents', id);
         sectionIndex = state.selectedSections.indexOf(id);
         if (sectionIndex < 0) {
-            color = getColor(rowData.coursecode);
             state.selectedSections.push(id);
-            createCalendarEvents(rowData.days, rowData.start, rowData.end, color, id);
+            createCalendarEvents(id, false);
         } else {
             state.selectedSections.splice(sectionIndex, 1);
         }
@@ -412,9 +443,8 @@ $(document).ready(function() {
       var row = $(row.currentTarget);
       if(row.hasClass("child-row")) {
         var id = row.attr('id');
-        var sData = getSectionData(id);
         if(id && state.selectedSections.indexOf(id) < 0) {
-          createCalendarEvents(sData.days, sData.start, sData.end, '#AAA', id);
+          createCalendarEvents(id, true);
         }
       }
     });
@@ -456,7 +486,7 @@ $(document).ready(function() {
     }
 
     function toggleChildFilter(name, f) {
-        
+
     }
 
     function filterFullClasses(_, d) {

@@ -1,4 +1,6 @@
-import json, sys, re
+#!/usr/bin/python3
+
+import json, sys, re, datetime
 
 class Status():
     OPEN = 0
@@ -142,10 +144,10 @@ def stringifyData(courses, catalog):
         courseData.append('["%s %s","%s","%s",%d,["%s",%s]]' %
                 (c.dept, c.num, c.name, c.credits, c.status, description, ','.join(sections)))
 
-    return '{"data":[%s]}' % ','.join(courseData)
+    updated = datetime.datetime.now().strftime('%Y-%m-%d')
+    return '{"updated": "%s", "data":[%s]}' % (updated, ','.join(courseData))
 
 def main():
-    newline = False
     with open('../data/json/mycuinfo.json') as data_file:
         courses = parseCourseData(json.load(data_file))
     with open('../data/json/catalog.json') as data_file:
