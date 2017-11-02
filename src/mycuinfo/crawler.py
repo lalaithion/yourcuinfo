@@ -74,7 +74,7 @@ def runSearch(driver, current, second_time=False):
             retry(driver.find_element_by_id, 'SSR_CLSRCH_WRK_SSR_EXACT_MATCH1$2')
         ).select_by_visible_text(course_code_text)
 
-        wait_for_loading_icon(driver)x
+        wait_for_loading_icon(driver)
 
         number = retry(driver.find_element_by_id, 'SSR_CLSRCH_WRK_CATALOG_NBR$2')
         number.send_keys('3000')
