@@ -13,7 +13,7 @@ $(document).ready(function() {
     /*
      * Unpacks data from server into easy-to-use dictionary.
      */
-    function unpackData(course) {
+    function unpackData(course, name) {
         function unpackSection(section) {
             return {
                 type: section[0],
@@ -26,6 +26,7 @@ $(document).ready(function() {
                 instr: section[7],
                 room: section[8],
                 info: section[9],
+                coursecode: name,
             };
         }
         return {
@@ -106,19 +107,26 @@ $(document).ready(function() {
         }
         return types[type];
     }
-
-    /*
-     * Returns color based on section type.
-     */
-    function getColor(type) {
-        switch (type) {
-            case 0:
-                return "#774444";
-            case 1:
-                return "#447744";
-            default:
-                return "grey";
+    
+    function hashCode(str) {
+        var hash = 5381, i, chr;
+        if (str.length === 0) return hash;
+        for (i = 0; i < str.length; i++) {
+            chr   = str.charCodeAt(i);
+            hash  = ((hash << 5) - hash) + chr;
+            hash  = hash % 104729
         }
+        return hash;
+    }
+    
+    function getColor(course_code) {
+        hash = hashCode(course_code);
+        percent = Math.abs((hash % 1000) / 1000); // percent is between 0 and 1
+        // create a color scale
+        scale = chroma.cubehelix().rotations(3).gamma(1.2).lightness([0.55,0.15]).scale();
+        // get the color from it
+        color = scale(percent).hex()
+        return color;
     }
 
     /*
@@ -239,7 +247,7 @@ $(document).ready(function() {
             state.selectedSections = JSON.parse(cookie);
             for (id of state.selectedSections) {
                 var rowData = getSectionData(id);
-                var color = getColor(rowData.type);
+                var color = getColor(rowData.coursecode);
                 createCalendarEvents(rowData.days, rowData.start, rowData.end, color, id);
             }
         }
@@ -277,7 +285,7 @@ $(document).ready(function() {
                     rowNum = meta.row;
                     rowName = row[0];
                     data[rowName] = {
-                        data: unpackData(packedData),
+                        data: unpackData(packedData, rowName),
                         row: rowNum,
                     }
                     // Result not used
@@ -298,7 +306,7 @@ $(document).ready(function() {
         }
     });
 
-    /* 
+    /*
      * Instantiate calendar.
      */
     $('#calendar').fullCalendar({
@@ -364,7 +372,7 @@ $(document).ready(function() {
         $('#calendar').fullCalendar('removeEvents', id);
         sectionIndex = state.selectedSections.indexOf(id);
         if (sectionIndex < 0) {
-            color = getColor(rowData.type)
+            color = getColor(rowData.coursecode);
             state.selectedSections.push(id);
             createCalendarEvents(rowData.days, rowData.start, rowData.end, color, id);
         } else {
@@ -431,7 +439,7 @@ $(document).ready(function() {
         } else {
             toggleDetailedDescription(this);
         }
-    });    
+    });
 
     /*
     function toggleParentFilter(name, f) {
@@ -456,7 +464,7 @@ $(document).ready(function() {
     }
 
     function filterByDescription(_, d) {
-        return 
+        return
     }*/
     var filterList = {
         full: {
