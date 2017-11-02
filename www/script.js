@@ -38,7 +38,14 @@ $(document).ready(function() {
      * Retreives data for a section based on section id (e.g. CSCI 1300-3).
      */
     function getSectionData(id) {
-        return data[id.slice(0,9)].data.sections[id.slice(10)]
+        return data[id.slice(0,9)].data.sections[id.slice(10)];
+    }
+
+    /*
+     * Retreives class name for a section based on section id (e.g. CSCI 1300-3).
+     */
+    function getClassName(id) {
+        return data[id.slice(0,9)].name;
     }
 
     /*
@@ -239,9 +246,7 @@ $(document).ready(function() {
         if (cookie) {
             state.selectedSections = JSON.parse(cookie);
             for (id of state.selectedSections) {
-                var rowData = getSectionData(id);
-                var color = getColor(rowData.type);
-                createCalendarEvents(rowData.days, rowData.start, rowData.end, color, id);
+                createCalendarEvents(id, false);
             }
         }
 
@@ -280,11 +285,13 @@ $(document).ready(function() {
                 },
             },
             {
-                "render": function (packedData, type, row, meta) {
+                "render": function (packedData, _, row, meta) {
+                    rowCode = row[0];
+                    rowName = row[1];
                     rowNum = meta.row;
-                    rowName = row[0];
-                    data[rowName] = {
+                    data[rowCode] = {
                         data: unpackData(packedData),
+                        name: rowName,
                         row: rowNum,
                     }
                     // Result not used
@@ -332,12 +339,19 @@ $(document).ready(function() {
                 scrollTop: offset
             }, 500);
         },
+        eventRender: function(event, element, view) {
+            element.addClass('tooltip');
+            element.append('<span class="tooltiptext tooltiptext-top">' + event.tooltip + '</span>');
+            element.css('overflow', 'visible');
+        }
     });
 
     /*
      * Creates calendar events when given a day bitstring and start / end times.
      */
-    function createCalendarEvents(days, start, end, color, id) {
+    function createCalendarEvents(id, ghost) {
+        sec = getSectionData(id);
+        tooltip = getClassName(id) + '<br\><i>(' + sec.room + ')</i>';
         bitDays = {
             1: '09',
             2: '10',
@@ -346,15 +360,16 @@ $(document).ready(function() {
             16: '13',
         };
         for (bit in bitDays) {
-            if (bit & days) {
+            if (bit & sec.days) {
                 dayString = '2014-06-' + bitDays[bit];
-                startString = zeroPad(Math.floor(start / 60), 2) + ':' + zeroPad(start % 60, 2)
-                endString = zeroPad(Math.floor(end / 60), 2) + ':' + zeroPad(end % 60, 2)
+                startString = zeroPad(Math.floor(sec.start / 60), 2) + ':' + zeroPad(sec.start % 60, 2)
+                endString = zeroPad(Math.floor(sec.end / 60), 2) + ':' + zeroPad(sec.end % 60, 2)
                 var newEvent = {
                     title: id.substr(0, 9),
                     start: dayString + 'T' + startString,
                     end: dayString + 'T' + endString,
-                    color: color,
+                    color: ghost ? "#AAA" : getColor(sec.type),
+                    tooltip: tooltip,
                     id: id,
                 }
                 $('#calendar').fullCalendar('renderEvent', newEvent, true)
@@ -368,14 +383,12 @@ $(document).ready(function() {
     function toggleSelected(domRow) {
         var childRow = $(domRow);
         var id = childRow.attr('id');
-        var rowData = getSectionData(id);
         // Delete any existing events
         $('#calendar').fullCalendar('removeEvents', id);
         sectionIndex = state.selectedSections.indexOf(id);
         if (sectionIndex < 0) {
-            color = getColor(rowData.type)
             state.selectedSections.push(id);
-            createCalendarEvents(rowData.days, rowData.start, rowData.end, color, id);
+            createCalendarEvents(id, false);
         } else {
             state.selectedSections.splice(sectionIndex, 1);
         }
@@ -413,9 +426,8 @@ $(document).ready(function() {
       var row = $(row.currentTarget);
       if(row.hasClass("child-row")) {
         var id = row.attr('id');
-        var sData = getSectionData(id);
         if(id && state.selectedSections.indexOf(id) < 0) {
-          createCalendarEvents(sData.days, sData.start, sData.end, '#AAA', id);
+          createCalendarEvents(id, true);
         }
       }
     });

@@ -74,7 +74,7 @@ def runSearch(driver, current, second_time=False):
             retry(driver.find_element_by_id, 'SSR_CLSRCH_WRK_SSR_EXACT_MATCH1$2')
         ).select_by_visible_text(course_code_text)
 
-        wait_for_loading_icon(driver)
+        wait_for_loading_icon(driver)x
 
         number = retry(driver.find_element_by_id, 'SSR_CLSRCH_WRK_CATALOG_NBR$2')
         number.send_keys('3000')
@@ -215,7 +215,6 @@ class QueuedThread(threading.Thread):
                 dept = q.get_nowait()
                 logging.info('Scraping department: %s.' % dept)
                 self.results.append(scrape_department(driver, self.filepath, dept))
-                q.task_done()
             except queue.Empty:
                 continue
             except Exception as e:
@@ -225,6 +224,8 @@ class QueuedThread(threading.Thread):
                     driver = initDriver(self.login)
                 else:
                     raise
+            finally:
+                q.task_done()
 
     def run(self):
         failed_queue = queue.Queue()
