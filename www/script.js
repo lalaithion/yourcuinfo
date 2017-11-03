@@ -114,35 +114,6 @@ $(document).ready(function() {
         }
         return types[type];
     }
-    
-    function hashCode(str) {
-        var hash = 5381, i, chr;
-        if (str.length === 0) return hash;
-        for (i = 0; i < str.length; i++) {
-            chr   = str.charCodeAt(i);
-            hash  = ((hash << 5) - hash) + chr;
-            hash  = hash % 104729
-        }
-        return hash;
-    }
-    
-    scales = {
-        buff: chroma.scale(['4f5355', 'cfb36a']).mode('lab'),
-        redyell: chroma.scale(['6B0C00', 'D4D454']),
-        earth: chroma.scale(['6B0C00', 'BAA86D', '4E6C33']),
-        earth2: chroma.scale(['6B0C00', '378B76']).mode('hsl'),
-        purple: chroma.scale(['6B0C00', '2C1773']).mode('hsl').padding(-0.05),
-    }
-    
-    function getColor(course_code) {
-        hash = hashCode(course_code);
-        percent = Math.abs((hash % 1000) / 1000); // percent is between 0 and 1
-        // create a color scale
-        scale = scales.buff;
-        // get the color from it
-        color = scale(percent).hex();
-        return color;
-    }
 
     /*
      * Creates a child node with detailed information.
@@ -375,24 +346,31 @@ $(document).ready(function() {
      * Creates calendar events when given a day bitstring and start / end times.
      */
     function createCalendarEvents(id, ghost) {
+        scales = {
+            buff: chroma.scale(['4f5355', 'cfb36a']).mode('lab'),
+            redyell: chroma.scale(['6B0C00', 'D4D454']),
+            earth: chroma.scale(['6B0C00', 'BAA86D', '4E6C33']),
+            earth2: chroma.scale(['6B0C00', '378B76']).mode('hsl'),
+            purple: chroma.scale(['6B0C00', '2C1773']).mode('hsl').padding(-0.05),
+        }
+        
         function getColor(course_code) {
-            function hashCode(str) {
-                var hash = 5381, i, chr;
-                if (str.length === 0) return hash;
-                for (i = 0; i < str.length; i++) {
-                    chr = str.charCodeAt(i);
-                    hash = ((hash << 5) - hash) + chr;
-                    hash = hash % 104729
+                function hashCode(str) {
+                    var hash = 5381, i, chr;
+                    if (str.length === 0) return hash;
+                    for (i = 0; i < str.length; i++) {
+                        chr   = str.charCodeAt(i);
+                        hash  = ((hash << 5) - hash) + chr;
+                        hash  = hash % 104729
+                    }
+                    return hash;
                 }
-                return hash;
-            }
             hash = hashCode(course_code);
             percent = Math.abs((hash % 1000) / 1000); // percent is between 0 and 1
             // create a color scale
-            scale = chroma.bezier(["#324", "#556"]).scale()
-            // scale = chroma.cubehelix().rotations(3).gamma(1.1).lightness([0.2,0.3]).scale();
+            scale = scales.buff;
             // get the color from it
-            color = scale(percent).hex()
+            color = scale(percent).hex();
             return color;
         }
         sec = getSectionData(id);
