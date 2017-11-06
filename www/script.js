@@ -335,7 +335,7 @@ $(document).ready(function() {
             $(this).css('z-index', calEvent.oldz || 1);
         },
         eventRender: function(event, element, view) {
-            tooltipClass = event.startHr > 9 ? "tooltiptext-top" : "tooltiptext-bot";
+            tooltipClass = event.startHr > 10 ? "tooltiptext-top" : "tooltiptext-bot";
             element.addClass('tooltip');
             element.append('<span class="tooltiptext ' + tooltipClass + '">' + event.tooltip + '</span>');
             element.css('overflow', 'visible');
@@ -435,11 +435,6 @@ $(document).ready(function() {
             saveState();
         } else {
             row_handle.child(createChild(code, parent_row), 'child-body').show();
-            // TODO(Alex): There should be a better way to do this that
-            // also fixes hovering over the table header without a color change.
-            /*row_handle.child().hover(function(){
-              $(this).css("background-color", "white");
-            });*/
         }
     }
 
@@ -478,31 +473,6 @@ $(document).ready(function() {
         }
     });
 
-    /*
-    function toggleParentFilter(name, f) {
-        toggleParentFilter.filters = toggleParentFilters.filters || {};
-
-        if (toggleParentFilter.filters[name]) {
-            del toggleParentFilter.filters[name];
-        }
-        else {
-            toggleParentFilter.filters[name] = f;
-        }
-
-        $.fn.dataTable.ext.search = Object.values(toggleParentFilter.filters);
-    }
-
-    function toggleChildFilter(name, f) {
-
-    }
-
-    function filterFullClasses(_, d) {
-        return d[3] == "Open";
-    }
-
-    function filterByDescription(_, d) {
-        return
-    }*/
     var filterList = {
         full: {
             parentRow: function(settings, data, dataIndex) {

@@ -24,7 +24,7 @@ echo -ne "$DIFFERENCES" | mail -s "$SUBJECT" "$EMAIL"
 
 # Update GitHub pages site
 DATAFILE=../data/class_data.json
-git checkout autoupdate
+git checkout gh-pages
 git add "$DATAFILE" "$SCRAPEFILE"
 git commit -m "Auto-update: $(date)"
 git push origin master
