@@ -251,6 +251,9 @@ $(document).ready(function() {
               return json.data;
           }
         },
+	language: {
+            emptyTable: "Loading..."
+        },
         processing: true,
         scrollY: "500px",
         scrollCollapse: true,
