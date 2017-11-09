@@ -207,7 +207,7 @@ class QueuedThread(threading.Thread):
         self.filepath = filepath
         self.results = []
 
-    def scrape(self, q, exception_handler=None):
+    def scrape(self, q):
         driver = initDriver(self.login)
         while not q.empty():
             dept = None
@@ -218,22 +218,12 @@ class QueuedThread(threading.Thread):
             except queue.Empty:
                 continue
             except Exception as e:
-                driver.close()
-                if exception_handler is not None:
-                    exception_handler(dept, e)
-                    driver = initDriver(self.login)
-                else:
-                    raise
+                driver.quit()
+                logging.info('Error in department %s: %s.' % (dept, e))
+                q.put(dept)
+                driver = initDriver(self.login)
             finally:
                 q.task_done()
 
     def run(self):
-        failed_queue = queue.Queue()
-        def exception_handler(dept, err):
-            logging.info('Error in department %s: %s.' % (dept, err))
-            failed_queue.put(dept)
-
-        self.scrape(self.dept_queue, exception_handler)
-        if not failed_queue.empty():
-            logging.info('Retrying failed classes.')
-            self.scrape(failed_queue)
+        self.scrape(self.dept_queue)
