@@ -186,7 +186,7 @@ def crawl(depts, filepath, n_threads, loginfile=None):
 
     departments = queue.Queue()
     for dept in depts:
-        departments.put(dept)
+        departments.put((dept, 0))
 
     threads = []
     for i in range(n_threads):
@@ -207,12 +207,12 @@ class QueuedThread(threading.Thread):
         self.filepath = filepath
         self.results = []
 
-    def scrape(self, q):
+    def scrape(self, q, maxretry=2):
         driver = initDriver(self.login)
         while not q.empty():
             dept = None
             try:
-                dept = q.get_nowait()
+                dept, count = q.get_nowait()
                 logging.info('Scraping department: %s.' % dept)
                 self.results.append(scrape_department(driver, self.filepath, dept))
             except queue.Empty:
@@ -220,7 +220,8 @@ class QueuedThread(threading.Thread):
             except Exception as e:
                 driver.quit()
                 logging.info('Error in department %s: %s.' % (dept, e))
-                q.put(dept)
+                if count < maxretry:
+                    q.put((dept, count + 1))
                 driver = initDriver(self.login)
             finally:
                 q.task_done()

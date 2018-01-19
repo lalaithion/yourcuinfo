@@ -2,13 +2,16 @@
 
 from departments_list import departments
 import logging, sys
+import os 
+
+root = os.path.dirname(os.path.realpath(__file__))
 
 logFormatter = logging.Formatter('%(asctime)s (%(threadName)s): %(message)s', '%H:%M:%S')
 root_logger = logging.getLogger()
 root_logger.setLevel(logging.INFO)
 
 handlers = [
-    logging.FileHandler('../data/logs/mycuinfo.log'),
+    logging.FileHandler(os.path.join(root, '../data/logs/mycuinfo.log')),
     logging.StreamHandler(),
 ]
 
@@ -22,13 +25,13 @@ def main():
     #parser.main()
 
     from mycuinfo import crawler, parser
-    html_path = "../data/raw_html/mycuinfo/"
-    json_path = "../data/json/"
+    html_path = os.path.join(root, "../data/raw_html/mycuinfo/")
+    json_path = os.path.join(root, "../data/json/")
     if len(sys.argv) is 2:
         loginfile = sys.argv[1]
     else:
         loginfile = None
-    crawler.crawl(departments, html_path, n_threads=5, loginfile=loginfile)
+    crawler.crawl(departments, html_path, n_threads=2, loginfile=loginfile)
     parser.parse(html_path, json_path)
 
 

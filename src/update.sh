@@ -27,4 +27,4 @@ DATAFILE=../data/class_data.json
 git checkout gh-pages
 git add "$DATAFILE" "$SCRAPEFILE"
 git commit -m "Auto-update: $(date)"
-git push origin master
+git push origin gh-pages
