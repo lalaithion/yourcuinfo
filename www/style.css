@@ -12,14 +12,23 @@ body {
     padding-bottom: 0px;
     padding-top: 10px;
     padding-right: 15px;
-    padding-left: 15px;
-    text-align: center;
+    padding-left: 25px;
+    text-align: left;
 }
 
 #disclaimer {
-    text-align: center;
+    text-align: left;
     font-size: 50%;
     margin: 5px;
+    padding-left: 25px;
+}
+
+#announcement {
+    font-size: 50%;
+    float: right;
+    border-radius: 5px;
+    background: #FBB;
+    padding: 5px;
 }
 
 #table-main {
