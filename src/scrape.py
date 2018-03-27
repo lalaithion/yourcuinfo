@@ -12,7 +12,7 @@ root = os.path.dirname(os.path.realpath(__file__))
 def init_logging():
     logFormatter = logging.Formatter('%(asctime)s (%(threadName)s): %(message)s', '%H:%M:%S')
     root_logger = logging.getLogger()
-    root_logger.setLevel(logging.INFO)
+    root_logger.setLevel(logging.DEBUG)
 
     handlers = [
         logging.FileHandler(os.path.join(root, '../data/logs/mycuinfo.log')),
@@ -31,8 +31,10 @@ def main():
             help='Run program in headless mode.')
     ap.add_argument('--scrape-only', action='store_true',
             help='Only scrape the data without parsing it.')
+    ap.add_argument('--parse-only', action='store_true',
+            help='Only parse the data without scraping it.')
     ap.add_argument('-threads', type=int, action='store', default=5,
-            help='Run program in headless mode.')
+            help='Run the program with this many threads.')
     ap.add_argument('-login', type=str, action='store',
             help='Read credentials from a JSON file in the format:\n' \
                  '<username>\n' \
@@ -46,9 +48,9 @@ def main():
     ap.add_argument('-year', type=int, action='store',
             default=date.today().year,
             help='Year to scrape.')
-    ap.add_argument('-semester', choices=['fall', 'spring', 'summer'], 
+    ap.add_argument('-semester', choices=['fall', 'spring', 'summer'],
             action='store', default='fall',
-            help='Semester to scrape. One of: [Fall, Spring, Summer].')
+            help='Semester to scrape. One of: [fall, spring, summer].')
     ap.add_argument('-campus', choices=['boulder', 'denver', 'colorado-springs'], action='store',
             default='boulder',
             help='Campus to scrape. One of: Boulder.')
@@ -69,7 +71,9 @@ def main():
 
     options = crawler.ScrapeOptions(args.year, args.semester, args.campus,
             args.html_path, args.threads, args.headless)
-    crawler.crawl(departments, user, passwd, options)
+
+    if not args.parse_only:
+        crawler.crawl(departments, user, passwd, options)
     if not args.scrape_only:
         parser.parse(html_path, json_path)
 

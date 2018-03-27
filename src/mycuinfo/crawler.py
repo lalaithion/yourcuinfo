@@ -55,6 +55,7 @@ def wait_for_loading_icon(driver, max_seconds=5):
         time.sleep(SLEEP_INTERVAL)
     raise Exception('Loading icon failed to disappear!')
 
+
 # Log into myCUinfo.
 def login(ukeys, pkeys, headless):
     options = webdriver.ChromeOptions()
@@ -64,19 +65,48 @@ def login(ukeys, pkeys, headless):
     driver =  webdriver.Chrome(chrome_options=options)
     driver.get(URL)
     logging.debug('Logging in')
+
     username = WebDriverWait(driver, DEFAULT_TIMEOUT).until(EC.presence_of_element_located((By.ID, 'username')))
-    # username = retry(driver.find_element_by_id, 'username')
     username.clear()
     username.send_keys(ukeys)
+
     passwd = WebDriverWait(driver, DEFAULT_TIMEOUT).until(EC.presence_of_element_located((By.ID, 'password')))
-    # passwd = retry(driver.find_element_by_id, 'password')
     passwd.clear()
     passwd.send_keys(pkeys)
-    # passwd.send_keys(Keys.RETURN)
+
+    login = WebDriverWait(driver, DEFAULT_TIMEOUT).until(EC.presence_of_element_located((By.ID, 'submit')))
+    login.click()
+
     return driver
+
 
 # Enter department info and search.
 def runSearch(driver, current, second_time=False):
+
+    institution = 'CUBLD'
+    logging.debug('Selecting institution: %s' % institution)
+    Select(
+        WebDriverWait(driver, DEFAULT_TIMEOUT).until(EC.presence_of_element_located((By.ID, 'CLASS_SRCH_WRK2_INSTITUTION$31$')))
+    ).select_by_value(institution)
+
+    wait_for_loading_icon(driver)
+
+    semester = 'Spring 2018 UC Boulder'
+    logging.debug('Selecting semester: %s' % semester)
+    Select(
+        WebDriverWait(driver, DEFAULT_TIMEOUT).until(EC.presence_of_element_located((By.ID, 'CLASS_SRCH_WRK2_STRM$35$')))
+    ).select_by_visible_text(semester)
+
+    wait_for_loading_icon(driver)
+
+    campus = 'Boulder Main Campus'
+    logging.debug('Selecting campus: %s' % campus)
+    Select(
+        WebDriverWait(driver, DEFAULT_TIMEOUT).until(EC.presence_of_element_located((By.ID, 'SSR_CLSRCH_WRK_CAMPUS$0')))
+    ).select_by_visible_text(campus)
+
+    wait_for_loading_icon(driver)
+
     logging.debug('Entering department: %s' % current)
     dept_element = WebDriverWait(driver, DEFAULT_TIMEOUT).until(EC.presence_of_element_located((By.ID, 'SSR_CLSRCH_WRK_SUBJECT$1')))
     # dept_element = retry(driver.find_element_by_id, 'SSR_CLSRCH_WRK_SUBJECT$1')
@@ -138,8 +168,6 @@ def scrape_department(driver, filepath, current, second_time=False):
         if not driver.find_elements_by_class_name('ui-icon-plus'):
             break
 
-    time.sleep(10) # Just in case
-
     try:
         if second_time:
             current = current + '2'
@@ -152,8 +180,10 @@ def scrape_department(driver, filepath, current, second_time=False):
         raise err
 
     logging.debug('Going back to main search screen.')
-    search = retry(driver.find_element_by_link_text, 'Modify Search', max_seconds=5)
-    retry(search.click)
+    menu = WebDriverWait(driver, DEFAULT_TIMEOUT).until(EC.presence_of_element_located((By.ID, 'submenu-button-0')))
+    menu.click()
+    search = WebDriverWait(driver, DEFAULT_TIMEOUT).until(EC.presence_of_element_located((By.LINK_TEXT, 'Search for Classes')))
+    search.click()
 
     if current == 'CHEM' and not second_time:
         scrape_department(driver, filepath, current, True)
@@ -168,33 +198,9 @@ def initDriver(username, password, options):
     logging.debug('Switching to main frame')
     retry(driver.switch_to_frame, 'ptifrmtgtframe')
 
-    institution = 'CUBLD'
-    logging.debug('Selecting institution: %s' % institution)
-    Select(
-        driver.find_element_by_id('CLASS_SRCH_WRK2_INSTITUTION$31$')
-    ).select_by_value(institution)
-
-    wait_for_loading_icon(driver)
-
-    semester = 'Spring 2018 UC Boulder'
-    logging.debug('Selecting semester: %s' % semester)
-    Select(
-        driver.find_element_by_id('CLASS_SRCH_WRK2_STRM$35$')
-    ).select_by_visible_text(semester)
-
-    wait_for_loading_icon(driver)
-
-    campus = 'Boulder Main Campus'
-    logging.debug('Selecting campus: %s' % campus)
-    Select(
-        driver.find_element_by_id('SSR_CLSRCH_WRK_CAMPUS$0')
-    ).select_by_visible_text(campus)
-
-    wait_for_loading_icon(driver)
-
     return driver
 
-def crawl(depts, options):
+def crawl(depts, username, password, options):
     logging.info('Beggining new data harvest')
 
     dept_queue = queue.Queue()
@@ -222,7 +228,7 @@ class CrawlerThread(threading.Thread):
         self.results = {}
 
     def scrape(self, dept_queue, maxretry=2):
-        driver = 
+        driver = initDriver(self.username, self.password, self.options)
         while not dept_queue.empty():
             dept = None
             try:
@@ -235,7 +241,7 @@ class CrawlerThread(threading.Thread):
                 logging.info('Error in department %s: %s.' % (dept, e))
                 if count < maxretry:
                     dept_queue.put((dept, count + 1))
-                driver = initDriver(self.options)
+                driver = initDriver(self.username, self.password, self.options)
             finally:
                 dept_queue.task_done()
 
