@@ -130,7 +130,7 @@ def parse(inpath, outpath):
     logging.info("Beginning parse.")
 
     classes = jsonify_dir(inpath)
-    filepath = outpath + 'mycuinfo.json'
+    filepath = join(outpath, 'mycuinfo.json')
     with open(filepath, 'w') as outfile:
         logging.info('Writing to %s' % filepath)
         json.dump(classes, outfile, indent=4, separators=(',', ': '))
