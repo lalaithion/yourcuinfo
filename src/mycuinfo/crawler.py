@@ -91,7 +91,7 @@ def runSearch(driver, current, second_time=False):
 
     wait_for_loading_icon(driver)
 
-    semester = 'Spring 2018 UC Boulder'
+    semester = 'Fall 2018 UC Boulder'
     logging.debug('Selecting semester: %s' % semester)
     Select(
         WebDriverWait(driver, DEFAULT_TIMEOUT).until(EC.presence_of_element_located((By.ID, 'CLASS_SRCH_WRK2_STRM$35$')))
