@@ -20,7 +20,8 @@ URL = 'https://portal.prod.cu.edu/psp/epprod/UCB2/ENTP/h/?tab=DEFAULT'
 DEFAULT_TIMEOUT = 15
 
 class ScrapeOptions():
-    def __init__(self, year, semester, campus, data_path, threads, headless):
+    def __init__(self, year=2018, semester="Fall", campus="CU Boulder",
+                 data_path="../data", threads=1, headless=False):
         self.year = year
         self.semester = semester
         self.campus = campus
@@ -81,7 +82,7 @@ def login(ukeys, pkeys, headless):
 
 
 # Enter department info and search.
-def runSearch(driver, current, second_time=False):
+def runSearch(driver, current, semester, second_time=False):
 
     institution = 'CUBLD'
     logging.debug('Selecting institution: %s' % institution)
@@ -91,7 +92,6 @@ def runSearch(driver, current, second_time=False):
 
     wait_for_loading_icon(driver)
 
-    semester = 'Fall 2018 UC Boulder'
     logging.debug('Selecting semester: %s' % semester)
     Select(
         WebDriverWait(driver, DEFAULT_TIMEOUT).until(EC.presence_of_element_located((By.ID, 'CLASS_SRCH_WRK2_STRM$35$')))
@@ -136,9 +136,9 @@ def runSearch(driver, current, second_time=False):
     retry(search.click)
 
 # Search for department, save, and return to the search screen.
-def scrape_department(driver, filepath, current, second_time=False):
+def scrape_department(driver, filepath, current, semester, *args, second_time=False):
     try:
-        runSearch(driver, current, second_time)
+        runSearch(driver, current, semester, second_time)
     except Exception as err:
         logging.error('Error getting to classes %s:\n  %s\n' % (current, err))
         driver.close()
@@ -186,7 +186,7 @@ def scrape_department(driver, filepath, current, second_time=False):
     search.click()
 
     if current == 'CHEM' and not second_time:
-        scrape_department(driver, filepath, current, True)
+        scrape_department(driver, filepath, current, semester, True)
 
 def initDriver(username, password, options):
     driver = login(username, password, options.headless)
@@ -225,6 +225,7 @@ class CrawlerThread(threading.Thread):
         self.username = username
         self.password = password
         self.options = options
+        self.semester_str = "{0.semester} {0.year} UC Boulder".format(options)
         self.results = {}
 
     def scrape(self, dept_queue, maxretry=2):
@@ -233,7 +234,7 @@ class CrawlerThread(threading.Thread):
             dept = None
             try:
                 dept, count = dept_queue.get_nowait()
-                self.results[dept] = scrape_department(driver, self.options.data_path, dept)
+                self.results[dept] = scrape_department(driver, self.options.data_path, dept, self.semester_str)
             except queue.Empty:
                 continue
             except Exception as e:

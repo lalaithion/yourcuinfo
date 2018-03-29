@@ -48,9 +48,9 @@ def main():
     ap.add_argument('-year', type=int, action='store',
             default=date.today().year,
             help='Year to scrape.')
-    ap.add_argument('-semester', choices=['fall', 'spring', 'summer'],
-            action='store', default='fall',
-            help='Semester to scrape. One of: [fall, spring, summer].')
+    ap.add_argument('-semester', choices=['Fall', 'Spring', 'Summer'],
+            action='store', default='Fall',
+            help='Semester to scrape. One of: [Fall, Spring, Summer].')
     ap.add_argument('-campus', choices=['boulder', 'denver', 'colorado-springs'], action='store',
             default='boulder',
             help='Campus to scrape. One of: Boulder.')
