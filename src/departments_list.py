@@ -1,4 +1,4 @@
-total_departments = ['ACCT', 'AIRR', 'ANTH', 'APPM', 'APRD', 'ARAB', 'ARCH', 'AREN',
+departments = ['ACCT', 'AIRR', 'ANTH', 'APPM', 'APRD', 'ARAB', 'ARCH', 'AREN',
 'ARSC', 'ARTF', 'ARTH', 'ARTS', 'ASEN', 'ASIA', 'ASTR', 'ATLS', 'ATOC', 'BADM',
 'BAKR', 'BASE', 'BCOR', 'BMEN', 'BPOL', 'BSLW', 'BUSM', 'CAMW', 'CEES', 'CESR',
 'CHEM', 'CHEN', 'CHIN', 'CLAS', 'CMCI', 'CMDP', 'COEN', 'COML', 'COMM', 'COMR',
@@ -16,7 +16,3 @@ total_departments = ['ACCT', 'AIRR', 'ANTH', 'APPM', 'APRD', 'ARAB', 'ARCH', 'AR
 'TMUS', 'WRTG', 'YIDD']
 
 test_departments = ["CSCI", "MATH","LING"]
-
-empty = ["BAKR", "BMEN", "BPOL", "FINN", "GRTE", "GSAP", "INDO", "MSBC", "NORW", "OPMG"]
-
-departments = [i for i in total_departments if i not in empty]
