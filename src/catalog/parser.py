@@ -108,7 +108,7 @@ def main():
     catalog = jsonify_dir(root)
     with open('../json/catalog.json', 'w') as outfile:
         json.dump(catalog, outfile, indent=4, separators=(',', ': '))
-        
+
     log.write("{0}: Parse finished\n".format(strftime("%H:%M", gmtime())))
     print("Parse finished with no errors" if not errors else "Parse finished with errors")
 

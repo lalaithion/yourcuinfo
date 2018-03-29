@@ -5,7 +5,10 @@ import logging, sys, os, argparse, getpass
 from datetime import date
 
 from departments_list import departments
-from mycuinfo import crawler, parser
+import mycuinfo.crawler
+import mycuinfo.parser
+import catalog.crawler
+import catalog.parser
 
 root = os.path.dirname(os.path.realpath(__file__))
 
@@ -29,10 +32,17 @@ def main():
             description='Scrape websites for yourCUinfo')
     ap.add_argument('--headless', action='store_true',
             help='Run program in headless mode.')
-    ap.add_argument('--scrape-only', action='store_true',
+
+    ap.add_argument('--mycuinfo', action='store_true',
+            help='Scrape and parse data from MyCUInfo.')
+    ap.add_argument('--catalog', action='store_true',
+            help='Scrape and parse data from the CU catalog.')
+
+    ap.add_argument('--no-parse', action='store_true',
             help='Only scrape the data without parsing it.')
-    ap.add_argument('--parse-only', action='store_true',
+    ap.add_argument('--no-scrape', action='store_true',
             help='Only parse the data without scraping it.')
+
     ap.add_argument('-threads', type=int, action='store', default=5,
             help='Run the program with this many threads.')
     ap.add_argument('-login', type=str, action='store',
@@ -58,24 +68,32 @@ def main():
 
     init_logging()
 
-    if args.login is None:
-        user = input('User: ').strip('\n')
-        passwd = getpass.getpass()
-    else:
-        with open(args.login) as f:
-            user = f.readline()
-            passwd = f.readline()
-
     html_path = os.path.join(root, args.html_path)
     json_path = os.path.join(root, args.json_path)
 
-    options = crawler.ScrapeOptions(args.year, args.semester, args.campus,
-            args.html_path, args.threads, args.headless)
+    if args.mycuinfo:
+        if args.login is None:
+            user = input('User: ').strip('\n')
+            passwd = getpass.getpass()
+        else:
+            with open(args.login) as f:
+                user = f.readline()
+                passwd = f.readline()
 
-    if not args.parse_only:
-        crawler.crawl(departments, user, passwd, options)
-    if not args.scrape_only:
-        parser.parse(html_path, json_path)
+        options = mycuinfo.crawler.ScrapeOptions(
+                    args.year, args.semester, args.campus,
+                    args.html_path, args.threads, args.headless)
+
+        if not args.no_scrape:
+            mycuinfo.crawler.crawl(departments, user, passwd, options)
+        if not args.no_parse:
+            mycuinfo.parser.parse(html_path, json_path)
+
+    if args.catalog:
+        if not args.no_scrape:
+            catalog.crawler.crawl(departments, html_path, args.threads)
+        if not args.no_parse:
+            catalog.parser.parse(html_path, json_path)
 
 
 if __name__ == "__main__":
