@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-import json, sys, re, datetime
+import json, sys, re, datetime, argparse, os
 
 class Status():
     OPEN = 0
@@ -84,8 +84,8 @@ types = {
 
 def parseSection(section):
     typ = types[section["code"].split('-')[1]]
-    time = encodeDate(section["time"])
-    units = section["units"]
+    time = encodeDate(section.get("time", "TBD"))
+    units = section.get("units", "TBD")
     seats = int(section["seats"])
     if section["waitlist"] == "NA":
         wait = 0
@@ -148,15 +148,31 @@ def stringifyData(courses, catalog):
     return '{"updated": "%s", "data":[%s]}' % (updated, ','.join(courseData))
 
 def main():
-    with open('../data/json/mycuinfo.json') as data_file:
-        courses = parseCourseData(json.load(data_file))
-    with open('../data/json/catalog.json') as data_file:
-        catalog = json.load(data_file)
+    ap = argparse.ArgumentParser(
+            formatter_class=argparse.RawTextHelpFormatter,
+            description='Format data for AJAX use.')
 
-    data = stringifyData(courses, catalog)
+    ap.add_argument('-mycuinfo', action='store',
+            default='../data/parsed/mycuinfo/',
+            help='Path to mycuinfo data folder.')
+    ap.add_argument('-catalog', action='store',
+            default='../data/parsed/catalog/catalog.json',
+            help='Path to catalog data file.')
+    ap.add_argument('-o', action='store',
+            default='../data/formatted/',
+            help='Path to output directory.')
+    args = ap.parse_args()
 
-    with open('../data/class_data.json', 'w+') as out:
-        out.write(data)
+    for courseFile in os.listdir(args.mycuinfo):
+        with open(os.path.join(args.mycuinfo, courseFile)) as data_file:
+            courses = parseCourseData(json.load(data_file))
+        with open(args.catalog) as data_file:
+            catalog = json.load(data_file)
+
+        data = stringifyData(courses, catalog)
+
+        with open(os.path.join(args.o, courseFile), 'w+') as out:
+            out.write(data)
 
 
 if __name__ == "__main__":

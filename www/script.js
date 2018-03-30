@@ -10,6 +10,28 @@ $(document).ready(function() {
         },
     };
 
+    const available_semesters = ['Spring_2018', 'Summer_2018', 'Fall_2018'];
+    url_params = getParams(window.location.search.slice(1));
+    index = available_semesters.indexOf(url_params.semester);
+    if (index < 0) {
+      index = available_semesters.length-1;
+    }
+
+    state.semester = available_semesters[index].toLowerCase();
+    semester = available_semesters[index];
+    nextSemester = available_semesters[index+1];
+    previousSemester = available_semesters[index-1];
+
+    function setLink(ele, semester) {
+      if (semester) {
+        ele.href = '?semester=' + semester;
+        ele.style.display = 'inline';
+      }
+    }
+    setLink(document.getElementById('next-semester'), nextSemester);
+    setLink(document.getElementById('previous-semester'), previousSemester);
+    document.getElementById('semester').innerHTML = semester.replace('_', ' ');
+
     /*
      * Unpacks data from server into easy-to-use dictionary.
      */
@@ -123,7 +145,7 @@ $(document).ready(function() {
     function createChild(code, parent_row) {
         var childData = data[code].data;
         var newChild = childTemplate.cloneNode(true); // true for deep clone
-        var newChildTable = newChild.querySelector("tbody");
+        var newChildTable = newChild.querySelector('tbody');
         newChild.insertBefore(document.createTextNode(childData.description),
             newChild.firstChild);
         newChild.style.display = null;
@@ -140,7 +162,7 @@ $(document).ready(function() {
                     return;
                 }
             }
-            row = newChildTable.querySelector("tr").cloneNode(true);
+            row = newChildTable.querySelector('tr').cloneNode(true);
             row.style.display = null;
             row.id = id;
             row.children[1].innerHTML = typeToString(sec.type);
@@ -156,8 +178,8 @@ $(document).ready(function() {
 
             // Child was selected earlier - restore state
             if (state.selectedSections.indexOf(row.id) >= 0) {
-                row.querySelector("input").checked = true;
-                row.className += " selected";
+                row.querySelector('input').checked = true;
+                row.className += ' selected';
             }
         });
         saveState();
@@ -196,6 +218,24 @@ $(document).ready(function() {
     }
 
     /*
+     *  Gets the query string parameters from a URL.
+     *  Source: https://stackoverflow.com/a/3855394
+     */
+    function getParams(query) {
+      if (!query) {
+        return { };
+      }
+
+      return query.split('&').reduce((params, param) => {
+        let [key, value] = param.split('=');
+        if (value != undefined) {
+          params[key] = decodeURIComponent(value.replace(/\+/g, ' '));
+        }
+        return params;
+      }, {});
+    }
+
+    /*
      * Saves the current state variable as a cookie.
      */
     function saveState() {
@@ -207,7 +247,7 @@ $(document).ready(function() {
             document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
         }
         cookie = JSON.stringify(state.selectedSections);
-        setCookie('state', cookie, 256);
+        setCookie('ycui_' + state.semester, cookie, 256);
     }
 
     /*
@@ -215,7 +255,7 @@ $(document).ready(function() {
      */
     function restoreState() {
         function getCookie(cname) {
-            var name = cname + "=";
+            var name = cname + '=';
             var decodedCookie = decodeURIComponent(document.cookie);
             var ca = decodedCookie.split(';');
             for (var i = 0; i < ca.length; i++) {
@@ -227,9 +267,9 @@ $(document).ready(function() {
                     return c.substring(name.length, c.length);
                 }
             }
-            return "";
+            return '';
         }
-        cookie = getCookie('state');
+        cookie = getCookie('ycui_' + state.semester);
         if (cookie) {
             state.selectedSections = JSON.parse(cookie);
             for (id of state.selectedSections) {
@@ -245,14 +285,17 @@ $(document).ready(function() {
     var scrollPos = 0;
     var table = $('#table').DataTable({
         ajax: {
-          url: 'data/class_data.json',
+          url: 'data/formatted/' + state.semester + '.json',
           dataSrc: function ( json ) {
               document.getElementById('updated').innerHTML = 'Last updated ' + json.updated
               return json.data;
           }
         },
+	      language: {
+            emptyTable: 'Loading...'
+        },
         processing: true,
-        scrollY: "500px",
+        scrollY: '500px',
         scrollCollapse: true,
         paging: false,
         deferRender: true,
@@ -263,7 +306,7 @@ $(document).ready(function() {
             null,
             null,
             {
-                "render": function (code)  {
+                'render': function (code)  {
                     switch(code) {
                         case 0: return 'Open';
                         case 1: return 'Waitlisted';
@@ -272,7 +315,7 @@ $(document).ready(function() {
                 },
             },
             {
-                "render": function (packedData, _, row, meta) {
+                'render': function (packedData, _, row, meta) {
                     rowCode = row[0];
                     rowName = row[1];
                     rowNum = meta.row;
@@ -284,7 +327,7 @@ $(document).ready(function() {
                     // Result not used
                     return 0
                 },
-                "visible": false,
+                'visible': false,
             },
         ],
         // Used to avoid annoying scrolling bug
@@ -314,10 +357,10 @@ $(document).ready(function() {
         defaultView: 'agendaWeek',
         minTime: '08:00:00',
         maxTime: '20:00:00',
-        height: "auto",
+        height: 'auto',
         allDaySlot: false,
         editable: false,
-        eventTextColor: "white",
+        eventTextColor: 'white',
         events: [],
         eventClick: function(calEvent, jsEvent, view) {
             offset = table.row( function ( _, data ) {
@@ -335,7 +378,7 @@ $(document).ready(function() {
             $(this).css('z-index', calEvent.oldz || 1);
         },
         eventRender: function(event, element, view) {
-            tooltipClass = event.startHr > 10 ? "tooltiptext-top" : "tooltiptext-bot";
+            tooltipClass = event.startHr > 10 ? 'tooltiptext-top' : 'tooltiptext-bot';
             element.addClass('tooltip');
             element.append('<span class="tooltiptext ' + tooltipClass + '">' + event.tooltip + '</span>');
             element.css('overflow', 'visible');
@@ -353,7 +396,7 @@ $(document).ready(function() {
             earth2: chroma.scale(['6B0C00', '378B76']).mode('hsl'),
             purple: chroma.scale(['6B0C00', '2C1773']).mode('hsl').padding(-0.05),
         }
-        
+
         function getColor(course_code) {
                 function hashCode(str) {
                     var hash = 5381, i, chr;

@@ -24,6 +24,7 @@ body {
 }
 
 #announcement {
+    display: none;
     font-size: 50%;
     float: right;
     border-radius: 5px;
@@ -82,6 +83,19 @@ body {
     padding: 20px;
     float: right;
     width: 20%;
+}
+
+.nav-arrow {
+  display: none;
+  color: black;
+}
+
+.nav-arrow:hover {
+  color: #A67C00;
+}
+
+.nav-arrow.visited {
+  color: black;
 }
 
 .search {
