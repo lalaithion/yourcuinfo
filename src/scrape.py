@@ -68,7 +68,7 @@ def main():
 
     init_logging()
 
-    html_path = os.path.join(root, args.html_path)
+    html_path = os.path.join(root, args.html_path, '%s_%s/' % (args.semester.lower(), args.year))
     json_path = os.path.join(root, args.json_path)
 
     if args.mycuinfo:
@@ -87,13 +87,13 @@ def main():
         if not args.no_scrape:
             mycuinfo.crawler.crawl(departments, user, passwd, options)
         if not args.no_parse:
-            mycuinfo.parser.parse(html_path, json_path)
+            mycuinfo.parser.parse(html_path, os.path.join(json_path, 'mycuinfo/%s_%s.json' % (args.semester.lower(), args.year)))
 
     if args.catalog:
         if not args.no_scrape:
             catalog.crawler.crawl(departments, html_path, args.threads)
         if not args.no_parse:
-            catalog.parser.parse(html_path, json_path)
+            catalog.parser.parse(html_path, os.path.join(json_path, 'catalog.json'))
 
 
 if __name__ == "__main__":

@@ -136,7 +136,7 @@ def runSearch(driver, current, semester, second_time=False):
     retry(search.click)
 
 # Search for department, save, and return to the search screen.
-def scrape_department(driver, filepath, current, semester, *args, second_time=False):
+def scrape_department(driver, filepath, current, semester, second_time=False):
     try:
         runSearch(driver, current, semester, second_time)
     except Exception as err:
@@ -186,7 +186,7 @@ def scrape_department(driver, filepath, current, semester, *args, second_time=Fa
     search.click()
 
     if current == 'CHEM' and not second_time:
-        scrape_department(driver, filepath, current, semester, True)
+        scrape_department(driver, filepath, current, semester, second_time=True)
 
 def initDriver(username, password, options):
     driver = login(username, password, options.headless)
@@ -202,6 +202,9 @@ def initDriver(username, password, options):
 
 def crawl(depts, username, password, options):
     logging.info('Beggining new data harvest')
+
+    if not os.path.exists(options.data_path):
+        os.makedirs(options.data_path)
 
     dept_queue = queue.Queue()
     for dept in depts:
