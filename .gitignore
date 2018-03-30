@@ -1,6 +1,7 @@
 **/__pycache__/**
 *.pyc
 *.html
+*.xls
 *.log
-login.*
+login*
 !index.html

@@ -1,6 +1,6 @@
 # #!/bin/bash
 USAGE="Usage: $0 [-t threads] [-m mode] [-p] [-e address]"
-SCRAPEFILE=../data/json/mycuinfo.json
+SCRAPEFILE=../data/parsed/mycuinfo.json
 THREADS=5
 MODE="headless"
 
@@ -69,7 +69,7 @@ if [[ $EMAIL ]]; then
 fi
 
 # Update GitHub pages site
-DATAFILE=../data/class_data.json
+DATAFILE=../data/formatted
 if [[ $PUSH ]]; then
   git checkout gh-pages
   git add "$DATAFILE" "$SCRAPEFILE"

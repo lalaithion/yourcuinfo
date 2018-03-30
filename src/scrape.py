@@ -50,10 +50,10 @@ def main():
                  '<username>\n' \
                  '<password>')
     ap.add_argument('-html-path', type=str, action='store',
-            default='../data/raw_html/mycuinfo/',
+            default='../data/raw/mycuinfo/',
             help='Path to store HTML after scrape.')
     ap.add_argument('-json-path', type=str, action='store',
-            default='../data/json',
+            default='../data/parsed',
             help='Path to store JSON after parse.')
     ap.add_argument('-year', type=int, action='store',
             default=date.today().year,
