@@ -9,6 +9,7 @@ import mycuinfo.crawler
 import mycuinfo.parser
 import catalog.crawler
 import catalog.parser
+import mycuinfo.audit_crawler
 
 root = os.path.dirname(os.path.realpath(__file__))
 
@@ -33,10 +34,12 @@ def main():
     ap.add_argument('--headless', action='store_true',
             help='Run program in headless mode.')
 
-    ap.add_argument('--mycuinfo', action='store_true',
-            help='Scrape and parse data from MyCUInfo.')
+    ap.add_argument('--classes', action='store_true',
+            help='Scrape and parse data from MyCUInfo class search.')
     ap.add_argument('--catalog', action='store_true',
             help='Scrape and parse data from the CU catalog.')
+    ap.add_argument('--audit', action='store_true',
+            help='Scrape and parse data from the CU degree audits.')
 
     ap.add_argument('--no-parse', action='store_true',
             help='Only scrape the data without parsing it.')
@@ -71,7 +74,21 @@ def main():
     html_path = os.path.join(root, args.html_path, '%s_%s/' % (args.semester.lower(), args.year))
     json_path = os.path.join(root, args.json_path)
 
-    if args.mycuinfo:
+    if args.audit:
+        if args.login is None:
+            user = input('User: ').strip('\n')
+            passwd = getpass.getpass()
+        else:
+            with open(args.login) as f:
+                user = f.readline()
+                passwd = f.readline()
+
+        options = mycuinfo.audit_crawler.ScrapeOptions(
+                    os.path.join(args.html_path, 'audit/'), args.threads, args.headless)
+
+        mycuinfo.audit_crawler.crawl(departments, user, passwd, options)
+
+    if args.classes:
         if args.login is None:
             user = input('User: ').strip('\n')
             passwd = getpass.getpass()
