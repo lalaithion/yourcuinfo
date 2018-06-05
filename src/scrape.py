@@ -89,19 +89,18 @@ def main():
         mycuinfo.audit_crawler.crawl(departments, user, passwd, options)
 
     if args.classes:
-        if args.login is None:
-            user = input('User: ').strip('\n')
-            passwd = getpass.getpass()
-        else:
-            with open(args.login) as f:
-                user = f.readline()
-                passwd = f.readline()
-
-        options = mycuinfo.crawler.ScrapeOptions(
-                    args.year, args.semester, args.campus,
-                    args.html_path, args.threads, args.headless)
-
         if not args.no_scrape:
+            if args.login is None:
+                user = input('User: ').strip('\n')
+                passwd = getpass.getpass()
+            else:
+                with open(args.login) as f:
+                    user = f.readline()
+                    passwd = f.readline()
+
+            options = mycuinfo.crawler.ScrapeOptions(
+                    args.year, args.semester, args.campus,
+                    html_path, args.threads, args.headless)
             mycuinfo.crawler.crawl(departments, user, passwd, options)
         if not args.no_parse:
             mycuinfo.parser.parse(html_path, os.path.join(json_path, 'mycuinfo/%s_%s.json' % (args.semester.lower(), args.year)))

@@ -75,8 +75,8 @@ def login(ukeys, pkeys, headless):
     passwd.clear()
     passwd.send_keys(pkeys)
 
-    # login = WebDriverWait(driver, DEFAULT_TIMEOUT).until(EC.presence_of_element_located((By.ID, 'submit')))
-    # login.click()
+    login = WebDriverWait(driver, DEFAULT_TIMEOUT).until(EC.presence_of_element_located((By.ID, 'submit')))
+    login.click()
 
     return driver
 
