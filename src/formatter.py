@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-import json, sys, re, datetime, argparse, os
+import json, sys, re, datetime, argparse, os, logging
 
 class Status():
     OPEN = 0
@@ -152,9 +152,9 @@ def main():
             formatter_class=argparse.RawTextHelpFormatter,
             description='Format data for AJAX use.')
 
-    ap.add_argument('-mycuinfo', action='store',
-            default='../data/parsed/mycuinfo/',
-            help='Path to mycuinfo data folder.')
+    ap.add_argument('-classes', action='store',
+            default='../data/parsed/classes/',
+            help='Path to classes data folder.')
     ap.add_argument('-catalog', action='store',
             default='../data/parsed/catalog/catalog.json',
             help='Path to catalog data file.')
@@ -163,8 +163,10 @@ def main():
             help='Path to output directory.')
     args = ap.parse_args()
 
-    for courseFile in os.listdir(args.mycuinfo):
-        with open(os.path.join(args.mycuinfo, courseFile)) as data_file:
+    logging.info('Formatting files in %s' % args.classes)
+    for courseFile in os.listdir(args.classes):
+        logging.info('Formatting %s' % courseFile)
+        with open(os.path.join(args.classes, courseFile)) as data_file:
             courses = parseCourseData(json.load(data_file))
         with open(args.catalog) as data_file:
             catalog = json.load(data_file)

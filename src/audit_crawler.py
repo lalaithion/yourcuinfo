@@ -12,7 +12,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.remote_connection import LOGGER
 
-import mycuinfo.utils
+import utils
 
 # Disable selenium logging.
 LOGGER.setLevel(logging.WARNING)

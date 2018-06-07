@@ -14,5 +14,3 @@ departments = ['ACCT', 'AIRR', 'ANTH', 'APPM', 'APRD', 'ARAB', 'ARCH', 'AREN',
 'PHYS', 'PMUS', 'PORT', 'PRLC', 'PSCI', 'PSYC', 'REAL', 'RLST', 'RUSS', 'SCAN',
 'SEWL', 'SLHS', 'SNSK', 'SOCY', 'SPAN', 'SSIR', 'SWED', 'TBTN', 'THTR', 'TLEN',
 'TMUS', 'WRTG', 'YIDD']
-
-test_departments = ["CSCI", "MATH","LING"]

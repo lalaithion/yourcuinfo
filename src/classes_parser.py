@@ -1,8 +1,7 @@
 #!/usr/local/bin/python3
 
-import json
-import logging
-import re
+import json, logging, re, os
+
 from html.parser import HTMLParser
 from string import printable
 from time import strftime, gmtime
@@ -97,14 +96,16 @@ class MyCUInfoHTMLParser(HTMLParser):
     def json(self):
         return {i.identifier: i.json() for i in self.courses}
 
+def html_to_json(html):
+    parser = MyCUInfoHTMLParser()
+    parser.feed(html)
+    return parser.json()
 
 def jsonify(filename):
     assert(filename.endswith(".html"))
     with open(filename, "r") as f:
         logging.info("Parsing %s" % filename)
-        parser = MyCUInfoHTMLParser()
-        parser.feed(f.read())
-        return parser.json()
+        return html_to_json(f.read())
 
 def jsonify_dir(dirpath):
     class_info = {}
@@ -126,12 +127,18 @@ def jsonify_dir(dirpath):
 
     return class_info
 
-def parse(inpath, outpath):
+def parse(args):
+    inpath = os.path.join(args.raw_path, 'classes/')
+    outpath = os.path.join(args.json_path, 'classes/')
+    if not os.path.exists(outpath):
+        os.makedirs(outpath)
+
     logging.info("Beginning parse.")
 
     classes = jsonify_dir(inpath)
-    with open(outpath, 'w') as outfile:
-        logging.info('Writing to %s' % outpath)
+    outfilepath = os.path.join(outpath, '' + '.json')
+    with open(outfilepath, 'w') as outfile:
+        logging.info('Writing to %s' % outfilepath)
         json.dump(classes, outfile, indent=4, separators=(',', ': '))
 
     logging.info("Parse finished.")
