@@ -10,7 +10,7 @@ $(document).ready(function() {
         },
     };
 
-    const available_semesters = ['Spring_2018', 'Summer_2018', 'Fall_2018'];
+    const available_semesters = ['Spring_2018', 'Summer_2018', 'Fall_2018', 'Spring_2019'];
     url_params = getParams(window.location.search.slice(1));
     index = available_semesters.indexOf(url_params.semester);
     if (index < 0) {
