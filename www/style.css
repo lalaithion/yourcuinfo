@@ -18,8 +18,8 @@ body {
 
 #disclaimer {
     text-align: left;
-    font-size: 50%;
-    margin: 5px;
+    font-size: 100%;
+    /* margin: 5px; */
     padding-left: 25px;
 }
 
