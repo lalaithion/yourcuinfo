@@ -3,15 +3,7 @@ import requests, pdb, json, time
 def get_classes(srcdb):
     search_url = 'https://classes.colorado.edu/api/?page=fose&route=search'
 
-    search_request = {
-        "other": {
-            "srcdb": '2191'#srcdb
-        },
-        "criteria": [
-            { "field": "hours", "value": ">=0" },
-            { "field": "hours_min", "value": ">=0" }
-        ]
-    }
+    search_request = { "other": { "srcdb": "2191" }, "criteria": [] }
 
     response = requests.post(search_url, json=search_request)
 
@@ -48,14 +40,14 @@ def main():
     srcdb = "2" + year_last_2_digits + semester_number
 
     start = time.time()
-    print("Starting parse at")
-    # classes = get_classes(srcdb)
-    #
-    # with open("classes.json", "w") as f:
-    #     f.write(json.dumps(classes))
+    print("Starting parse at", start)
+    classes = get_classes(srcdb)
 
-    with open("classes.json") as f:
-        classes = json.loads(f.read())
+    with open("classes.json", "w") as f:
+        f.write(json.dumps(classes))
+
+    # with open("classes.json") as f:
+    #     classes = json.loads(f.read())
 
     details = {}
     try:

@@ -27,7 +27,7 @@ def parseMeet(meetsHTML):
     days = 0
     for i in range(1, 7):
         if meets.group(i):
-            days |= 1 << i
+            days |= 1 << (i-1)
 
     # days = meets.group(1).replace("Th", "H")
     # days = days.replace("M", "Mo").replace("T", "Tu").replace("W", "We") \
@@ -215,7 +215,7 @@ def main():
             "data": list(formatted.values())
         }, separators=(',', ':')))
 
-    pdb.set_trace()
+    # pdb.set_trace()
 
 if __name__ == "__main__":
     main()
