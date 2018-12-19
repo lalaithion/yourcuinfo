@@ -39,11 +39,13 @@ def parseMeet(meetsHTML):
 
         hour = int(t.group(1))
         minute = int(t.group(2) or 0)
-        return hour * 60 + minute + (0 if half == "a" or hour is 12 else 720)
+        return hour * 60 + minute + (0 if "a" in half or hour is 12 else 720)
         # return "%s:%s%s" % (t.group(1), t.group(2), "AM" if half == "a" else "PM")
 
     startTime = formatTime(meets.group(8), meets.group(9) or meets.group(11))
     endTime = formatTime(meets.group(10), meets.group(11))
+    # if "TTh 9:30am-10:45am in Discovery Learning Center 1B20" in meetsHTML:
+    #     pdb.set_trace()
     return (days, startTime, endTime, meets.group(12) or "TBA")
 
 def parseSeats(seatsHTML):
