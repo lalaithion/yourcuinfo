@@ -1,4 +1,4 @@
-import requests, pdb, json, time
+import requests, pdb, json, time, asyncio
 
 def get_classes(srcdb):
     search_url = 'https://classes.colorado.edu/api/?page=fose&route=search'
@@ -40,26 +40,31 @@ def main():
     srcdb = "2" + year_last_2_digits + semester_number
 
     start = time.time()
-    print("Starting parse at", start)
     classes = get_classes(srcdb)
 
     with open("classes.json", "w") as f:
         f.write(json.dumps(classes))
 
+    print("Classes gotten checkpoint", time.time() - start)
     # with open("classes.json") as f:
     #     classes = json.loads(f.read())
 
-    details = {}
-    try:
-        for result in classes["results"]:
-            code = result["code"]
-            crn = result["crn"]
-            print("On class: %s-%s (%s/%d)" % (code, result["no"], result["key"], classes["count"]))
-            details[crn] = get_details(srcdb, code, crn)
 
-    except Exception as e:
-        print("Error:", e)
-        # pdb.set_trace()
+    details = {}
+
+    async def get_details_wrapper(result):
+        code = result["code"]
+        crn = result["crn"]
+        print("On class: %s-%s (%s/%d)" % (code, result["no"], result["key"], classes["count"]))
+        loop = asyncio.get_running_loop()
+        detail = await loop.run_in_executor(None, get_details, srcdb, code, crn)
+        print("Finished: %s-%s" % (code, result["no"]))
+        details[crn] = detail
+
+    async def gather_all_details(classes):
+        await asyncio.gather(*map(get_details_wrapper, classes["results"]))
+
+    asyncio.run(gather_all_details(classes))
 
     with open("details.json", "w") as f:
         f.write(json.dumps(details))
