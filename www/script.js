@@ -285,7 +285,7 @@ $(document).ready(function() {
     var scrollPos = 0;
     var table = $('#table').DataTable({
         ajax: {
-          url: 'data/formatted/' + state.semester + '.json',
+          url: 'data/' + state.semester + '.json',
           dataSrc: function ( json ) {
               document.getElementById('updated').innerHTML = 'Last updated ' + json.updated
               return json.data;
