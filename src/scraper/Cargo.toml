@@ -5,6 +5,7 @@ authors = ["Alexander Curtiss <apccurtiss@gmail.com>"]
 edition = "2018"
 
 [dependencies]
+rocket = "0.4.2"
 argparse = "0.2.2"
 diesel = { version = "1.0.0", features = ["postgres"] }
 dotenv = "0.9.0"

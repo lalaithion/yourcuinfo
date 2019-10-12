@@ -1,21 +1,15 @@
-$(document).ready(function() {
-    data = {}
+function setSemesterTag() {
+    var query = window.location.search.slice(1);
+    
+    var params = query.split('&').reduce((params, param) => {
+        let [key, value] = param.split('=');
+        if (value != undefined) {
+            params[key] = decodeURIComponent(value.replace(/\+/g, ' '));
+        }
+        return params;
+    }, {});
 
-    state = {
-        expandedRows: {},
-        selectedSections: [],
-        searchTerms: {
-            // Bit flag meaning enable all days
-            days: 31,
-        },
-    };
-
-    const available_semesters = ['Spring_2018', 'Summer_2018', 'Fall_2018', 'Spring_2019'];
-    url_params = getParams(window.location.search.slice(1));
-    index = available_semesters.indexOf(url_params.semester);
-    if (index < 0) {
-      index = available_semesters.length-1;
-    }
+    var index = available_semesters.indexOf(params.semester) || available_semesters.length-1;
 
     state.semester = available_semesters[index].toLowerCase();
     semester = available_semesters[index];
@@ -31,111 +25,10 @@ $(document).ready(function() {
     setLink(document.getElementById('next-semester'), nextSemester);
     setLink(document.getElementById('previous-semester'), previousSemester);
     document.getElementById('semester').innerHTML = semester.replace('_', ' ');
+}
 
-    /*
-     * Unpacks data from server into easy-to-use dictionary.
-     */
-    function unpackData(course, name) {
-        function unpackSection(section) {
-            return {
-                type: section[0],
-                days: section[1],
-                start: section[2],
-                end: section[3],
-                units: section[4],
-                seats: section[5],
-                waitlist: section[6],
-                instr: section[7],
-                room: section[8],
-                info: section[9],
-                coursecode: name,
-            };
-        }
-        return {
-            description: course[0],
-            sections: course.slice(1).map((s) => unpackSection(s)),
-        };
-    }
-
-    /*
-     * Retreives data for a section based on section id (e.g. CSCI 1300-3).
-     */
-    function getSectionData(id) {
-        return data[id.slice(0,9)].data.sections[id.slice(10)];
-    }
-
-    /*
-     * Retreives class name for a section based on section id (e.g. CSCI 1300-3).
-     */
-    function getClassName(id) {
-        return data[id.slice(0,9)].name;
-    }
-
-    /*
-     * Pads number with leading zeroes.
-     */
-    function zeroPad(n, width) {
-        n = n.toString();
-        return n.length < width ? new Array(width - n.length + 1).join('0') + n : n;
-    }
-
-    /*
-     * Converts from easy-to-compare bitmasks to human-readable strings.
-     */
-    function dayToString(dayBitmask) {
-        const days = {
-            1: 'Mo',
-            2: 'Tu',
-            4: 'We',
-            8: 'Th',
-            16: 'Fr'
-        };
-        var dayString = '';
-        for (i in days) {
-            if (dayBitmask & i) {
-                dayString += days[i];
-            }
-        }
-        return dayString;
-    }
-
-    /*
-     * Converts from easy-to-compare minute counts to human-readable strings.
-     */
-    function time2Str(time) {
-        hour = Math.floor(time / 60);
-        minute = time % 60;
-        suffix = 'AM';
-        if (hour > 12) {
-            hour = hour - 12;
-            suffix = 'PM';
-        }
-        return hour + ':' + zeroPad(minute, 2) + suffix;
-    }
-
-    /*
-     * Converts from integer type enum to string representation.
-     */
-    function typeToString(type) {
-        types = {
-            0: 'Lecture',
-            1: 'Recitation',
-            2: 'Lab',
-            3: 'Semenar',
-            4: 'PRA',
-            5: 'Studio',
-            6: 'DIS',
-            7: 'IND',
-            8: 'INT',
-            9: 'Other',
-            10: 'MLS',
-            11: 'FLD',
-            12: 'RSC',
-            13: 'CLN',
-            14: 'WKS',
-        }
-        return types[type];
-    }
+$(document).ready(function() {
+    var calendar = new Calendar('#calendar');
 
     /*
      * Creates a child node with detailed information.
@@ -215,24 +108,6 @@ $(document).ready(function() {
             start: start,
             end: end
         };
-    }
-
-    /*
-     *  Gets the query string parameters from a URL.
-     *  Source: https://stackoverflow.com/a/3855394
-     */
-    function getParams(query) {
-      if (!query) {
-        return { };
-      }
-
-      return query.split('&').reduce((params, param) => {
-        let [key, value] = param.split('=');
-        if (value != undefined) {
-          params[key] = decodeURIComponent(value.replace(/\+/g, ' '));
-        }
-        return params;
-      }, {});
     }
 
     /*
@@ -341,108 +216,6 @@ $(document).ready(function() {
             restoreState();
         }
     });
-
-    /*
-     * Instantiate calendar.
-     */
-    $('#calendar').fullCalendar({
-        header: {
-            left: '',
-            center: '',
-            right: '',
-        },
-        columnFormat: 'ddd',
-        hiddenDays: [0, 6],
-        defaultDate: '2014-06-12',
-        defaultView: 'agendaWeek',
-        minTime: '08:00:00',
-        maxTime: '20:00:00',
-        height: 'auto',
-        allDaySlot: false,
-        editable: false,
-        eventTextColor: 'white',
-        events: [],
-        eventClick: function(calEvent, jsEvent, view) {
-            offset = table.row( function ( _, data ) {
-                return data[0] == calEvent.id.substring(0, 9);
-            }).node().offsetTop
-            $('.dataTables_scrollBody').animate({
-                scrollTop: offset
-            }, 500);
-        },
-        eventMouseover: function(calEvent, jsEvent) {
-            calEvent.oldz = $(this).css('z-index');
-            $(this).css('z-index', 10000);
-        },
-        eventMouseout: function(calEvent, jsEvent) {
-            $(this).css('z-index', calEvent.oldz || 1);
-        },
-        eventRender: function(event, element, view) {
-            tooltipClass = event.startHr > 10 ? 'tooltiptext-top' : 'tooltiptext-bot';
-            element.addClass('tooltip');
-            element.append('<span class="tooltiptext ' + tooltipClass + '">' + event.tooltip + '</span>');
-            element.css('overflow', 'visible');
-        }
-    });
-
-    /*
-     * Creates calendar events when given a day bitstring and start / end times.
-     */
-    function createCalendarEvents(id, ghost) {
-        scales = {
-            buff: chroma.scale(['4f5355', 'cfb36a']).mode('lab'),
-            redyell: chroma.scale(['6B0C00', 'D4D454']),
-            earth: chroma.scale(['6B0C00', 'BAA86D', '4E6C33']),
-            earth2: chroma.scale(['6B0C00', '378B76']).mode('hsl'),
-            purple: chroma.scale(['6B0C00', '2C1773']).mode('hsl').padding(-0.05),
-        }
-
-        function getColor(course_code) {
-                function hashCode(str) {
-                    var hash = 5381, i, chr;
-                    if (str.length === 0) return hash;
-                    for (i = 0; i < str.length; i++) {
-                        chr   = str.charCodeAt(i);
-                        hash  = ((hash << 5) - hash) + chr;
-                        hash  = hash % 104729
-                    }
-                    return hash;
-                }
-            hash = hashCode(course_code);
-            percent = Math.abs((hash % 1000) / 1000); // percent is between 0 and 1
-            // create a color scale
-            scale = scales.buff;
-            // get the color from it
-            color = scale(percent).hex();
-            return color;
-        }
-        sec = getSectionData(id);
-        tooltip = getClassName(id) + '<br\><i>(' + sec.room + ')</i>';
-        bitDays = {
-            1: '09',
-            2: '10',
-            4: '11',
-            8: '12',
-            16: '13',
-        };
-        for (bit in bitDays) {
-            if (bit & sec.days) {
-                dayString = '2014-06-' + bitDays[bit];
-                startString = zeroPad(Math.floor(sec.start / 60), 2) + ':' + zeroPad(sec.start % 60, 2)
-                endString = zeroPad(Math.floor(sec.end / 60), 2) + ':' + zeroPad(sec.end % 60, 2)
-                var newEvent = {
-                    title: id.substr(0, 9),
-                    start: dayString + 'T' + startString,
-                    end: dayString + 'T' + endString,
-                    color: ghost ? "#AAA" : getColor(id),
-                    startHr: sec.start / 60,
-                    tooltip: tooltip,
-                    id: id,
-                }
-                $('#calendar').fullCalendar('renderEvent', newEvent, true)
-            }
-        };
-    }
 
     /*
      * Toggles child row on click.
