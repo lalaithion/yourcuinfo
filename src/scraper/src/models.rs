@@ -21,8 +21,36 @@ pub struct Instructor {
     pub full_name: String,
 }
 
-#[derive(Insertable)]
-#[derive(AsChangeset)]
+#[derive(Queryable)]
+pub struct SectionType {
+    pub id: i32,
+    pub type_: String,
+    pub code: String,
+}
+
+#[derive(Queryable)]
+pub struct Institution {
+    pub id: i32,
+    pub name: String,
+    pub code: String,
+}
+
+#[derive(Queryable)]
+pub struct InstructionMode {
+    pub id: i32,
+    pub mode: String,
+    pub code: String,
+}
+
+#[derive(Insertable, AsChangeset)]
+#[table_name="semesters"]
+pub struct NewSemester<'a> { 
+  // pub id: i32,
+  pub year: i32,
+  pub season: &'a str,
+}
+
+#[derive(Insertable, AsChangeset)]
 #[table_name="section_types"]
 pub struct NewSectionType<'a> { 
   // pub id: i32,
@@ -39,24 +67,17 @@ pub struct NewClass<'a> {
 }
 
 #[derive(Insertable, AsChangeset)]
-#[table_name="semesters"]
-pub struct NewSemester<'a> {
-  // pub id: i32,
-  pub year: i32,
-  pub season: &'a str,
-}
-
-#[derive(Insertable, AsChangeset)]
 #[table_name="instructors"]
 pub struct NewInstructor {
+// pub struct NewInstructor<'a> {
   // pub id: i32,
+  // pub full_name: &'a str,
   pub full_name: String,
 }
 
-
 #[derive(Insertable, AsChangeset)]
 #[table_name="sections"]
-pub struct NewSection<'a> {
+pub struct NewSection {
   pub crn: i32,
   pub section_no: i32,
   pub parent_class: i32, // REFERENCES classes NOT NULL,
@@ -65,25 +86,25 @@ pub struct NewSection<'a> {
   pub mode: i32, // REFERENCES instruction_modes,
 
   pub semester: i32, // REFERENCES semesters NOT NULL,
-  // pub start_time: PgTime,
-  // pub end_time: PgTime,
+  pub start_time: PgTime,
+  pub end_time: PgTime,
   
-  // pub monday: bool,
-  // pub tuesday: bool,
-  // pub wednesday: bool,
-  // pub thursday: bool,
-  // pub friday: bool,
-  // pub saturday: bool,
-  // pub sunday: bool,
+  pub monday: bool,
+  pub tuesday: bool,
+  pub wednesday: bool,
+  pub thursday: bool,
+  pub friday: bool,
+  pub saturday: bool,
+  pub sunday: bool,
 
-  // pub instructor: i32, // REFERENCES instructors,
-  // pub credits: i32,
-  // pub total_seats: i32,
-  // pub available_seats: i32,
-  // pub waitlist: i32,
+  pub instructor: i32, // REFERENCES instructors,
+  pub credits: i32,
+  pub total_seats: i32,
+  pub available_seats: i32,
+  pub waitlist: i32,
 
-  // pub is_cancelled: bool,
-  // pub special_date_range: bool,
-  // pub no_auto_enroll: bool,
-  pub section_name: &'a str,
+  pub is_cancelled: bool,
+  pub special_date_range: bool,
+  pub no_auto_enroll: bool,
+  // pub section_name: &'a str,
 }

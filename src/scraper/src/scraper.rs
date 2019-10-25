@@ -10,9 +10,10 @@ use self::json::{ClassResponse, DetailsResponse, ListResponse};
 const CLASSES_URL: &'static str = "https://classes.colorado.edu/api/?page=fose&route=search";
 const DETAILS_URL: &'static str = "https://classes.colorado.edu/api/?page=fose&route=details";
 
-fn get_classes(semester_code: &str) -> Result<ListResponse, reqwest::Error> {
+fn get_classes(count: Option<u8>, semester_code: &str) -> Result<Vec<ClassResponse>, reqwest::Error> {
+  println!("Scraping {} classes.", 20);
   let client = reqwest::Client::new();
-  let res: ListResponse = client.post(CLASSES_URL)
+  let mut res: ListResponse = client.post(CLASSES_URL)
     .body(json!({
         "other": {"srcdb" : semester_code},
         "criteria": []
@@ -20,7 +21,11 @@ fn get_classes(semester_code: &str) -> Result<ListResponse, reqwest::Error> {
     .send()?
     .json()?;
 
-  Ok(res)
+  if count.is_some() {
+    res.results.truncate(count.unwrap() as usize);
+  }
+
+  Ok(res.results)
 }
 
 fn get_details(semester_code: &str, class_code: &str, course_number: &str) -> Result<DetailsResponse, reqwest::Error> {
@@ -38,14 +43,27 @@ fn get_details(semester_code: &str, class_code: &str, course_number: &str) -> Re
   Ok(res)
 }
 
-fn get_details_from_result(semester_code: &str, result: &ClassResponse) -> Result<DetailsResponse, reqwest::Error> {
+fn get_class_details(semester_code: &str, result: &ClassResponse) -> Result<DetailsResponse, reqwest::Error> {
   let class_code = &result.code;
   let crn = &result.crn;
 
   get_details(semester_code, &class_code, &crn)
 }
 
-pub fn scrape(_count: Option<u8>) -> Result<Vec<DetailsResponse>, reqwest::Error> {
+pub fn scrape_details(classes: &Vec<ClassResponse>) -> Result<Vec<DetailsResponse>, reqwest::Error> {
+  let total = classes.len();
+  let percent = classes.len() / 100 + 1;
+  println!("Scraping details of {} classes.", total);
+  let details: Vec<DetailsResponse> = classes.iter().enumerate().map(|(i, r)| {
+      if i % percent == 0 {
+        println!("{}% done", i * 100 / total);
+      }
+      get_class_details(&r.srcdb, r).unwrap()
+    }).collect();
+  Ok(details)
+}
+
+pub fn scrape_classes(count: Option<u8>) -> Result<Vec<ClassResponse>, reqwest::Error> {
   let semester_codes: HashMap<&str, &str> =
     [ ("Spring", "1"),
       ("Summer", "4"),
@@ -58,13 +76,7 @@ pub fn scrape(_count: Option<u8>) -> Result<Vec<DetailsResponse>, reqwest::Error
     + year.get(2..4).unwrap_or("19")
     + semester_codes.get(semester).unwrap_or(&"1");
 
-  let classes = get_classes(&semester_code)?;
+  let classes = get_classes(count, &semester_code)?;
 
-  let details = classes.results.iter().take(20)
-        .map(|r| match get_details_from_result(&semester_code, r) {
-          Ok(x) => x,
-          _ => panic!("Oops")
-        }).collect();
-
-  Ok(details)
+  Ok(classes)
 }

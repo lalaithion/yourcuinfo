@@ -22,7 +22,7 @@ CREATE TABLE instructors (
 CREATE TABLE sections (
   crn INTEGER PRIMARY KEY,
   section_no INTEGER NOT NULL,
-  parent_class VARCHAR REFERENCES classes(code) NOT NULL,
+  parent_class INTEGER REFERENCES classes NOT NULL,
   section_type INTEGER REFERENCES section_types NOT NULL,
   institution INTEGER REFERENCES institutions,
   mode INTEGER REFERENCES instruction_modes,
