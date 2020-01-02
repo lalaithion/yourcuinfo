@@ -75,19 +75,19 @@ pub struct NewInstructor {
   pub full_name: String,
 }
 
-#[derive(Insertable, AsChangeset)]
+#[derive(Insertable, AsChangeset, Debug)]
 #[table_name="sections"]
 pub struct NewSection {
   pub crn: i32,
   pub section_no: i32,
-  pub parent_class: i32, // REFERENCES classes NOT NULL,
-  pub section_type: i32, // REFERENCES section_types NOT NULL,
-  pub institution: i32, // REFERENCES institutions,
-  pub mode: i32, // REFERENCES instruction_modes,
+  pub parent_class: i32, // REFERENCES classes
+  pub section_type: i32, // REFERENCES section_types
+  pub institution: i32, // REFERENCES institutions
+  pub mode: i32, // REFERENCES instruction_modes
 
-  pub semester: i32, // REFERENCES semesters NOT NULL,
-  pub start_time: PgTime,
-  pub end_time: PgTime,
+  pub semester: i32, // REFERENCES semesters
+  pub start_time: Option<PgTime>,
+  pub end_time: Option<PgTime>,
   
   pub monday: bool,
   pub tuesday: bool,
@@ -97,7 +97,7 @@ pub struct NewSection {
   pub saturday: bool,
   pub sunday: bool,
 
-  pub instructor: i32, // REFERENCES instructors,
+  pub instructor: i32, // REFERENCES instructors
   pub credits: i32,
   pub total_seats: i32,
   pub available_seats: i32,

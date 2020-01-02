@@ -1,7 +1,7 @@
 use serde::{Deserialize, Serialize};
 
 #[allow(non_snake_case)]
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct ClassResponse {
     pub key: String,
     pub code: String,
@@ -20,14 +20,14 @@ pub struct ClassResponse {
     pub srcdb: String,
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct ListResponse {
     pub srcdb: String,
     pub count: u32,
     pub results: Vec<ClassResponse>,
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct DetailsResponse {
     pub key: String,
     pub inst: String,

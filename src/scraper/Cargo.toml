@@ -16,3 +16,5 @@ futures = "0.1"
 regex = "1"
 lazy_static = "1.2.0"
 chrono = "0.4.9"
+log = "0.4.8"
+ 
