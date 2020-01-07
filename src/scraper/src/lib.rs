@@ -48,9 +48,12 @@ pub fn establish_connection() -> PgConnection {
 
 pub fn parse_instructors(instructor_html: &str) -> Result<Vec<String>, Box<dyn Error>> {
     let instr_re: Regex = Regex::new("(?:<.*?>)*(?P<instructor>[^<>]+)(?:<.*?>)*")?;
-    // TODO: remove panicable expression `capture_group["instructor"]`
-    let instructors = instr_re.captures_iter(instructor_html).map(|capture_group| String::from(&capture_group["instructor"]));
-    Ok(instructors.collect())
+    let instructors: Vec<String> = instr_re.captures_iter(instructor_html)
+        .try_fold(Vec::<String>::new(), |mut acc, capture_group| -> Result<Vec<String>, Box<dyn Error>> {
+            acc.push(String::from(capture_group.name("instructor").ok_or("Could not parse instructor")?.as_str()));
+            Ok(acc)
+        })?;
+    Ok(instructors)
 }
 
 pub fn parse_seats(seats_html: &str) -> Result<(i32, i32, i32), Box<dyn Error>> {
@@ -60,21 +63,25 @@ pub fn parse_seats(seats_html: &str) -> Result<(i32, i32, i32), Box<dyn Error>> 
     let seats_re: Regex = Regex::new(re)?;
     let result = seats_re.captures_iter(seats_html).next().ok_or(format!("Unable to parse: \n{}\nusing regex: \n{}", seats_html, re))?;
 
-    // TODO: Clean up logic, esp. around waitlist (currently zeroes if waitlist is e.g. "asdf" rather than erroring)
-    Ok((
-        result.name("seats").ok_or("No 'seats' field provided").and_then(
-            |m| m.as_str().parse::<i32>().map_err(|_| "Could not parse 'seats' field"))?,
-        result.name("available").ok_or("No 'available' field provided").and_then(
-            |m| m.as_str().parse::<i32>().map_err(|_| "Could not parse 'available' field"))?,
-        result.name("waitlist").ok_or("No 'waitlist' field provided").and_then(
-            |m| m.as_str().parse::<i32>().map_err(|_| "Could not parse 'waitlist' field")).unwrap_or(0)
-    ))
+    let seats = result.name("seats").ok_or("No 'seats' field provided").and_then(
+        |m| m.as_str().parse::<i32>().map_err(|_| "Could not parse 'seats' field"))?;
+    let available = result.name("available").ok_or("No 'available' field provided").and_then(
+        |m| m.as_str().parse::<i32>().map_err(|_| "Could not parse 'available' field"))?;
+
+    match result.name("waitlist") {
+        Some(x) => {
+            let waitlist = x.as_str().parse::<i32>().map_err(|_| "Could not parse 'waitlist' field")?;
+            Ok((seats, available, waitlist))
+        },
+        None => Ok((seats, available, 0))
+    }
 }
 
 pub fn parse_time(meets: &str) -> Result<([bool; 7], Option<i64>, Option<i64>), Box<dyn Error>> {
     if meets == "No Time Assigned" || meets == "Meets online" {
         return Ok(([false; 7], None, None));
     }
+    // println!("Parsing meet");
 
     let meets_re: Regex = Regex::new(
         "(?P<su>Su)?\
@@ -98,19 +105,27 @@ pub fn parse_time(meets: &str) -> Result<([bool; 7], Option<i64>, Option<i64>), 
         result.name("sa").is_some()
     ];
 
-    // AAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-    let start = Some((result.name("start_hr").and_then(|m| m.as_str().parse::<i64>().ok()).ok_or("Couldn't parse start_hr")? * 60 +
-                result.name("start_min").and_then(|m| m.as_str().parse::<i64>().ok()).unwrap_or(0) +
-                if result.name("start_am").is_none() && 
-                   result.name("end_am").map(|m| m.as_str() == "p").ok_or("Couldn't parse end_am")? &&
-                   result.name("start_hr").map(|m| m.as_str() == "12").ok_or("Couldn't parse start_hr")? { 12 * 60 } else { 0 })
-                * 60 * 1000);
+    let parse_int = |name: &str| 
+        result.name(name).and_then(|m| m.as_str().parse::<i64>().ok())
+                         .ok_or(format!("Couldn't parse field: {}", name));
 
-    let end = Some((result.name("end_hr").and_then(|m| m.as_str().parse::<i64>().ok()).ok_or("Couldn't parse end_hr")? * 60 +
-              result.name("end_min").and_then(|m| m.as_str().parse::<i64>().ok()).unwrap_or(0) +
-              if result.name("end_am").map(|m| m.as_str() == "p").ok_or("Couldn't parse end_am")? &&
-                 result.name("end_hr").map(|m| m.as_str() == "12").ok_or("Couldn't parse end_hr")? { 12 * 60 } else { 0 })
-              * 60 * 1000);
+    let start_hr = parse_int("start_hr")?;
+    let end_hr = parse_int("end_hr")?;
+    let start_min = parse_int("start_min");
+    let end_min = parse_int("end_min");
+    let start_am = result.name("start_am").map(|m| m.as_str());
+    let end_am = result.name("end_am").map(|m| m.as_str()).ok_or("Could not parse end_am")?;
+
+    // println!("{} {} {:?} {:?} {:?} {}", start_hr, end_hr, start_min, end_min, start_am, end_am);
+    let start = Some(
+        (start_hr * 60 + start_min.unwrap_or(0) +
+        if start_am.is_none() && end_am == "p" && start_hr == 12 { 12 * 60 } else { 0 })
+        * 60 * 1000);
+
+    let end = Some(
+        (end_hr * 60 + end_min.unwrap_or(0) +
+        if end_am == "p" && end_hr == 12 { 12 * 60 } else { 0 })
+        * 60 * 1000);
 
     return Ok((days, start, end));
 }
@@ -166,29 +181,34 @@ pub fn update_db(threads: u8, count: Option<u8>) -> Result<(), Box<dyn Error>> {
                 .do_update()
                 .set(&new_class)
                 .execute(&connection)? as i32;
-
+            
             // Add instructors to DB
             let instructor_ids: Vec<i32> = parse_instructors(&details.instructordetail_html)?
-                .iter().try_fold(Vec::<i32>::new(), |mut acc, name| -> Result<Vec<i32>, Box<dyn Error>> {
-                    let new_instructor = NewInstructor {
-                        full_name: name.clone(),
-                    };
-                    let instructor_id = diesel::insert_into(schema::instructors::table)
-                        .values(&new_instructor)
-                        .returning(schema::instructors::id)
-                        .on_conflict(schema::instructors::full_name)
-                        .do_update()
-                        .set(&new_instructor)
-                        .execute(&connection)?;
-                    acc.push(instructor_id as i32);
-                    Ok(acc)
-                })?;
-
+            .iter().try_fold(Vec::<i32>::new(), |mut acc, name| -> Result<Vec<i32>, Box<dyn Error>> {
+                let new_instructor = NewInstructor {
+                    full_name: name.clone(),
+                };
+                let instructor_id = diesel::insert_into(schema::instructors::table)
+                .values(&new_instructor)
+                .returning(schema::instructors::id)
+                .on_conflict(schema::instructors::full_name)
+                .do_update()
+                .set(&new_instructor)
+                .execute(&connection)?;
+                acc.push(instructor_id as i32);
+                Ok(acc)
+            })?;
+            
             let (days, start, end) = parse_time(&class.meets)?;
             let (total_seats, available_seats, waitlist) = parse_seats(&details.seats)?;
+            // TODO: Optional credits?
+            let credits = match details.hours.as_str() {
+                "" => 0.0,
+                hours => hours.parse::<f32>().map_err(|_| format!("Unable to parse hour string: {}", hours))?
+            };
             let section = NewSection {
-                crn: details.crn.parse::<i32>()?,
-                section_no: details.section.parse::<i32>()?,
+                crn: details.crn.parse::<i32>().map_err(|_| format!("Unable to parse CRN: {}", details.crn))?,
+                section_no: &details.section,
                 parent_class: class_id,
                 section_type: 1, // TODO: Implement
                 institution: 1, // TODO: Implement
@@ -206,8 +226,8 @@ pub fn update_db(threads: u8, count: Option<u8>) -> Result<(), Box<dyn Error>> {
                 saturday: days[5],
                 sunday: days[6],
 
-                instructor: *instructor_ids.get(0).ok_or("No instructors listed")?, // TODO: Refactor DB to allow zero or multiple instructors
-                credits: details.hours.parse::<i32>()?,
+                instructor: instructor_ids,
+                credits: credits,
                 total_seats: total_seats,
                 available_seats: available_seats,
                 waitlist: waitlist,

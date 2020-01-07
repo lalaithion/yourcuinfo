@@ -15,7 +15,7 @@ const DETAILS_URL: &'static str = "https://classes.colorado.edu/api/?page=fose&r
 fn get_classes(count: Option<u8>, semester_code: &str) -> Result<Vec<ClassResponse>, reqwest::Error> {
   match count {
     Some(x) => println!("Scraping {} classes.", x),
-    _ => println!("Scraping unlimited classes")
+    _ => println!("Scraping all available classes")
   };
 
   let client = reqwest::Client::new();

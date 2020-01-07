@@ -69,17 +69,15 @@ pub struct NewClass<'a> {
 #[derive(Insertable, AsChangeset)]
 #[table_name="instructors"]
 pub struct NewInstructor {
-// pub struct NewInstructor<'a> {
   // pub id: i32,
-  // pub full_name: &'a str,
   pub full_name: String,
 }
 
 #[derive(Insertable, AsChangeset, Debug)]
 #[table_name="sections"]
-pub struct NewSection {
+pub struct NewSection<'a> {
   pub crn: i32,
-  pub section_no: i32,
+  pub section_no: &'a str,
   pub parent_class: i32, // REFERENCES classes
   pub section_type: i32, // REFERENCES section_types
   pub institution: i32, // REFERENCES institutions
@@ -97,8 +95,8 @@ pub struct NewSection {
   pub saturday: bool,
   pub sunday: bool,
 
-  pub instructor: i32, // REFERENCES instructors
-  pub credits: i32,
+  pub instructor: Vec<i32>, // REFERENCES instructors
+  pub credits: f32,
   pub total_seats: i32,
   pub available_seats: i32,
   pub waitlist: i32,
